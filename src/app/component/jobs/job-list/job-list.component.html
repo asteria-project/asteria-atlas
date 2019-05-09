@@ -1,0 +1,24 @@
+<div class="job-list-wrapper">
+    <nz-table  #jobsTable [nzData]="jobList">
+        <thead>
+          <tr>
+            <th>Job ID</th>
+            <th>Job Name</th>
+            <th>Job Template</th>
+            <th class="job-status">Status</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of jobList">
+            <td>{{ job.id }}</td>
+            <td>{{ job.name }}</td>
+            <td>{{ job.template }}</td>
+            <td class="job-status">
+              <i nz-icon [class]="getStatusStyle(job.status)" [type]="getStatusIcon(job.status)"></i>
+            </td>
+            <td>{{ job.created | date:'medium' }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+</div>

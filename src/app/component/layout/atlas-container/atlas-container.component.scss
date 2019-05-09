@@ -1,0 +1,26 @@
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+ 
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.trigger:hover {
+    color: #1890ff;
+}
+
+.brand {
+    height: 32px;
+    margin: 16px;
+    display: flex;
+
+    div {
+        font-weight: bolder;
+        font-size: 2.1rem;
+        color: #0054bf;
+        line-height: 2.1rem;
+        padding-left: 0.5rem;
+        background: #fff;
+    }
+}

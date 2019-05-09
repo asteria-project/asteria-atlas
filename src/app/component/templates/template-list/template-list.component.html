@@ -1,0 +1,16 @@
+<div class="template-list-wrapper">
+    <nz-table  #templatesTable [nzData]="templateList">
+        <thead>
+          <tr>
+            <th>Template Name</th>
+            <th>Template Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let template of templateList">
+            <td>{{ template.name }}</td>
+            <td>{{ template.description }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+</div>

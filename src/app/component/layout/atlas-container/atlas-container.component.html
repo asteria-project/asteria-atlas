@@ -1,0 +1,70 @@
+<nz-layout>
+    <nz-sider [nzTheme]="'light'" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
+        <div class="brand">
+            <img src="./assets/asteria-logo-32.png">
+            <div *ngIf="!isCollapsed">ATLAS</div>
+        </div>
+        <ul nz-menu [nzTheme]="'light'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
+            <li nz-menu-item>
+                <span title nz-tooltip nzTitle="Events">
+                    <i nz-icon type="bars"></i><span class="nav-text">Events</span>
+                </span>
+            </li>
+            <li nz-submenu>
+                <span title nz-tooltip nzTitle="Jobs">
+                    <i nz-icon type="sliders"></i> <span class="nav-text">Jobs</span>
+                </span>
+                <ul>
+                    <li nz-menu-item nz-tooltip nzTitle="All Jobs" routerLink="/jobs">
+                        <i nz-icon type="table"></i> All Jobs
+                    </li>
+                    <li nz-menu-item nz-tooltip nzTitle="Jobs Templates" routerLink="/templates">
+                        <i nz-icon type="code"></i> Job Templates
+                    </li>
+                    <li nz-menu-item nz-tooltip nzTitle="Template Editor" routerLink="/jobs/edit">
+                        <i nz-icon type="edit"></i> Template Editor
+                    </li>
+                </ul>
+            </li>
+            <li nz-submenu>
+                <span title nz-tooltip nzTitle="Data">
+                    <i nz-icon type="hdd"></i> <span class="nav-text">Data</span>
+                </span>
+                <ul >
+                    <li nz-menu-item>Team 1</li>
+                    <li nz-menu-item>Team 2</li>
+                </ul>
+            </li>
+            <li nz-menu-item>
+                <span title nz-tooltip nzTitle="Settings">
+                    <i nz-icon type="setting"></i><span class="nav-text">Settings</span>
+                </span>
+            </li>
+            <li nz-menu-item>
+                <span title nz-tooltip nzTitle="Vizualisations">
+                    <i nz-icon type="dashboard"></i><span class="nav-text">Vizualisations</span>
+                </span>
+            </li>
+        </ul>
+    </nz-sider>
+    <nz-layout style="background: #fff;">
+        <nz-header style="background: #fff; padding:0;">
+            <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" 
+            (click)="isCollapsed = !isCollapsed"></i>
+        </nz-header>
+        <nz-content style="margin:0 1.2rem; background: #fff;">
+            <nz-breadcrumb style="margin-bottom: 1.2rem;">
+                <nz-breadcrumb-item *ngFor="let item of breadcrumb">{{ item }}</nz-breadcrumb-item>
+            </nz-breadcrumb>
+            <div style="background: #fff;">
+                <router-outlet></router-outlet>
+            </div>
+        </nz-content>
+        <nz-footer style="text-align: center; background: #fff;">
+            ONSOFT Systems ©2019 <a href="https://github.com/asteria-project">Propulsed By Asteria</a>
+        </nz-footer>
+    </nz-layout>
+</nz-layout>
+<ng-template #trigger>
+    <i nz-tooltip nzTitle="Show/Hide Menu" nz-icon type="up"></i>
+</ng-template>
