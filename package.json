@@ -1,6 +1,7 @@
 {
   "name": "asteria-atlas",
   "version": "0.0.0",
+  "description": "Atlas is an Angular application that allows to easily work with Asteria sessions.",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -1,0 +1,62 @@
+<div class="view-wrapper template-editor-wrapper">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+        <div nz-row>
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-input-group [nzPrefix]="prefixName">
+                            <input formControlName="templateName" nz-input placeholder="Template Name"/>
+                        </nz-input-group>
+                        <nz-form-explain *ngIf="validateForm.get('templateName')?.dirty && validateForm.get('templateName')?.errors">
+                            Please input the template name!
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col class="text-right" nzSpan="12">
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button nzType="primary" [disabled]="!validateForm.valid">
+                            <i nz-icon type="save"></i> Save
+                        </button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+
+    <div nz-row nzGutter="16">
+        <div nz-col class="gutter-row" nzSpan="18">
+            <nz-card class="w-100" nzTitle="Workflow">
+                <div class="workflow-container">
+                    <div class="process-edit-container">
+Test
+                    </div>
+                    <div class="process-list" cdkDropList (cdkDropListDropped)="dropProcess($event)">
+                        <div class="process-box" *ngFor="let process of processList" cdkDrag>
+                            <div class="process-box-content">
+                                <span>
+                                    {{ process.name }}
+                                </span>
+                                <span>
+                                    <span class="process-btn" nz-tooltip nzTitle="Edit"><i nz-icon type="edit"></i></span>
+                                    <span class="process-btn" nz-tooltip nzTitle="Delete"><i nz-icon type="delete"></i></span>
+                                </span>
+                            </div>
+                            <div class="process-box-joint">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+            </nz-card>
+        </div>
+        <div nz-col class="gutter-row" nzSpan="6">
+            <nz-card class="w-100" nzTitle="Processes">
+                <p>Card content</p>
+                <p>Card content</p>
+                <p>Card content</p>
+            </nz-card>
+        </div>
+    </div>
+</div>
+
+<ng-template #prefixName><i nz-icon type="tag"></i></ng-template>

@@ -6,7 +6,7 @@
         </div>
         <ul nz-menu [nzTheme]="'light'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
             <li nz-menu-item>
-                <span title nz-tooltip nzTitle="Events">
+                <span title nz-tooltip nzTitle="Events" routerLink="/events">
                     <i nz-icon type="bars"></i><span class="nav-text">Events</span>
                 </span>
             </li>
@@ -21,7 +21,7 @@
                     <li nz-menu-item nz-tooltip nzTitle="Jobs Templates" routerLink="/templates">
                         <i nz-icon type="code"></i> Job Templates
                     </li>
-                    <li nz-menu-item nz-tooltip nzTitle="Template Editor" routerLink="/jobs/edit">
+                    <li nz-menu-item nz-tooltip nzTitle="Template Editor" routerLink="/templates/edit">
                         <i nz-icon type="edit"></i> Template Editor
                     </li>
                 </ul>
@@ -36,13 +36,18 @@
                 </ul>
             </li>
             <li nz-menu-item>
+                <span title nz-tooltip nzTitle="Vizualisations">
+                    <i nz-icon type="dashboard"></i><span class="nav-text">Vizualisations</span>
+                </span>
+            </li>
+            <li nz-menu-item>
                 <span title nz-tooltip nzTitle="Settings">
                     <i nz-icon type="setting"></i><span class="nav-text">Settings</span>
                 </span>
             </li>
             <li nz-menu-item>
-                <span title nz-tooltip nzTitle="Vizualisations">
-                    <i nz-icon type="dashboard"></i><span class="nav-text">Vizualisations</span>
+                <span title nz-tooltip nzTitle="Help">
+                    <i nz-icon type="question-circle"></i><span class="nav-text">Help</span>
                 </span>
             </li>
         </ul>
