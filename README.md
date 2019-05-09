@@ -1,3 +1,3 @@
-# asteria-atla
+# asteria-atlas
 
-Atlas provides a set of Asteria modules that can be used by Angular applications.
+Atlas is an Angular application that allows to easily work with Asteria sessions.
