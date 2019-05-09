@@ -19,12 +19,18 @@ import { TemplateListComponent } from './component/templates/template-list/templ
 import { EventListComponent } from './component/events/event-list/event-list.component';
 import { TemplateEditorComponent } from './component/templates/template-editor/template-editor.component';
 
+// Services
+import { ProcessConfigComponentResolver } from './api/service/process-config-component.resolver';
+
+// Config components
+import { FileReadConfigComponent } from './component/template-config/file-read-config/file-read-config.component';
+
+
 
 registerLocaleData(en);
 
-@NgModule({
-  declarations: [
-    AppComponent,
+const COMPONENTS: any[] = [
+  AppComponent,
     AtlasContainerComponent,
     SplashScreenComponent,
     JobEditorComponent,
@@ -32,7 +38,18 @@ registerLocaleData(en);
     TemplateListComponent,
     EventListComponent,
     TemplateEditorComponent
+];
+
+const ENTRY_COMPONENTS: any[] = [
+  FileReadConfigComponent
+];
+
+@NgModule({
+  declarations: [
+    ...COMPONENTS,
+    ...ENTRY_COMPONENTS
   ],
+  entryComponents: [ ...ENTRY_COMPONENTS ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -43,7 +60,10 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     DragDropModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: ProcessConfigComponentResolver, useClass: ProcessConfigComponentResolver }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

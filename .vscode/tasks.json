@@ -1,0 +1,23 @@
+{
+// Consultez https://go.microsoft.com/fwlink/?LinkId=733558 
+    // pour voir la documentation sur le format de tasks.json
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "install",
+            "group": "build"
+        },
+        {
+            "type": "typescript",
+            "tsconfig": "tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

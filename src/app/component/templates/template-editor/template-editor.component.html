@@ -30,7 +30,13 @@
             <nz-card class="w-100" nzTitle="Workflow">
                 <div class="workflow-container">
                     <div class="process-edit-container">
-Test
+                        <div *ngIf="this.currentProcess">
+                            <h3>
+                                <i nz-icon nzType="deployment-unit"></i> {{ this.currentProcess.name }}
+                            </h3>
+                            <nz-divider></nz-divider>
+                        </div>
+                        <ng-template #configContainer></ng-template>
                     </div>
                     <div class="process-list" cdkDropList (cdkDropListDropped)="dropProcess($event)">
                         <div class="process-box" *ngFor="let process of processList" cdkDrag>
@@ -39,8 +45,13 @@ Test
                                     {{ process.name }}
                                 </span>
                                 <span>
-                                    <span class="process-btn" nz-tooltip nzTitle="Edit"><i nz-icon type="edit"></i></span>
-                                    <span class="process-btn" nz-tooltip nzTitle="Delete"><i nz-icon type="delete"></i></span>
+                                    <span class="process-btn" nz-tooltip nzTitle="Edit" (click)="editProcess(process)">
+                                        <i nz-icon type="edit"></i>
+                                    </span>
+                                    <span class="process-btn" nz-tooltip nzTitle="Delete" (click)="deleteProcess(process)">
+                                        <i nz-icon type="delete">
+
+                                        </i></span>
                                 </span>
                             </div>
                             <div class="process-box-joint">&nbsp;</div>
