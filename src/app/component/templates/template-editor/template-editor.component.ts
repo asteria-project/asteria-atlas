@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory } from '@angular/core';
+import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { ProcessTemplate } from 'src/app/api/business/process-template.model';
-import { FileReadConfigComponent } from '../../template-config/file-read-config/file-read-config.component';
 import { ProcessConfigComponentResolver } from 'src/app/api/service/process-config-component.resolver';
+import { ProcessRef } from 'src/app/api/business/process-ref.enum';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -16,11 +16,11 @@ import { ProcessConfigComponentResolver } from 'src/app/api/service/process-conf
 export class TemplateEditorComponent implements OnInit {
 
   protected processList: Array<ProcessTemplate> = [
-    { id: '5e348d2e-9a56-422c-a956-c839cbfa7d51', name: 'Read File', compRef: 'read-file' },
-    { id: '20f33140-36af-4478-af35-926c3d3c2b7c', name: 'CSV to List', compRef: 'csv-to-list' },
-    { id: 'e2a16303-6ae4-45a3-8ce0-1316d6ac09b0', name: 'Filter', compRef: 'filter' },
-    { id: 'efc06bce-d2a6-48e9-9ccc-44990b165475', name: 'List to CSV', compRef: 'list-to-csv' },
-    { id: '4b9c1790-b45b-4ae6-9989-291c4cd23591', name: 'Write File', compRef: 'write-file' }
+    { id: '5e348d2e-9a56-422c-a956-c839cbfa7d51', name: 'Read File', ref: ProcessRef.READ_FILE },
+    { id: '20f33140-36af-4478-af35-926c3d3c2b7c', name: 'CSV to List', ref: ProcessRef.CSV_TO_LIST },
+    { id: 'e2a16303-6ae4-45a3-8ce0-1316d6ac09b0', name: 'Filter', ref: ProcessRef.FILTER },
+    { id: 'efc06bce-d2a6-48e9-9ccc-44990b165475', name: 'List to CSV', ref: ProcessRef.LIST_TO_CSV },
+    { id: '4b9c1790-b45b-4ae6-9989-291c4cd23591', name: 'Write File', ref: ProcessRef.WRITE_FILE }
   ];
 
   validateForm: FormGroup;
@@ -78,7 +78,7 @@ export class TemplateEditorComponent implements OnInit {
    */
   protected editProcess(process: ProcessTemplate): void {
     this.currentProcess = process;
-    const compRef: any = this._configCompResolver.getComponent(process.compRef);
+    const compRef: Type<any> = this._configCompResolver.getComponent(process.ref);
     this.loadConfigEditor(compRef);
   }
   
@@ -98,7 +98,7 @@ export class TemplateEditorComponent implements OnInit {
     }
   }
   
-  private loadConfigEditor(compRef: any): void {
+  private loadConfigEditor(compRef: Type<any>): void {
     this.configContainer.clear();
     const factory: ComponentFactory<any> = this._factoryResolver.resolveComponentFactory(compRef);
     this.configContainer.createComponent(factory);

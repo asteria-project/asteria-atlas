@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { JobReference } from 'src/app/api/business/job-reference.model';
 
 /**
  * The view responsible for displaying the list of Asteria sessions.
@@ -10,7 +11,10 @@ import { Component } from '@angular/core';
 })
 export class JobListComponent {
 
-  protected jobList: Array<{ id: string; name: string; template: string; status: string; created: string; }> = [
+  /**
+   * The list of jobs displayed in this view.
+   */
+  protected jobList: Array<JobReference> = [
     {
       id: '72675ac2-1720-4742-87b2-30fa86bbd9a8',
       name: 'Largest US Cities',
@@ -30,7 +34,7 @@ export class JobListComponent {
   /**
    * Create a new <code>JobListComponent</code> instance.
    * 
-   * @param {} the reference to the the <code>DomSanitizer</code> instance injected by Angular.
+   * @param {any} param the reference to the the <code>any</code> instance injected by Angular.
    */
   constructor(){}
 

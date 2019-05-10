@@ -33,7 +33,7 @@ export class EventListComponent {
   /**
    * Create a new <code>EventListComponent</code> instance.
    * 
-   * @param {} the reference to the the <code></code> instance injected by Angular.
+   * @param {any} param the reference to the the <code>any</code> instance injected by Angular.
    */
   constructor(){}
 }

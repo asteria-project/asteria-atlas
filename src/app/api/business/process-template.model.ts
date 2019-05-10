@@ -1,3 +1,5 @@
+import { ProcessRef } from './process-ref.enum';
+
 /**
  * The <code>ProcessTemplate</code> interface represents an Asteria process reference in the Atlas app.
  */
@@ -16,5 +18,5 @@ export interface ProcessTemplate {
     /**
      * The reference to the config component associated with this process reference.
      */
-    compRef: string;
+    ref: ProcessRef;
 }

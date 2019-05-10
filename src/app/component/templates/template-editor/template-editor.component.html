@@ -61,10 +61,21 @@
             </nz-card>
         </div>
         <div nz-col class="gutter-row" nzSpan="6">
-            <nz-card class="w-100" nzTitle="Processes">
-                <p>Card content</p>
-                <p>Card content</p>
-                <p>Card content</p>
+            <nz-card class="w-100" nzTitle="Processes"><!--padding: 1px 0 0 0;-->
+                <nz-collapse [nzBordered]="false" nzAccordion>
+                    <nz-collapse-panel nzHeader="File">
+                        <ul>
+                            <li>Test 1</li>
+                            <li>Test 2</li>
+                        </ul>
+                    </nz-collapse-panel>
+                    <nz-collapse-panel nzHeader="Data">
+                        <ul>
+                            <li>Test 1</li>
+                            <li>Test 2</li>
+                        </ul>
+                    </nz-collapse-panel>
+                </nz-collapse>
             </nz-card>
         </div>
     </div>

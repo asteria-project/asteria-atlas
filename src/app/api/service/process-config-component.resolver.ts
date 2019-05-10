@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { FileReadConfigComponent } from 'src/app/component/template-config/file-read-config/file-read-config.component';
+import { ProcessRef } from '../business/process-ref.enum';
 
 /**
  * The <code>ProcessConfigComponentResolver</code> allows to map a process reference to its config component.
@@ -8,12 +9,13 @@ import { FileReadConfigComponent } from 'src/app/component/template-config/file-
 export class ProcessConfigComponentResolver {
 
     /**
+     * Return the config component with the specified reference.
+     *
+     * @param {ProcessRef} ref the reference of the process for which to get the config component.
      * 
-     * @param compRef 
-     * 
-     * @returns {any}
+     * @returns {Type<any>} the config component with the specified reference.
      */
-    public getComponent(compRef: string): any {
+    public getComponent(ref: ProcessRef): Type<any> {
 
         return FileReadConfigComponent;
     }

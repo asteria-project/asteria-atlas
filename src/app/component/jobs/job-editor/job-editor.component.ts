@@ -8,6 +8,4 @@ import { Component } from '@angular/core';
   templateUrl: './job-editor.component.html',
   styleUrls: [ './job-editor.component.scss' ]
 })
-export class JobEditorComponent {
-
-}
+export class JobEditorComponent {}
