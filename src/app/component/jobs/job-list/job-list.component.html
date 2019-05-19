@@ -1,4 +1,5 @@
 <div class="job-list-wrapper">
+    <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
     <nz-table  #jobsTable [nzData]="jobList">
         <thead>
           <tr>

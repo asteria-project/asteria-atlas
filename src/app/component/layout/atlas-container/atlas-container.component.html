@@ -1,7 +1,7 @@
 <nz-layout>
     <nz-sider [nzTheme]="'light'" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
         <div class="brand">
-            <img src="./assets/asteria-logo-32.png">
+            <img src="./assets/asteria-logo-32.png" nz-tooltip nzTitle="ATLAS">
             <div *ngIf="!isCollapsed">ATLAS</div>
         </div>
         <ul nz-menu [nzTheme]="'light'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
@@ -21,7 +21,7 @@
                     <li nz-menu-item routerLink="/templates">
                         <i nz-icon type="code"></i> Job Templates
                     </li>
-                    <li nz-menu-item routerLink="/templates/edit">
+                    <li nz-menu-item routerLink="/edit/template">
                         <i nz-icon type="edit"></i> Template Editor
                     </li>
                 </ul>
@@ -52,8 +52,11 @@
         <nz-header style="background: #fff; padding:0;">
             <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" 
                 (click)="isCollapsed = !isCollapsed"></i>
-            <nz-breadcrumb style="display:inline-block;margin-left:1rem;">
-                <nz-breadcrumb-item *ngFor="let item of breadcrumb">{{ item }}</nz-breadcrumb-item>
+            <nz-breadcrumb *ngIf="breadcrumbService" style="display:inline-block;margin-left:1rem;">
+                <nz-breadcrumb-item *ngFor="let item of breadcrumbService.items">
+                    <a *ngIf="item.route" [routerLink]="item.route">{{ item.label }}</a>
+                    <span *ngIf="!item.route">{{ item.label }}</span>
+                </nz-breadcrumb-item>
             </nz-breadcrumb>
         </nz-header>
         <nz-content style="margin:0 1.2rem; background: #fff;">

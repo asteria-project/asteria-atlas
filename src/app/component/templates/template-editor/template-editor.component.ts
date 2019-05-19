@@ -1,9 +1,11 @@
-import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory } from '@angular/core';
+import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import { ProcessTemplate } from 'src/app/api/business/process-template.model';
-import { ProcessConfigComponentResolver } from 'src/app/api/service/process-config-component.resolver';
-import { ProcessRef } from 'src/app/api/business/process-ref.enum';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ProcessTemplate } from '../../../api/business/process-template.model';
+import { ProcessConfigComponentResolver } from '../../../api/service/process-config-component.resolver';
+import { ProcessRef } from '../../../api/business/process-ref.enum';
+import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
+import { BreadcrumbItemBuilder } from '../../..//api/util/breadcrumb/breadcrumb-item.builder';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -13,7 +15,7 @@ import { ProcessRef } from 'src/app/api/business/process-ref.enum';
   templateUrl: './template-editor.component.html',
   styleUrls: [ './template-editor.component.scss' ]
 })
-export class TemplateEditorComponent implements OnInit {
+export class TemplateEditorComponent extends AtlasViewComponent implements OnInit {
 
   protected processList: Array<ProcessTemplate> = [
     { id: '5e348d2e-9a56-422c-a956-c839cbfa7d51', name: 'Read File', ref: ProcessRef.READ_FILE },
@@ -37,18 +39,33 @@ export class TemplateEditorComponent implements OnInit {
   protected currentProcess: ProcessTemplate = null;
 
   /**
-   * Create a new <code>TemplateEditorComponent</code> instance.
-   * 
-   * @param {FormBuilder} _fb the reference to the <code>FormBuilder</code> service injected by angular.
-   * @param {ComponentFactoryResolver} _factoryResolver the reference to the <code>ComponentFactoryResolver</code>
-   *                                                    service injected by angular.
-   * @param {ProcessConfigComponentResolver} _configCompResolver the reference to the 
-   *                                                             <code>ProcessConfigComponentResolver</code> service
-   *                                                             injected by angular.
+   * The reference to the <code>FormBuilder</code> service injected by Angular.
    */
-  constructor(private _fb: FormBuilder,
-              private _factoryResolver: ComponentFactoryResolver,
-              private _configCompResolver: ProcessConfigComponentResolver) {}
+  private _fb: FormBuilder = null;
+
+  /**
+   * The reference to the <code>ComponentFactoryResolver</code> service injected by Angular.
+   */
+  private _factoryResolver: ComponentFactoryResolver = null;
+
+  /**
+   * The reference to the <code>ProcessConfigComponentResolver</code> service injected by Angular.
+   */
+  private _configCompResolver: ProcessConfigComponentResolver = null;
+
+  /**
+   * Create a new <code>TemplateEditorComponent</code> instance.
+   */
+  constructor(protected injector: Injector) {
+    super(injector);
+    this.title = 'Template Editor';
+    this._fb = injector.get(FormBuilder);
+    this._configCompResolver = injector.get(ComponentFactoryResolver);
+    this._configCompResolver = injector.get(ProcessConfigComponentResolver);
+    this.breadcrumbService.setItems([
+      BreadcrumbItemBuilder.build(this.title)
+    ]);
+  }
 
   /**
    * @inheritdoc

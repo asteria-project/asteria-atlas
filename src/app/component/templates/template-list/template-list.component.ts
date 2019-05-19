@@ -1,7 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
-import { TemplateService } from '../../../api/service/template.service';
-import { Router } from '@angular/router';
+import { TemplateService } from '../../../api/service/template/template.service';
+import { BreadcrumbItemBuilder } from '../../../api/util/breadcrumb/breadcrumb-item.builder';
+import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
 
 /**
  * The view responsible for displaying the list of Asteria session templates.
@@ -10,17 +11,12 @@ import { Router } from '@angular/router';
   selector: 'template-list',
   templateUrl: './template-list.component.html'
 })
-export class TemplateListComponent implements OnInit {
+export class TemplateListComponent extends AtlasViewComponent implements OnInit {
 
   /**
    * The reference to the template service.
    */
   private readonly _templateService: TemplateService = null;
-
-  /**
-   * The reference to the Angular routing service.
-   */
-  private readonly _router: Router = null;
 
   /**
    * The list of templates displayed in this view.
@@ -33,8 +29,12 @@ export class TemplateListComponent implements OnInit {
     * @param {Injector} injector the reference to the Angular services injector.
     */
   constructor(protected injector: Injector) {
+    super(injector);
+    this.title = 'Job Templates';
     this._templateService = injector.get(TemplateService);
-    this._router = injector.get(Router);
+    this.breadcrumbService.setItems([
+      BreadcrumbItemBuilder.build(this.title)
+    ]);
   }
 
   /**
@@ -52,13 +52,6 @@ export class TemplateListComponent implements OnInit {
    * @param {HeliosTemplate} template the template selected by the user.
    */
   protected selectTemplate(template: HeliosTemplate): void {
-    this._router.navigate( [`/templates/${template.id}`] );
-  }
-  
-  /**
-   * Title back button event listener.
-   */
-  protected titleBack(): void {
-    this._router.navigate( [''] );
+    this.router.navigate( [`/templates/${template.id}`] );
   }
 }

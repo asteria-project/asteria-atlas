@@ -15,7 +15,8 @@ const routes: Routes = [
   { path: 'jobs/edit', component: JobEditorComponent },
   { path: 'templates', component: TemplateListComponent },
   { path: 'templates/:id', component: TemplateDetailsComponent },
-  { path: 'templates/edit', component: TemplateEditorComponent }
+  { path: 'edit/template', component: TemplateEditorComponent },
+  { path: 'edit/template/:id', component: TemplateEditorComponent }
 ];
 
 @NgModule({

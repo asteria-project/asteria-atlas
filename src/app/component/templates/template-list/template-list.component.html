@@ -1,5 +1,5 @@
 <div class="template-list-wrapper">
-    <nz-page-header (nzBack)="titleBack()" nzBackIcon nzTitle="Job Templates"></nz-page-header>
+    <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
     <nz-table  #templatesTable [nzData]="templateList">
         <thead>
           <tr>

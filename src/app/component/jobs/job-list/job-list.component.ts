@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { JobReference } from 'src/app/api/business/job-reference.model';
+import { Component, Injector } from '@angular/core';
+import { JobReference } from '../../../api/business/job-reference.model';
+import { BreadcrumbItemBuilder } from '../../../api/util/breadcrumb/breadcrumb-item.builder';
+import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
 
 /**
  * The view responsible for displaying the list of Asteria sessions.
@@ -9,7 +11,7 @@ import { JobReference } from 'src/app/api/business/job-reference.model';
   templateUrl: './job-list.component.html',
   styleUrls: [ './job-list.component.scss' ]
 })
-export class JobListComponent {
+export class JobListComponent extends AtlasViewComponent {
 
   /**
    * The list of jobs displayed in this view.
@@ -34,9 +36,15 @@ export class JobListComponent {
   /**
    * Create a new <code>JobListComponent</code> instance.
    * 
-   * @param {any} param the reference to the the <code>any</code> instance injected by Angular.
-   */
-  constructor(){}
+    * @param {Injector} injector the reference to the Angular services injector.
+    */
+  constructor(protected injector: Injector) {
+    super(injector)
+    this.title = 'All Jobs';
+    this.breadcrumbService.setItems([
+      BreadcrumbItemBuilder.build(this.title)
+    ]);
+  }
 
   /**
    * 

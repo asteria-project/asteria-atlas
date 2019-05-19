@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
+import { BreadcrumbService } from 'src/app/api/service/ui/breadcrumb.service';
 
 /**
  * The <code>AtlasContainerComponent</code> component provides the main layout of the Atlas application.
@@ -16,7 +17,16 @@ export class AtlasContainerComponent {
   protected isCollapsed: boolean = false;
 
   /**
-   * The list of breadcrumb items for this view.
+   * The reference to the breadcrumb service.
    */
-  protected breadcrumb: string[] = ['Atlas'];
+  protected readonly breadcrumbService: BreadcrumbService = null;
+
+  /**
+   * Create a new <code>AtlasContainerComponent</code> instance.
+   * 
+    * @param {Injector} injector the reference to the Angular services injector.
+    */
+   constructor(protected injector: Injector) {
+    this.breadcrumbService = injector.get(BreadcrumbService);
+  }
 }

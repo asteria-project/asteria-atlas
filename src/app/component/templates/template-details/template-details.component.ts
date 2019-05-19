@@ -1,7 +1,9 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
-import { TemplateService } from '../../../api/service/template.service';
+import { TemplateService } from '../../../api/service/template/template.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
+import { BreadcrumbItemBuilder } from 'src/app/api/util/breadcrumb/breadcrumb-item.builder';
 
 /**
  * The view responsible for displaying the details of an Asteria session template.
@@ -11,17 +13,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './template-details.component.html',
   styleUrls: [ './template-details.component.scss' ]
 })
-export class TemplateDetailsComponent implements OnInit {
+export class TemplateDetailsComponent extends AtlasViewComponent implements OnInit {
 
   /**
    * The reference to the template service.
    */
   private readonly _templateService: TemplateService = null;
-
-  /**
-   * The reference to the Angular routing service.
-   */
-  private readonly _router: Router = null;
 
   /**
    * The reference to the current route.
@@ -39,9 +36,15 @@ export class TemplateDetailsComponent implements OnInit {
     * @param {Injector} injector the reference to the Angular services injector.
     */
   constructor(protected injector: Injector) {
+    super(injector);
     this._templateService = injector.get(TemplateService);
     this._route = injector.get(ActivatedRoute);
-    this._router = injector.get(Router);
+    this.title = 'Template Details';
+    this.backButtonRoute = '/templates';
+    this.breadcrumbService.setItems([
+      BreadcrumbItemBuilder.build('Job Templates', this.backButtonRoute ),
+      BreadcrumbItemBuilder.build(this.title)
+    ]);
   }
 
   /**
@@ -52,12 +55,5 @@ export class TemplateDetailsComponent implements OnInit {
     this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
       this.template = template;
     });
-  }
-
-  /**
-   * Title back button event listener.
-   */
-  protected titleBack(): void {
-    this._router.navigate( ['/templates'] );
   }
 }
