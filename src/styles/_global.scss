@@ -25,6 +25,9 @@
 /* The wrapper container rules for all app views */
 .view-wrapper {
     padding: $container-padding;
+    min-height: 35rem;
+    border: solid 1px #e8e8e8;
+    border-radius: 2px;
 }
 
 /* Convenient rules associated with selectable table rows */

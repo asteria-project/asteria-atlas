@@ -1,4 +1,4 @@
-<div class="template-details-wrapper">
+<div class="view-wrapper template-details-wrapper">
   <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
   <nz-timeline *ngIf="template">
     <nz-timeline-item *ngFor='let process of template.processes;'>{{ process.type }}</nz-timeline-item>
