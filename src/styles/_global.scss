@@ -26,3 +26,8 @@
 .view-wrapper {
     padding: $container-padding;
 }
+
+/* Convenient rules associated with selectable table rows */
+.selectable-row {
+    cursor: pointer;
+}

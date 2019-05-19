@@ -1,16 +1,17 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
 import { TemplateService } from '../../../api/service/template.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 /**
- * The view responsible for displaying the list of Asteria session templates.
+ * The view responsible for displaying the details of an Asteria session template.
  */
 @Component({
-  selector: 'template-list',
-  templateUrl: './template-list.component.html'
+  selector: 'template-details',
+  templateUrl: './template-details.component.html',
+  styleUrls: [ './template-details.component.scss' ]
 })
-export class TemplateListComponent implements OnInit {
+export class TemplateDetailsComponent implements OnInit {
 
   /**
    * The reference to the template service.
@@ -23,9 +24,14 @@ export class TemplateListComponent implements OnInit {
   private readonly _router: Router = null;
 
   /**
-   * The list of templates displayed in this view.
+   * The reference to the current route.
    */
-  protected templateList: Array<HeliosTemplate> = [];
+  private _route: ActivatedRoute = null;
+
+  /**
+   * The template displayed in this view.
+   */
+  protected template: HeliosTemplate = null;
 
   /**
    * Create a new <code>TemplateListComponent</code> instance.
@@ -34,6 +40,7 @@ export class TemplateListComponent implements OnInit {
     */
   constructor(protected injector: Injector) {
     this._templateService = injector.get(TemplateService);
+    this._route = injector.get(ActivatedRoute);
     this._router = injector.get(Router);
   }
 
@@ -41,24 +48,16 @@ export class TemplateListComponent implements OnInit {
    * @inheritdoc
    */
   public ngOnInit(): void {
-    this._templateService.getTemplates().subscribe((templates: Array<HeliosTemplate>)=> {
-      this.templateList = templates;
+    const id: string = this._route.snapshot.paramMap.get('id');
+    this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
+      this.template = template;
     });
   }
 
   /**
-   * Invoked each time the user selects a template in the list.
-   * 
-   * @param {HeliosTemplate} template the template selected by the user.
-   */
-  protected selectTemplate(template: HeliosTemplate): void {
-    this._router.navigate( [`/templates/${template.id}`] );
-  }
-  
-  /**
    * Title back button event listener.
    */
   protected titleBack(): void {
-    this._router.navigate( [''] );
+    this._router.navigate( ['/templates'] );
   }
 }

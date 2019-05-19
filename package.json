@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "asteria-eos": "^0.3.0",
     "core-js": "^2.5.4",
     "ng-zorro-antd": "^7.3.3",
     "rxjs": "~6.3.3",

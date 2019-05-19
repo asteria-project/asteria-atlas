@@ -3,7 +3,7 @@ import { FileReadConfigComponent } from 'src/app/component/template-config/file-
 import { ProcessRef } from '../business/process-ref.enum';
 
 /**
- * The <code>ProcessConfigComponentResolver</code> allows to map a process reference to its config component.
+ * The <code>ProcessConfigComponentResolver</code> resolver allows to map a process reference to its config component.
  */
 @Injectable()
 export class ProcessConfigComponentResolver {

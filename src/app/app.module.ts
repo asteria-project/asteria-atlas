@@ -18,25 +18,30 @@ import { JobListComponent } from './component/jobs/job-list/job-list.component';
 import { TemplateListComponent } from './component/templates/template-list/template-list.component';
 import { EventListComponent } from './component/events/event-list/event-list.component';
 import { TemplateEditorComponent } from './component/templates/template-editor/template-editor.component';
+import { TemplateDetailsComponent } from './component/templates/template-details/template-details.component';
 
 // Services
+import { TemplateService } from './api/service/template.service';
 import { ProcessConfigComponentResolver } from './api/service/process-config-component.resolver';
 
 // Config components
 import { FileReadConfigComponent } from './component/template-config/file-read-config/file-read-config.component';
 
 
-
 registerLocaleData(en);
 
 const COMPONENTS: any[] = [
   AppComponent,
+    // Main app views
     AtlasContainerComponent,
     SplashScreenComponent,
+    EventListComponent,
+    // Job views
     JobEditorComponent,
     JobListComponent,
+    // Template views
     TemplateListComponent,
-    EventListComponent,
+    TemplateDetailsComponent,
     TemplateEditorComponent
 ];
 
@@ -62,7 +67,8 @@ const ENTRY_COMPONENTS: any[] = [
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
-    { provide: ProcessConfigComponentResolver, useClass: ProcessConfigComponentResolver }
+    { provide: ProcessConfigComponentResolver, useClass: ProcessConfigComponentResolver },
+    { provide: TemplateService, useClass: TemplateService }
   ],
   bootstrap: [AppComponent]
 })

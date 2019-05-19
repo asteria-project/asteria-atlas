@@ -51,12 +51,12 @@
     <nz-layout style="background: #fff;">
         <nz-header style="background: #fff; padding:0;">
             <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" 
-            (click)="isCollapsed = !isCollapsed"></i>
-        </nz-header>
-        <nz-content style="margin:0 1.2rem; background: #fff;">
-            <nz-breadcrumb style="margin-bottom: 1.2rem;">
+                (click)="isCollapsed = !isCollapsed"></i>
+            <nz-breadcrumb style="display:inline-block;margin-left:1rem;">
                 <nz-breadcrumb-item *ngFor="let item of breadcrumb">{{ item }}</nz-breadcrumb-item>
             </nz-breadcrumb>
+        </nz-header>
+        <nz-content style="margin:0 1.2rem; background: #fff;">
             <div style="background: #fff;">
                 <router-outlet></router-outlet>
             </div>

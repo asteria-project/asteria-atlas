@@ -6,6 +6,7 @@ import { JobEditorComponent } from './component/jobs/job-editor/job-editor.compo
 import { TemplateListComponent } from './component/templates/template-list/template-list.component';
 import { EventListComponent } from './component/events/event-list/event-list.component';
 import { TemplateEditorComponent } from './component/templates/template-editor/template-editor.component';
+import { TemplateDetailsComponent } from './component/templates/template-details/template-details.component';
 
 const routes: Routes = [
   { path: '', component: SplashScreenComponent },
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'jobs', component: JobListComponent },
   { path: 'jobs/edit', component: JobEditorComponent },
   { path: 'templates', component: TemplateListComponent },
-  { path: 'templates/edit', component: TemplateEditorComponent },
+  { path: 'templates/:id', component: TemplateDetailsComponent },
+  { path: 'templates/edit', component: TemplateEditorComponent }
 ];
 
 @NgModule({
