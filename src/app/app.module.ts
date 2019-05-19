@@ -19,12 +19,13 @@ import { TemplateListComponent } from './component/templates/template-list/templ
 import { EventListComponent } from './component/events/event-list/event-list.component';
 import { TemplateEditorComponent } from './component/templates/template-editor/template-editor.component';
 import { TemplateDetailsComponent } from './component/templates/template-details/template-details.component';
-import { BreadcrumbService } from './api/service/ui/breadcrumb.service';
 
 // Services
 import { TemplateService } from './api/service/template/template.service';
 import { ProcessConfigComponentResolver } from './api/service/process-config-component.resolver';
+import { BreadcrumbService } from './api/service/ui/breadcrumb.service';
 
+import { NotificationService } from './api/service/ui/notification.service';
 // Config components
 import { FileReadConfigComponent } from './component/template-config/file-read-config/file-read-config.component';
 import { AtlasViewComponent } from './component/layout/atlas-view/atlas-view.component';
@@ -70,6 +71,7 @@ const ENTRY_COMPONENTS: any[] = [
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     { provide: BreadcrumbService, useClass: BreadcrumbService },
+    { provide: NotificationService, useClass: NotificationService },
     { provide: ProcessConfigComponentResolver, useClass: ProcessConfigComponentResolver },
     { provide: TemplateService, useClass: TemplateService }
   ],

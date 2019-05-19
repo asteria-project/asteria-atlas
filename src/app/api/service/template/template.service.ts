@@ -1,7 +1,10 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HeliosTemplate } from 'asteria-eos';
-import { Observable } from 'rxjs';
+import { Observable, of} from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { NotificationService } from '../ui/notification.service';
+import { ErrorMessageBuilder } from '../../util/error/error-message.builder';
 
 /**
  * The <code>TemplateService</code> service provides access to the Helios templates API.
@@ -15,12 +18,18 @@ export class TemplateService {
     private readonly _http: HttpClient = null;
 
     /**
+     * The reference to the Atlas notifications service.
+     */
+    private readonly _notification: NotificationService = null;
+    
+    /**
      * Create a new <code>TemplateService</code> instance.
      * 
      * @param {Injector} injector the reference to the Angular services injector.
      */
     constructor(protected injector: Injector) {
         this._http = injector.get(HttpClient);
+        this._notification = injector.get(NotificationService);
     }
 
     /**
@@ -30,7 +39,16 @@ export class TemplateService {
      *                                              instance.
      */
     public getTemplates(): Observable<Array<HeliosTemplate>> {
-        return this._http.get<Array<HeliosTemplate>>('http://localhost:3000/asteria/templates');
+        return this._http.get<Array<HeliosTemplate>>('http://localhost:3000/asteria/templates')
+                         .pipe(
+                            catchError(error=> {
+                                this._notification.error(
+                                    'Template List Error', 
+                                    ErrorMessageBuilder.build(error.status)
+                                );
+                                return of([]);
+                            })
+                        );
     }
 
     /**
@@ -42,6 +60,15 @@ export class TemplateService {
      *                                       specified ID.
      */
     public getTemplate(id: string): Observable<HeliosTemplate> {
-        return this._http.get<HeliosTemplate>('http://localhost:3000/asteria/templates/' + id);
+        return this._http.get<HeliosTemplate>('http://localhost:3000/asteria/templates/' + id)
+                         .pipe(
+                            catchError(error=> {
+                                this._notification.error(
+                                    'Template Error', 
+                                    ErrorMessageBuilder.build(error.status)
+                                );
+                                return of(null);
+                            })
+                         );
     }
 }

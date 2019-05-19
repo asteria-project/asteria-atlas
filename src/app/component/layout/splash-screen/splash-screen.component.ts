@@ -13,7 +13,7 @@ export class SplashScreenComponent extends AtlasViewComponent {
    * 
     * @param {Injector} injector the reference to the Angular services injector.
     */
-   protected constructor(protected injector: Injector) {
+   constructor(protected injector: Injector) {
     super(injector);
     this.breadcrumbService.setItems();
    }
