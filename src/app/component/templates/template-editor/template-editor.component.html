@@ -39,23 +39,24 @@
                         </div>
                         <ng-template #configContainer></ng-template>
                     </div>
-                    <div class="process-list" cdkDropList (cdkDropListDropped)="dropProcess($event)">
-                        <div class="process-box" *ngFor="let process of processList" cdkDrag>
-                            <div class="process-box-content">
-                                <span>
-                                    {{ process.name }}
-                                </span>
-                                <span>
-                                    <span class="process-btn" nz-tooltip nzTitle="Edit" (click)="editProcess(process)">
-                                        <i nz-icon type="edit"></i>
+                    <div class="process-list-wrapper">
+                        <div class="process-list" *ngIf="template" cdkDropList (cdkDropListDropped)="dropProcess($event)">
+                            <div class="process-box" *ngFor="let process of template.processes" cdkDrag>
+                                <div class="process-box-content">
+                                    <span>
+                                        {{ process.type }}
                                     </span>
-                                    <span class="process-btn" nz-tooltip nzTitle="Delete" (click)="deleteProcess(process)">
-                                        <i nz-icon type="delete">
-
-                                        </i></span>
-                                </span>
+                                    <span>
+                                        <span class="process-btn" nz-tooltip nzTitle="Edit" (click)="editProcess(process)">
+                                            <i nz-icon type="edit"></i>
+                                        </span>
+                                        <span class="process-btn" nz-tooltip nzTitle="Delete" (click)="deleteProcess(process)">
+                                            <i nz-icon type="delete"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="process-box-joint">&nbsp;</div>
                             </div>
-                            <div class="process-box-joint">&nbsp;</div>
                         </div>
                     </div>
                 </div>

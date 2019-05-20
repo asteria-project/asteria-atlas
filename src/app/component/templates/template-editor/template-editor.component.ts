@@ -1,11 +1,13 @@
 import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ProcessTemplate } from '../../../api/business/process-template.model';
 import { ProcessConfigComponentResolver } from '../../../api/service/process-config-component.resolver';
-import { ProcessRef } from '../../../api/business/process-ref.enum';
 import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
 import { BreadcrumbItemBuilder } from '../../..//api/util/breadcrumb/breadcrumb-item.builder';
+import { ActivatedRoute } from '@angular/router';
+import { TemplateService } from 'src/app/api/service/template/template.service';
+import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
+import { ProcessType } from 'src/app/api/business/process-type.enum';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -17,15 +19,12 @@ import { BreadcrumbItemBuilder } from '../../..//api/util/breadcrumb/breadcrumb-
 })
 export class TemplateEditorComponent extends AtlasViewComponent implements OnInit {
 
-  protected processList: Array<ProcessTemplate> = [
-    { id: '5e348d2e-9a56-422c-a956-c839cbfa7d51', name: 'Read File', ref: ProcessRef.READ_FILE },
-    { id: '20f33140-36af-4478-af35-926c3d3c2b7c', name: 'CSV to List', ref: ProcessRef.CSV_TO_LIST },
-    { id: 'e2a16303-6ae4-45a3-8ce0-1316d6ac09b0', name: 'Filter', ref: ProcessRef.FILTER },
-    { id: 'efc06bce-d2a6-48e9-9ccc-44990b165475', name: 'List to CSV', ref: ProcessRef.LIST_TO_CSV },
-    { id: '4b9c1790-b45b-4ae6-9989-291c4cd23591', name: 'Write File', ref: ProcessRef.WRITE_FILE }
-  ];
-
   validateForm: FormGroup;
+
+  /**
+   * The template edited in this view.
+   */
+  protected template: HeliosTemplate = null;
 
   /**
    * The reference to the HTML element where config component as are loaded.
@@ -34,9 +33,9 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   protected configContainer: ViewContainerRef = null;
 
   /**
-   * The reference to the template reference object currently edited.
+   * The reference to the process object currently edited.
    */
-  protected currentProcess: ProcessTemplate = null;
+  protected currentProcess: HeliosProcessDescriptor = null;
 
   /**
    * The reference to the <code>FormBuilder</code> service injected by Angular.
@@ -54,13 +53,25 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   private _configCompResolver: ProcessConfigComponentResolver = null;
 
   /**
+   * The reference to the current route.
+   */
+  private _route: ActivatedRoute = null;
+
+  /**
+   * The reference to the template service.
+   */
+  private readonly _templateService: TemplateService = null;
+
+  /**
    * Create a new <code>TemplateEditorComponent</code> instance.
    */
   constructor(protected injector: Injector) {
     super(injector);
     this.title = 'Template Editor';
+    this._templateService = injector.get(TemplateService);
     this._fb = injector.get(FormBuilder);
-    this._configCompResolver = injector.get(ComponentFactoryResolver);
+    this._route = injector.get(ActivatedRoute);
+    this._factoryResolver = injector.get(ComponentFactoryResolver);
     this._configCompResolver = injector.get(ProcessConfigComponentResolver);
     this.breadcrumbService.setItems([
       BreadcrumbItemBuilder.build(this.title)
@@ -71,10 +82,17 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * @inheritdoc
    */
   public ngOnInit(): void {
+    const id: string = this._route.snapshot.paramMap.get('id');
     this.validateForm = this._fb.group({
-      templateName: [null, [Validators.required]],
+      templateName: ['', [Validators.required]],
       remember: [true]
     });
+    if (id) {
+      this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
+        this.template = template;
+        this.initForm();
+      });
+    }
   }
   
   protected submitForm(): void {
@@ -85,7 +103,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   }
 
   protected dropProcess(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.processList, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.template.processes, event.previousIndex, event.currentIndex);
   }
 
   /**
@@ -93,9 +111,9 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * 
    * @param {ProcessTemplate} process the refrence to the process to edit.
    */
-  protected editProcess(process: ProcessTemplate): void {
+  protected editProcess(process: HeliosProcessDescriptor): void {
     this.currentProcess = process;
-    const compRef: Type<any> = this._configCompResolver.getComponent(process.ref);
+    const compRef: Type<any> = this._configCompResolver.getComponent(process.type as ProcessType);
     this.loadConfigEditor(compRef);
   }
   
@@ -104,12 +122,12 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * 
    * @param {ProcessTemplate} process the refrence to the process to remove.
    */
-  protected deleteProcess(process: ProcessTemplate): void {
-    const id: number = this.processList.findIndex((value: ProcessTemplate)=> {
-      return value.id === process.id;
+  protected deleteProcess(process: HeliosProcessDescriptor): void {
+    const id: number = this.template.processes.findIndex((value: HeliosProcessDescriptor)=> {
+      return value === process;
     });
-    this.processList.splice(id, 1);
-    if (this.currentProcess && this.currentProcess.id === process.id) {
+    this.template.processes.splice(id, 1);
+    if (this.currentProcess && this.currentProcess === process) {
       this.currentProcess = null;
       this.configContainer.clear();
     }
@@ -119,5 +137,14 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     this.configContainer.clear();
     const factory: ComponentFactory<any> = this._factoryResolver.resolveComponentFactory(compRef);
     this.configContainer.createComponent(factory);
+  }
+  
+  /**
+   * Initialize the update form.
+   */
+  private initForm(): void {
+    this.validateForm.patchValue({
+      templateName: this.template.name
+    });
   }
 }

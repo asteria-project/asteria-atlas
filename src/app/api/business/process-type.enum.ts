@@ -1,8 +1,8 @@
 /**
- * The <code>ProcessRef</code> enum contains a list of constants that represent the default process types
+ * The <code>ProcessType</code> enum contains a list of constants that represent the default process types
  * provided by the Hyperion framework.
  */
-export enum ProcessRef {
+export enum ProcessType {
 
     /**
      * Specifies the reference to the Hyperion "file reading" process.
