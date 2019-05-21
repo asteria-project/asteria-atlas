@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TemplateService } from 'src/app/api/service/template/template.service';
 import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
 import { ProcessType } from 'src/app/api/business/process-type.enum';
+import { BreadcrumbItem } from 'src/app/api/util/breadcrumb/breadcrumb-item.model';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -19,7 +20,7 @@ import { ProcessType } from 'src/app/api/business/process-type.enum';
 })
 export class TemplateEditorComponent extends AtlasViewComponent implements OnInit {
 
-  validateForm: FormGroup;
+  protected updateForm: FormGroup = null;
 
   /**
    * The template edited in this view.
@@ -73,9 +74,9 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     this._route = injector.get(ActivatedRoute);
     this._factoryResolver = injector.get(ComponentFactoryResolver);
     this._configCompResolver = injector.get(ProcessConfigComponentResolver);
-    this.breadcrumbService.setItems([
-      BreadcrumbItemBuilder.build(this.title)
-    ]);
+    this.updateForm = this._fb.group({
+      templateName: ['', [Validators.required]]
+    });
   }
 
   /**
@@ -83,23 +84,24 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    */
   public ngOnInit(): void {
     const id: string = this._route.snapshot.paramMap.get('id');
-    this.validateForm = this._fb.group({
-      templateName: ['', [Validators.required]],
-      remember: [true]
-    });
+    const items: Array<BreadcrumbItem> = new Array<BreadcrumbItem>();
     if (id) {
       this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
         this.template = template;
         this.initForm();
       });
+      items.push(BreadcrumbItemBuilder.build('Template Details', `/templates/${id}`));
+      this.updateForm.get('templateName').disable();
+    } else {
+      items.push(BreadcrumbItemBuilder.build(this.title));
     }
+    this.breadcrumbService.setItems(items);
   }
   
   protected submitForm(): void {
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
-    }
+    const ctrl: any = this.updateForm.controls[0];
+    ctrl.markAsDirty();
+    ctrl.updateValueAndValidity();
   }
 
   protected dropProcess(event: CdkDragDrop<string[]>) {
@@ -143,8 +145,18 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * Initialize the update form.
    */
   private initForm(): void {
-    this.validateForm.patchValue({
+    this.updateForm.patchValue({
       templateName: this.template.name
     });
+  }
+
+  /**
+   * Return a boolean that indicates whether the update form is valid (<code>false</code>), or not (<code>true</code>).
+   * 
+   * @returns {boolean} <code>false</code> whether the update form is valid; <code>true</code> otherwise.
+   */
+  protected isFormInValid(): boolean {
+    const crtl: any = this.updateForm.get('templateName');
+    return !crtl.disabled && (crtl.invalid && (crtl.dirty || crtl.touched));
   }
 }

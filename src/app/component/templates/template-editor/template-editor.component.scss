@@ -21,11 +21,16 @@
     padding: 1rem;
     min-height: 20rem;
     border-radius: 2px;
+    width: 17rem;
+}
+
+.empty-process {
+    margin-top: 4rem !important;
 }
 
 .process-list {
     min-height: 60px;
-    width: 15rem;
+    width: 100%;
     display: block;
     overflow: hidden;
     flex: 1;
@@ -48,6 +53,12 @@
         cursor: pointer;
         padding-left: 0.8rem;
     }
+}
+
+.process-active {
+    color: #FFFFFF;
+    border: solid 1px #0066CC;
+    background-color: #0066CC;
 }
 
 .process-box-joint {

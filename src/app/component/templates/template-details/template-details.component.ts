@@ -42,7 +42,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
     this.title = 'Template Details';
     this.backButtonRoute = '/templates';
     this.breadcrumbService.setItems([
-      BreadcrumbItemBuilder.build('Job Templates', this.backButtonRoute ),
+      BreadcrumbItemBuilder.build('Job Templates', this.backButtonRoute),
       BreadcrumbItemBuilder.build(this.title)
     ]);
   }

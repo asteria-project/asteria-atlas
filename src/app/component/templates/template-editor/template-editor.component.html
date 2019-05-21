@@ -1,14 +1,14 @@
 <div class="view-wrapper template-editor-wrapper">
     <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
-    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <form nz-form [formGroup]="updateForm" (ngSubmit)="submitForm()">
         <div nz-row>
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-control>
                         <nz-input-group [nzPrefix]="prefixName">
-                            <input formControlName="templateName" nz-input placeholder="Template Name"/>
+                            <input formControlName="templateName" nz-input placeholder="Template Name">
                         </nz-input-group>
-                        <nz-form-explain *ngIf="validateForm.get('templateName')?.dirty && validateForm.get('templateName')?.errors">
+                        <nz-form-explain *ngIf="isFormInValid()">
                             Please input the template name!
                         </nz-form-explain>
                     </nz-form-control>
@@ -17,7 +17,7 @@
             <div nz-col class="text-right" nzSpan="12">
                 <nz-form-item>
                     <nz-form-control>
-                        <button nz-button nzType="primary" [disabled]="!validateForm.valid">
+                        <button nz-button nzType="primary" [disabled]="isFormInValid()">
                             <i nz-icon type="save"></i> Save
                         </button>
                     </nz-form-control>
@@ -33,24 +33,30 @@
                     <div class="process-edit-container">
                         <div *ngIf="this.currentProcess">
                             <h3>
-                                <i nz-icon nzType="deployment-unit"></i> {{ this.currentProcess.name }}
+                                <i nz-icon nzType="deployment-unit"></i> {{ currentProcess.type }}
                             </h3>
                             <nz-divider></nz-divider>
                         </div>
                         <ng-template #configContainer></ng-template>
                     </div>
                     <div class="process-list-wrapper">
-                        <div class="process-list" *ngIf="template" cdkDropList (cdkDropListDropped)="dropProcess($event)">
+                        <nz-empty *ngIf="!template || template.processes.length === 0" class="empty-process"
+                                  nzNotFoundContent="Drop new process here..."></nz-empty>
+                        <div class="process-list" *ngIf="template"
+                             cdkDropList (cdkDropListDropped)="dropProcess($event)">
                             <div class="process-box" *ngFor="let process of template.processes" cdkDrag>
-                                <div class="process-box-content">
+                                <div class="process-box-content"
+                                     [ngClass]="{ 'process-active': process == currentProcess }">
                                     <span>
                                         {{ process.type }}
                                     </span>
                                     <span>
-                                        <span class="process-btn" nz-tooltip nzTitle="Edit" (click)="editProcess(process)">
+                                        <span class="process-btn" nz-tooltip nzTitle="Edit"
+                                              (click)="editProcess(process)">
                                             <i nz-icon type="edit"></i>
                                         </span>
-                                        <span class="process-btn" nz-tooltip nzTitle="Delete" (click)="deleteProcess(process)">
+                                        <span class="process-btn" nz-tooltip nzTitle="Delete"
+                                              (click)="deleteProcess(process)">
                                             <i nz-icon type="delete"></i>
                                         </span>
                                     </span>
