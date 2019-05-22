@@ -1,0 +1,32 @@
+[
+    {
+        "type": "read-file",
+        "category": "file",
+        "description": "Opens an existing file for read-only operations."
+    },
+    {
+        "type": "write-file",
+        "category": "file",
+        "description": "Writes stream data to a file."
+    },
+    {
+        "type": "csv-to-list",
+        "category": "data",
+        "description": "Converts comma-separated value (CSV) format into Asteria object list."
+    },
+    {
+        "type": "lines-to-list",
+        "category": "data",
+        "description": "Converts each line of an input stream into a list of Asteria line objects."
+    },
+    {
+        "type": "list-to-csv",
+        "category": "data",
+        "description": "Converts Asteria object list into comma-separated value (CSV) format."
+    },
+    {
+        "type": "filter",
+        "category": "data",
+        "description": "Filters the input stream data."
+    }
+]

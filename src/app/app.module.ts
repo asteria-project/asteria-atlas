@@ -23,6 +23,7 @@ import { TemplateDetailsComponent } from './component/templates/template-details
 // Services
 import { TemplateService } from './api/service/template/template.service';
 import { ProcessConfigComponentResolver } from './api/service/process-config-component.resolver';
+import { ProcessDefinitionService } from './api/service/config/process-definition.service';
 import { BreadcrumbService } from './api/service/ui/breadcrumb.service';
 
 import { NotificationService } from './api/service/ui/notification.service';
@@ -72,8 +73,10 @@ const ENTRY_COMPONENTS: any[] = [
     { provide: NZ_I18N, useValue: en_US },
     { provide: BreadcrumbService, useClass: BreadcrumbService },
     { provide: NotificationService, useClass: NotificationService },
+    { provide: ProcessDefinitionService, useClass: ProcessDefinitionService },
     { provide: ProcessConfigComponentResolver, useClass: ProcessConfigComponentResolver },
-    { provide: TemplateService, useClass: TemplateService }
+    { provide: TemplateService, useClass: TemplateService },
+    
   ],
   bootstrap: [AppComponent]
 })

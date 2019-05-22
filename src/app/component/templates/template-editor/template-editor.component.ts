@@ -3,12 +3,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ProcessConfigComponentResolver } from '../../../api/service/process-config-component.resolver';
 import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
-import { BreadcrumbItemBuilder } from '../../..//api/util/breadcrumb/breadcrumb-item.builder';
+import { BreadcrumbItemBuilder } from '../../../api/util/breadcrumb/breadcrumb-item.builder';
 import { ActivatedRoute } from '@angular/router';
-import { TemplateService } from 'src/app/api/service/template/template.service';
+import { TemplateService } from '../../../api/service/template/template.service';
 import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
-import { ProcessType } from 'src/app/api/business/process-type.enum';
-import { BreadcrumbItem } from 'src/app/api/util/breadcrumb/breadcrumb-item.model';
+import { ProcessType } from '../../../api/business/process-type.enum';
+import { BreadcrumbItem } from '../../../api/util/breadcrumb/breadcrumb-item.model';
+import { ProcessDefinitionService } from '../../../api/service/config/process-definition.service';
+import { ProcessDefinition } from '../../../api/business/process-definition.model';
+import { ProcessCategory } from '../../../api/business/process-category.enum';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -38,6 +41,8 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    */
   protected currentProcess: HeliosProcessDescriptor = null;
 
+  protected processDefMap: any = null;
+
   /**
    * The reference to the <code>FormBuilder</code> service injected by Angular.
    */
@@ -64,6 +69,11 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   private readonly _templateService: TemplateService = null;
 
   /**
+   * The reference to the process definition service.
+   */
+  private readonly _processDefService: ProcessDefinitionService = null;
+
+  /**
    * Create a new <code>TemplateEditorComponent</code> instance.
    */
   constructor(protected injector: Injector) {
@@ -74,6 +84,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     this._route = injector.get(ActivatedRoute);
     this._factoryResolver = injector.get(ComponentFactoryResolver);
     this._configCompResolver = injector.get(ProcessConfigComponentResolver);
+    this._processDefService = injector.get(ProcessDefinitionService);
     this.updateForm = this._fb.group({
       templateName: ['', [Validators.required]]
     });
@@ -85,6 +96,18 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   public ngOnInit(): void {
     const id: string = this._route.snapshot.paramMap.get('id');
     const items: Array<BreadcrumbItem> = new Array<BreadcrumbItem>();
+    this._processDefService.getProcessDefinitionList().subscribe((defList: Array<ProcessDefinition>)=> {
+      this.processDefMap = {};
+      defList.forEach((process: ProcessDefinition) => {
+        const category: ProcessCategory = process.category;
+        let defs: Array<ProcessDefinition> = this.processDefMap[category]
+        if (!defs) {
+          defs = new Array<ProcessDefinition>();
+          this.processDefMap[category] = defs;
+        }
+        defs.push(process);
+      });
+    });
     if (id) {
       this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
         this.template = template;

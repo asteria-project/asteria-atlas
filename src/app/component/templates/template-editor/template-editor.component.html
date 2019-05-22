@@ -69,18 +69,24 @@
             </nz-card>
         </div>
         <div nz-col class="gutter-row" nzSpan="6">
-            <nz-card class="w-100" nzTitle="Processes"><!--padding: 1px 0 0 0;-->
+            <nz-card *ngIf="processDefMap" class="process-def-list" nzTitle="Processes">
                 <nz-collapse [nzBordered]="false" nzAccordion>
                     <nz-collapse-panel nzHeader="File">
                         <ul>
-                            <li>Test 1</li>
-                            <li>Test 2</li>
+                            <li *ngFor="let def of processDefMap.file;">
+                                <span>{{ def.type }}</span>
+                                <i nz-icon nzType="question-circle" nzTheme="outline"
+                                   nz-tooltip [nzTitle]="def.description"></i>
+                            </li>
                         </ul>
                     </nz-collapse-panel>
                     <nz-collapse-panel nzHeader="Data">
                         <ul>
-                            <li>Test 1</li>
-                            <li>Test 2</li>
+                            <li *ngFor="let def of processDefMap.data">
+                                <span>{{ def.type }}</span>
+                                <i nz-icon nzType="question-circle" nzTheme="outline"
+                                   nz-tooltip [nzTitle]="def.description"></i>
+                            </li>
                         </ul>
                     </nz-collapse-panel>
                 </nz-collapse>
