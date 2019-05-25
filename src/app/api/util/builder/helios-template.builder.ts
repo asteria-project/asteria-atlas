@@ -14,7 +14,7 @@ export class HeliosTemplateBuilder {
     public static build(): HeliosTemplate {
         const template: HeliosTemplate = new HeliosTemplateImpl();
         template.name = 'New_Helios_Template';
-        template.description = 'A functional description of this template.';
+        template.description = 'Write a functional description of this template.';
         template.processes = new Array<HeliosProcessDescriptor>();
         return template;
     }

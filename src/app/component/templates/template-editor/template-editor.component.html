@@ -2,19 +2,24 @@
     <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
     <form nz-form [formGroup]="updateForm" (ngSubmit)="submitForm()">
         <div nz-row>
-            <div nz-col nzSpan="12">
+            <div nz-col nzSpan="18">
                 <nz-form-item>
                     <nz-form-control>
                         <nz-input-group [nzPrefix]="prefixName">
-                            <input formControlName="templateName" nz-input placeholder="Template Name">
+                            <input formControlName="templateName" nz-input placeholder="Template name">
                         </nz-input-group>
                         <nz-form-explain *ngIf="isFormInValid()">
                             Please input the template name!
                         </nz-form-explain>
                     </nz-form-control>
+                    <nz-form-control>
+                        <nz-input-group [nzPrefix]="prefixDescription">
+                            <input formControlName="templateDescription"  nz-input placeholder="Template description">
+                        </nz-input-group>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
-            <div nz-col class="text-right" nzSpan="12">
+            <div nz-col class="text-right" nzSpan="6">
                 <nz-form-item>
                     <nz-form-control>
                         <button nz-button nzType="primary" [disabled]="isFormInValid()">
@@ -102,3 +107,4 @@
 </div>
 
 <ng-template #prefixName><i nz-icon type="tag"></i></ng-template>
+<ng-template #prefixDescription><i nz-icon type="info-circle" nzTheme="outline"></i></ng-template>

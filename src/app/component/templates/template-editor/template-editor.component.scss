@@ -25,7 +25,7 @@
 }
 
 .empty-process {
-    margin-top: 4rem !important;
+    margin-top: 10rem !important;
 }
 
 .process-list {
@@ -92,9 +92,9 @@
 }
 
 .process-list:last-child::after {
-    content: '\00d7';
+    content: '\25C9';
     text-align: center;
-    color: #f5222d; //--> red-6
+    color: #1890ff; //--> blue-6
     font-size: 1.5rem;
     width: 100%;
     display: block;
@@ -102,15 +102,14 @@
 }
 
 .process-list:first-child::before {
-    content: '\25C9';
+    content: '\25CF';
     text-align: center;
     color: #1890ff; //--> blue-6
-    font-size: 1.5rem;
+    font-size: 2rem;
     width: 100%;
     display: block;
-    margin-bottom: -0.6rem;
+    margin-bottom: -0.7rem;
 }
-
 
 .process-list.cdk-drop-list-dragging .process-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);

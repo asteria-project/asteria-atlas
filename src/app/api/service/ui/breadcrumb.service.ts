@@ -40,6 +40,9 @@ export class BreadcrumbService {
      * @param {BreadcrumbItem[]} items the new list of breadcrumb items.
      */
     public setItems(items?: BreadcrumbItem[]): void {
-        this._items = items ? BreadcrumbService.ROOT_ITEM.concat(items) : BreadcrumbService.ROOT_ITEM;
+        const self: BreadcrumbService = this;
+        setTimeout((handler: TimerHandler)=> {
+            self._items = items ? BreadcrumbService.ROOT_ITEM.concat(items) : BreadcrumbService.ROOT_ITEM;
+        });
     }
 }

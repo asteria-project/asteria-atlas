@@ -45,7 +45,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    */
   protected currentProcess: HeliosProcessDescriptor = null;
 
-  protected processDefMap: any = null;
+  protected processDefMap: Map<ProcessCategory, Array<ProcessDefinition>> = null;
 
   protected processCategoryList: Array<ProcessDefinitionCategory> = null;
 
@@ -100,7 +100,8 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     this._configCompResolver = injector.get(ProcessConfigComponentResolver);
     this._processDefService = injector.get(ProcessDefinitionService);
     this.updateForm = this._fb.group({
-      templateName: ['', [Validators.required]]
+      templateName: ['', [Validators.required]],
+      templateDescription: ['', null]
     });
     this.processCategoryList = new Array<ProcessDefinitionCategory>();
     this.processDefList = new Array<ProcessDefinition>();
@@ -125,7 +126,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
       this.template = HeliosTemplateBuilder.build();
       this.initForm();
     }
-    //this.breadcrumbService.setItems(items);
+    this.breadcrumbService.setItems(items);
   }
 
   /**
@@ -143,17 +144,27 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    */
   protected initProcessDefList(): void {
     this._processDefService.getProcessDefinitionList().subscribe((defList: Array<ProcessDefinition>)=> {
-      this.processDefMap = {};
+      this.processDefMap = new Map<ProcessCategory, Array<ProcessDefinition>>();
       defList.forEach((process: ProcessDefinition) => {
         const category: ProcessCategory = process.category;
-        let defs: Array<ProcessDefinition> = this.processDefMap[category]
+        let defs: Array<ProcessDefinition> = this.processDefMap.get(category);
         if (!defs) {
           defs = new Array<ProcessDefinition>();
-          this.processDefMap[category] = defs;
+          this.processDefMap.set(category, defs);
         }
         defs.push(process);
       });
+      this.initProcessCategory();
     });
+  }
+
+  
+  /**
+   * Initialize process category.
+   */
+  protected initProcessCategory(): void {
+    this.processCategory = this.processCategoryList[0];
+    this.changeProcessDefList(this.processCategory);
   }
   
   protected submitForm(): void {
@@ -214,7 +225,8 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    */
   private initForm(): void {
     this.updateForm.patchValue({
-      templateName: this.template.name
+      templateName:         this.template.name,
+      templateDescription:  this.template.description
     });
   }
 
@@ -230,6 +242,6 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
 
   protected changeProcessDefList(category: ProcessDefinitionCategory): void {
     this.processCategory = category;
-    this.processDefList = this.processDefMap[this.processCategory.category];
+    this.processDefList = this.processDefMap.get(this.processCategory.category);
   }
 }
