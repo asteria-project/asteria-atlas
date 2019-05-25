@@ -1,6 +1,5 @@
 import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ProcessConfigComponentResolver } from '../../../api/service/process-config-component.resolver';
 import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
 import { BreadcrumbItemBuilder } from '../../../api/util/breadcrumb/breadcrumb-item.builder';
@@ -13,6 +12,10 @@ import { ProcessDefinitionService } from '../../../api/service/config/process-de
 import { ProcessDefinition } from '../../../api/business/process-definition.model';
 import { ProcessCategory } from '../../../api/business/process-category.enum';
 import { ProcessDefinitionCategory } from '../../../api/business/process-definition-category.model';
+import { HeliosTemplateBuilder } from '../../../api/util/builder/helios-template.builder';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { HeliosProcessDescriptorBuilder } from 'src/app/api/util/builder/helios-process-descriptor.builder';
+import { DndDropEvent } from 'ngx-drag-drop';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -119,6 +122,8 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
       this.updateForm.get('templateName').disable();
     } else {
       items.push(BreadcrumbItemBuilder.build(this.title));
+      this.template = HeliosTemplateBuilder.build();
+      this.initForm();
     }
     //this.breadcrumbService.setItems(items);
   }
@@ -157,9 +162,18 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     ctrl.updateValueAndValidity();
   }
 
-  protected dropProcess(event: CdkDragDrop<string[]>) {
-    console.log(event)
-    //moveItemInArray(this.template.processes, event.previousIndex, event.currentIndex);
+  
+  protected processListOnDrop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.template.processes, event.previousIndex, event.currentIndex);
+  }
+
+  protected processListWrapperOnDrop(event: DndDropEvent): void {
+    const processes: Array<HeliosProcessDescriptor> = this.template.processes;
+    if (event.dropEffect === 'copy') {
+      processes.push(
+        HeliosProcessDescriptorBuilder.build(event.data.type)
+      );
+    }
   }
 
   /**

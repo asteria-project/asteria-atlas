@@ -39,12 +39,14 @@
                         </div>
                         <ng-template #configContainer></ng-template>
                     </div>
-                    <div class="process-list-wrapper">
+                    <div class="process-list-wrapper" dndDropzone (dndDrop)="processListWrapperOnDrop($event)"
+                         dndDragoverClass="process-list-wrapper-dragover">
                         <nz-empty *ngIf="!template || template.processes.length === 0" class="empty-process"
                                   nzNotFoundContent="Drop new process here...">
                         </nz-empty>
-                        <div #processList class="process-list" *ngIf="template"
-                             cdkDropList (cdkDropListDropped)="dropProcess($event)">
+                        <div class="process-list" *ngIf="template && template.processes.length !== 0"
+                            cdkDropList (cdkDropListDropped)="processListOnDrop($event)">
+                            <div class=process-box-joint>&nbsp;</div>
                             <div class="process-box" *ngFor="let process of template.processes" cdkDrag>
                                 <div class="process-box-content"
                                      [ngClass]="{ 'process-active': process == currentProcess }">
@@ -72,7 +74,7 @@
         <div nz-col class="gutter-row" nzSpan="6">
             <nz-card *ngIf="processDefMap" class="process-def-list" nzTitle="Processes">
                 <nz-dropdown>
-                    <a nz-dropdown> Select process type <i nz-icon type="down"></i> </a>
+                    <a nz-dropdown> Select process category <i nz-icon type="down"></i> </a>
                     <ul nz-menu nzSelectable>
                         <li nz-menu-item *ngFor="let cat of processCategoryList;" (click)="changeProcessDefList(cat)">
                             <i nz-icon [nzType]="cat.icon" nzTheme="outline"></i>
@@ -84,14 +86,15 @@
                     <h4 *ngIf="processCategory">
                         <i nz-icon [nzType]="processCategory.icon" nzTheme="outline"></i> {{ processCategory.name }}
                     </h4>
-                    <ul id="test" cdkDropList #processDefSelect *ngIf="processDefList && processDefList.length > 0">
-                        <li *ngFor="let def of processDefList;">
+                    <ul *ngIf="processDefList && processDefList.length > 0">
+                        <li *ngFor="let def of processDefList;" [dndDraggable]="def" dndEffectAllowed="copy">
                             <span>{{ def.type }}</span>
                             <i nz-icon nzType="question-circle" nzTheme="outline"
                                 nz-tooltip [nzTitle]="def.description"></i>
                         </li>
                     </ul>
-                    <nz-empty *ngIf="!processDefList || processDefList.length === 0"></nz-empty>
+                    <nz-empty *ngIf="!processDefList || processDefList.length === 0"
+                              nzNotFoundContent="No process available for this category"></nz-empty>
                 </div>
             </nz-card>
         </div>

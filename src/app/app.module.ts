@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DndModule } from 'ngx-drag-drop';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 
@@ -67,7 +68,8 @@ const ENTRY_COMPONENTS: any[] = [
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    DndModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
