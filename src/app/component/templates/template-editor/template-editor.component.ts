@@ -12,6 +12,7 @@ import { BreadcrumbItem } from '../../../api/util/breadcrumb/breadcrumb-item.mod
 import { ProcessDefinitionService } from '../../../api/service/config/process-definition.service';
 import { ProcessDefinition } from '../../../api/business/process-definition.model';
 import { ProcessCategory } from '../../../api/business/process-category.enum';
+import { ProcessDefinitionCategory } from '../../../api/business/process-definition-category.model';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -42,6 +43,16 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   protected currentProcess: HeliosProcessDescriptor = null;
 
   protected processDefMap: any = null;
+
+  protected processCategoryList: Array<ProcessDefinitionCategory> = null;
+
+  /**
+   * The current process deffinition category selected by the user.
+   */
+  protected processCategory: ProcessDefinitionCategory = null;
+
+  protected processDefList: Array<ProcessDefinition> = null;
+  
 
   /**
    * The reference to the <code>FormBuilder</code> service injected by Angular.
@@ -88,6 +99,8 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     this.updateForm = this._fb.group({
       templateName: ['', [Validators.required]]
     });
+    this.processCategoryList = new Array<ProcessDefinitionCategory>();
+    this.processDefList = new Array<ProcessDefinition>();
   }
 
   /**
@@ -96,6 +109,34 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   public ngOnInit(): void {
     const id: string = this._route.snapshot.paramMap.get('id');
     const items: Array<BreadcrumbItem> = new Array<BreadcrumbItem>();
+    this.initProcessCategoryList();
+    if (id) {
+      this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
+        this.template = template;
+        this.initForm();
+      });
+      items.push(BreadcrumbItemBuilder.build('Template Details', `/templates/${id}`));
+      this.updateForm.get('templateName').disable();
+    } else {
+      items.push(BreadcrumbItemBuilder.build(this.title));
+    }
+    //this.breadcrumbService.setItems(items);
+  }
+
+  /**
+   * Initialize the list of available process categories that can be added to a template.
+   */
+  protected initProcessCategoryList(): void {
+    this._processDefService.getProcessDefinitionCategoryList().subscribe((catList: Array<ProcessDefinitionCategory>)=> {
+      this.processCategoryList = catList;
+      this.initProcessDefList();
+    });
+  }
+
+  /**
+   * Initialize the list of available processes that can be added to a template.
+   */
+  protected initProcessDefList(): void {
     this._processDefService.getProcessDefinitionList().subscribe((defList: Array<ProcessDefinition>)=> {
       this.processDefMap = {};
       defList.forEach((process: ProcessDefinition) => {
@@ -108,17 +149,6 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
         defs.push(process);
       });
     });
-    if (id) {
-      this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
-        this.template = template;
-        this.initForm();
-      });
-      items.push(BreadcrumbItemBuilder.build('Template Details', `/templates/${id}`));
-      this.updateForm.get('templateName').disable();
-    } else {
-      items.push(BreadcrumbItemBuilder.build(this.title));
-    }
-    this.breadcrumbService.setItems(items);
   }
   
   protected submitForm(): void {
@@ -128,7 +158,8 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   }
 
   protected dropProcess(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.template.processes, event.previousIndex, event.currentIndex);
+    console.log(event)
+    //moveItemInArray(this.template.processes, event.previousIndex, event.currentIndex);
   }
 
   /**
@@ -181,5 +212,10 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   protected isFormInValid(): boolean {
     const crtl: any = this.updateForm.get('templateName');
     return !crtl.disabled && (crtl.invalid && (crtl.dirty || crtl.touched));
+  }
+
+  protected changeProcessDefList(category: ProcessDefinitionCategory): void {
+    this.processCategory = category;
+    this.processDefList = this.processDefMap[this.processCategory.category];
   }
 }

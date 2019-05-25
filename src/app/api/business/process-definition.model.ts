@@ -15,7 +15,7 @@ export interface ProcessDefinition {
     /**
      * The help description for this process.
      */
-    description: ProcessType;
+    description: string;
     
     /**
      * Specifies the category for this process.

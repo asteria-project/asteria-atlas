@@ -41,8 +41,9 @@
                     </div>
                     <div class="process-list-wrapper">
                         <nz-empty *ngIf="!template || template.processes.length === 0" class="empty-process"
-                                  nzNotFoundContent="Drop new process here..."></nz-empty>
-                        <div class="process-list" *ngIf="template"
+                                  nzNotFoundContent="Drop new process here...">
+                        </nz-empty>
+                        <div #processList class="process-list" *ngIf="template"
                              cdkDropList (cdkDropListDropped)="dropProcess($event)">
                             <div class="process-box" *ngFor="let process of template.processes" cdkDrag>
                                 <div class="process-box-content"
@@ -70,26 +71,28 @@
         </div>
         <div nz-col class="gutter-row" nzSpan="6">
             <nz-card *ngIf="processDefMap" class="process-def-list" nzTitle="Processes">
-                <nz-collapse [nzBordered]="false" nzAccordion>
-                    <nz-collapse-panel nzHeader="File">
-                        <ul>
-                            <li *ngFor="let def of processDefMap.file;">
-                                <span>{{ def.type }}</span>
-                                <i nz-icon nzType="question-circle" nzTheme="outline"
-                                   nz-tooltip [nzTitle]="def.description"></i>
-                            </li>
-                        </ul>
-                    </nz-collapse-panel>
-                    <nz-collapse-panel nzHeader="Data">
-                        <ul>
-                            <li *ngFor="let def of processDefMap.data">
-                                <span>{{ def.type }}</span>
-                                <i nz-icon nzType="question-circle" nzTheme="outline"
-                                   nz-tooltip [nzTitle]="def.description"></i>
-                            </li>
-                        </ul>
-                    </nz-collapse-panel>
-                </nz-collapse>
+                <nz-dropdown>
+                    <a nz-dropdown> Select process type <i nz-icon type="down"></i> </a>
+                    <ul nz-menu nzSelectable>
+                        <li nz-menu-item *ngFor="let cat of processCategoryList;" (click)="changeProcessDefList(cat)">
+                            <i nz-icon [nzType]="cat.icon" nzTheme="outline"></i>
+                            {{ cat.name }}
+                        </li>
+                    </ul>
+                </nz-dropdown>
+                <div class="process-category-wrapper">
+                    <h4 *ngIf="processCategory">
+                        <i nz-icon [nzType]="processCategory.icon" nzTheme="outline"></i> {{ processCategory.name }}
+                    </h4>
+                    <ul id="test" cdkDropList #processDefSelect *ngIf="processDefList && processDefList.length > 0">
+                        <li *ngFor="let def of processDefList;">
+                            <span>{{ def.type }}</span>
+                            <i nz-icon nzType="question-circle" nzTheme="outline"
+                                nz-tooltip [nzTitle]="def.description"></i>
+                        </li>
+                    </ul>
+                    <nz-empty *ngIf="!processDefList || processDefList.length === 0"></nz-empty>
+                </div>
             </nz-card>
         </div>
     </div>

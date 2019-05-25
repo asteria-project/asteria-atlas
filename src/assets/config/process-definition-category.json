@@ -1,0 +1,32 @@
+[
+    {
+        "name": "File",
+        "category": "file",
+        "icon": "file",
+        "description": ""
+    },
+    {
+        "name": "Data",
+        "category": "data",
+        "icon": "filter",
+        "description": ""
+    },
+    {
+        "name": "Persistence",
+        "category": "persistence",
+        "icon": "database",
+        "description": ""
+    },
+    {
+        "name": "Math",
+        "category": "math",
+        "icon": "calculator",
+        "description": ""
+    },
+    {
+        "name": "Image",
+        "category": "image",
+        "icon": "picture",
+        "description": ""
+    }
+]
