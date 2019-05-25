@@ -1,6 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { JobReference } from '../../../api/business/job-reference.model';
-import { BreadcrumbItemBuilder } from '../../../api/util/breadcrumb/breadcrumb-item.builder';
+import { BreadcrumbItemBuilder, JobReference } from '../../../api';
 import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
 
 /**

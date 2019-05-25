@@ -21,16 +21,10 @@ import { EventListComponent } from './component/events/event-list/event-list.com
 import { TemplateEditorComponent } from './component/templates/template-editor/template-editor.component';
 import { TemplateDetailsComponent } from './component/templates/template-details/template-details.component';
 
-// Services
-import { TemplateService } from './api/service/template/template.service';
-import { ProcessConfigComponentResolver } from './api/service/process-config-component.resolver';
-import { ProcessDefinitionService } from './api/service/config/process-definition.service';
-import { BreadcrumbService } from './api/service/ui/breadcrumb.service';
-
-import { NotificationService } from './api/service/ui/notification.service';
 // Config components
 import { FileReadConfigComponent } from './component/template-config/file-read-config/file-read-config.component';
 import { AtlasViewComponent } from './component/layout/atlas-view/atlas-view.component';
+import { ApîModule } from './api/api.module';
 
 registerLocaleData(en);
 
@@ -66,19 +60,14 @@ const ENTRY_COMPONENTS: any[] = [
     NgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
+    ApîModule,
     HttpClientModule,
     BrowserAnimationsModule,
     DragDropModule,
     DndModule
   ],
   providers: [
-    { provide: NZ_I18N, useValue: en_US },
-    { provide: BreadcrumbService, useClass: BreadcrumbService },
-    { provide: NotificationService, useClass: NotificationService },
-    { provide: ProcessDefinitionService, useClass: ProcessDefinitionService },
-    { provide: ProcessConfigComponentResolver, useClass: ProcessConfigComponentResolver },
-    { provide: TemplateService, useClass: TemplateService },
-    
+    { provide: NZ_I18N, useValue: en_US }
   ],
   bootstrap: [AppComponent]
 })

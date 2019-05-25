@@ -1,9 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
-import { TemplateService } from '../../../api/service/template/template.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { TemplateService, BreadcrumbItemBuilder } from '../../../api';
+import { ActivatedRoute } from '@angular/router';
 import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
-import { BreadcrumbItemBuilder } from 'src/app/api/util/breadcrumb/breadcrumb-item.builder';
 
 /**
  * The view responsible for displaying the details of an Asteria session template.

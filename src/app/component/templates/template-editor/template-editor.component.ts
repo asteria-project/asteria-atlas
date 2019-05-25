@@ -1,21 +1,23 @@
 import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ProcessConfigComponentResolver } from '../../../api/service/process-config-component.resolver';
 import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
-import { BreadcrumbItemBuilder } from '../../../api/util/breadcrumb/breadcrumb-item.builder';
 import { ActivatedRoute } from '@angular/router';
-import { TemplateService } from '../../../api/service/template/template.service';
 import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
-import { ProcessType } from '../../../api/business/process-type.enum';
-import { BreadcrumbItem } from '../../../api/util/breadcrumb/breadcrumb-item.model';
-import { ProcessDefinitionService } from '../../../api/service/config/process-definition.service';
-import { ProcessDefinition } from '../../../api/business/process-definition.model';
-import { ProcessCategory } from '../../../api/business/process-category.enum';
-import { ProcessDefinitionCategory } from '../../../api/business/process-definition-category.model';
-import { HeliosTemplateBuilder } from '../../../api/util/builder/helios-template.builder';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { HeliosProcessDescriptorBuilder } from 'src/app/api/util/builder/helios-process-descriptor.builder';
 import { DndDropEvent } from 'ngx-drag-drop';
+import { 
+  HeliosProcessDescriptorBuilder,
+  HeliosTemplateBuilder,
+  ProcessDefinitionCategory,
+  ProcessCategory,
+  ProcessDefinition,
+  ProcessDefinitionService,
+  BreadcrumbItem,
+  ProcessType,
+  TemplateService,
+  BreadcrumbItemBuilder,
+  ProcessConfigComponentResolver
+ } from '../../../api';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -27,6 +29,9 @@ import { DndDropEvent } from 'ngx-drag-drop';
 })
 export class TemplateEditorComponent extends AtlasViewComponent implements OnInit {
 
+  /**
+   * The form used to set the name and the descrition of the template.
+   */
   protected updateForm: FormGroup = null;
 
   /**
@@ -45,8 +50,14 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    */
   protected currentProcess: HeliosProcessDescriptor = null;
 
+  /**
+   * A map that stores all Asteria process definitions.
+   */
   protected processDefMap: Map<ProcessCategory, Array<ProcessDefinition>> = null;
 
+  /**
+   * The list of available Helios process categories.
+   */
   protected processCategoryList: Array<ProcessDefinitionCategory> = null;
 
   /**
@@ -54,9 +65,11 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    */
   protected processCategory: ProcessDefinitionCategory = null;
 
+  /**
+   * The list of Asteria process definitions displayed in the process list component.
+   */
   protected processDefList: Array<ProcessDefinition> = null;
   
-
   /**
    * The reference to the <code>FormBuilder</code> service injected by Angular.
    */
@@ -130,6 +143,15 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   }
 
   /**
+   * TODO: save data
+   */
+  protected submitForm(): void {
+    const ctrl: any = this.updateForm.controls[0];
+    ctrl.markAsDirty();
+    ctrl.updateValueAndValidity();
+  }
+
+  /**
    * Initialize the list of available process categories that can be added to a template.
    */
   protected initProcessCategoryList(): void {
@@ -158,7 +180,6 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     });
   }
 
-  
   /**
    * Initialize process category.
    */
@@ -167,17 +188,20 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     this.changeProcessDefList(this.processCategory);
   }
   
-  protected submitForm(): void {
-    const ctrl: any = this.updateForm.controls[0];
-    ctrl.markAsDirty();
-    ctrl.updateValueAndValidity();
-  }
-
-  
+  /**
+   * Invoked each time the user moves an item in the process workflow.
+   * 
+   * @param {CdkDragDrop<string[]>} event the event associated with this user action.
+   */
   protected processListOnDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.template.processes, event.previousIndex, event.currentIndex);
   }
 
+  /**
+   * Invoked each time the user adds a new process to the template workflow.
+   * 
+   * @param {DndDropEvent} event the event associated with this user action.
+   */
   protected processListWrapperOnDrop(event: DndDropEvent): void {
     const processes: Array<HeliosProcessDescriptor> = this.template.processes;
     if (event.dropEffect === 'copy') {
@@ -214,6 +238,11 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     }
   }
   
+  /**
+   * Load the component that allows to set the config of process.
+   * 
+   * @param {Type<any>} compRef the reference to the component to load and display.
+   */
   private loadConfigEditor(compRef: Type<any>): void {
     this.configContainer.clear();
     const factory: ComponentFactory<any> = this._factoryResolver.resolveComponentFactory(compRef);
@@ -221,7 +250,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   }
   
   /**
-   * Initialize the update form.
+   * Initialize the process update form.
    */
   private initForm(): void {
     this.updateForm.patchValue({
@@ -240,6 +269,11 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     return !crtl.disabled && (crtl.invalid && (crtl.dirty || crtl.touched));
   }
 
+  /**
+   * Replace the the process list displayed in the process dropdown, according to the the specified category.
+   * 
+   * @param {ProcessDefinitionCategory} category the category to display in the process dropdown component.
+   */
   protected changeProcessDefList(category: ProcessDefinitionCategory): void {
     this.processCategory = category;
     this.processDefList = this.processDefMap.get(this.processCategory.category);
