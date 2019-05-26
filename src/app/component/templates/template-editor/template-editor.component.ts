@@ -1,5 +1,5 @@
 import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
 import { ActivatedRoute } from '@angular/router';
 import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
@@ -69,6 +69,11 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * The list of Asteria process definitions displayed in the process list component.
    */
   protected processDefList: Array<ProcessDefinition> = null;
+
+  /**
+   * The label displayed over the submit button face.
+   */
+  protected submitBtnLabel: string = 'Save';
   
   /**
    * The reference to the <code>FormBuilder</code> service injected by Angular.
@@ -136,19 +141,11 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
       this.updateForm.get('templateName').disable();
     } else {
       items.push(BreadcrumbItemBuilder.build(this.title));
+      this.submitBtnLabel = 'Create';
       this.template = HeliosTemplateBuilder.build();
       this.initForm();
     }
     this.breadcrumbService.setItems(items);
-  }
-
-  /**
-   * TODO: save data
-   */
-  protected submitForm(): void {
-    const ctrl: any = this.updateForm.controls[0];
-    ctrl.markAsDirty();
-    ctrl.updateValueAndValidity();
   }
 
   /**
@@ -277,5 +274,22 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   protected changeProcessDefList(category: ProcessDefinitionCategory): void {
     this.processCategory = category;
     this.processDefList = this.processDefMap.get(this.processCategory.category);
+  }
+  
+  /**
+   * TODO: save data
+   */
+  protected submitForm(): void {
+    const ctrl: AbstractControl = this.updateForm.get('templateName');
+    ctrl.markAsDirty();
+    ctrl.updateValueAndValidity();
+    if (this.updateForm.valid) {
+      this.template.name = ctrl.value;
+      this.template.description = this.updateForm.get('templateDescription').value;
+      this._templateService.createTemplate(this.template).subscribe((result: string)=> {
+        // if (this._mode === InteractionMode.EDIT) {}
+        this.router.navigate( ['/templates'] );
+      });
+    }
   }
 }

@@ -64,7 +64,28 @@ export class TemplateService {
                          .pipe(
                             catchError(error=> {
                                 this._notification.error(
-                                    'Template Error', 
+                                    'Template Access Error', 
+                                    ErrorMessageBuilder.build(error.status)
+                                );
+                                return of(null);
+                            })
+                         );
+    }
+
+    /**
+     * Return the template registered in the associated Helios server instance with the specified ID.
+     * 
+     * @param {HeliosTemplate} partialTemplate the ID of the template to get.
+     * 
+     * @returns {Observable<string>} the template registered in the associated Helios server instance with the
+     *                                       specified ID.
+     */
+    public createTemplate(partialTemplate: HeliosTemplate): Observable<string> {
+        return this._http.post<string>('http://localhost:3000/asteria/templates/', partialTemplate)
+                         .pipe(
+                            catchError(error=> {
+                                this._notification.error(
+                                    'Template Creation Error', 
                                     ErrorMessageBuilder.build(error.status)
                                 );
                                 return of(null);
