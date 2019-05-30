@@ -1,6 +1,6 @@
 import { Injectable, Type } from '@angular/core';
-import { FileReadConfigComponent } from 'src/app/component/template-config/file-read-config/file-read-config.component';
-import { ProcessType } from '../business/process-type.enum';
+import { ProcessType } from '../../../business-module';
+import { FileReadConfigComponent } from '../../component/template-editor-config/file-read-config/file-read-config.component';
 
 /**
  * The <code>ProcessConfigComponentResolver</code> resolver allows to map a process type to its config component.

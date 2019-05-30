@@ -3,9 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { DndModule } from 'ngx-drag-drop';
 import { CommonModule } from '@angular/common';
+
+// Atlas modules
+import { BusinessModule } from './business-module/business.module';
+import { GuiModule } from './gui-module/gui.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,13 +17,7 @@ import { JobEditorComponent } from './component/jobs/job-editor/job-editor.compo
 import { JobListComponent } from './component/jobs/job-list/job-list.component';
 import { TemplateListComponent } from './component/templates/template-list/template-list.component';
 import { EventListComponent } from './component/events/event-list/event-list.component';
-import { TemplateEditorComponent } from './component/templates/template-editor/template-editor.component';
 import { TemplateDetailsComponent } from './component/templates/template-details/template-details.component';
-
-// Config components
-import { FileReadConfigComponent } from './component/template-config/file-read-config/file-read-config.component';
-import { ApiModule } from './api/api.module';
-import { GuiModule } from './gui-module/gui.module';
 
 const COMPONENTS: any[] = [
   AppComponent,
@@ -34,20 +30,13 @@ const COMPONENTS: any[] = [
   JobListComponent,
   // Template views
   TemplateListComponent,
-  TemplateDetailsComponent,
-  TemplateEditorComponent
-];
-
-const ENTRY_COMPONENTS: any[] = [
-  FileReadConfigComponent
+  TemplateDetailsComponent
 ];
 
 @NgModule({
   declarations: [
-    ...COMPONENTS,
-    ...ENTRY_COMPONENTS
+    ...COMPONENTS
   ],
-  entryComponents: [ ...ENTRY_COMPONENTS ],
   imports: [
     CommonModule,
     BrowserModule,
@@ -56,9 +45,7 @@ const ENTRY_COMPONENTS: any[] = [
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    DragDropModule,
-    DndModule,
-    ApiModule,
+    BusinessModule,
     GuiModule
   ],
   bootstrap: [AppComponent]

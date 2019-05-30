@@ -1,6 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
-import { TemplateService } from '../../../api';
+import { TemplateService } from '../../../business-module';
 import { AtlasViewComponent, BreadcrumbItemBuilder, } from '../../../gui-module';
 
 /**

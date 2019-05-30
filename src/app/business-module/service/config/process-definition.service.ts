@@ -1,8 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable} from 'rxjs';
-import { ProcessDefinition } from '../../business/process-definition.model';
+import { ProcessDefinition } from '../../model/process-definition.model';
 import { HttpClient } from '@angular/common/http';
-import { ProcessDefinitionCategory } from '../../business/process-definition-category.model';
+import { ProcessDefinitionCategory } from '../../model/process-definition-category.model';
 
 /**
  * The <code>ProcessDefinitionService</code> service provides access to the Asteria processes definitions.

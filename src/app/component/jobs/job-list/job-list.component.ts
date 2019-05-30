@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { JobReference } from '../../../api';
+import { JobReference } from '../../../business-module';
 import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
 
 /**

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 /**
- * The conponent responsible for editing config of an Asteria "file-read" process.
+ * The component responsible for editing config of an Asteria "file-read" process.
  */
 @Component({
   selector: 'file-read-config',

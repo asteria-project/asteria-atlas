@@ -13,9 +13,9 @@ import {
   ProcessDefinition,
   ProcessDefinitionService,
   ProcessType,
-  TemplateService,
-  ProcessConfigComponentResolver
- } from '../../../api';
+  TemplateService
+ } from '../../../business-module';
+import { ProcessConfigComponentResolver } from '../../service/template/process-config-component.resolver';
 
 /**
  * The view responsible for editing Asteria session templates.

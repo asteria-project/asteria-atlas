@@ -1,5 +1,5 @@
-import { ProcessType } from './process-type.enum';
-import { ProcessCategory } from './process-category.enum';
+import { ProcessType } from './enum/process-type.enum';
+import { ProcessCategory } from './enum/process-category.enum';
 
 /**
  * The <code>ProcessDefinitionCategory</code> interface defines the API that you must implement to define an Asteria 

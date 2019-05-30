@@ -1,5 +1,5 @@
 import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
-import { HeliosTemplateImpl } from '../../business/impl/helios-template.impl';
+import { HeliosTemplateImpl } from '../../model/impl/helios-template.impl';
 
 /**
  * The builder that dreates <code>HeliosTemplate</code> objects.
