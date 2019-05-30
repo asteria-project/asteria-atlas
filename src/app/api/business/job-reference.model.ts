@@ -27,4 +27,9 @@ export interface JobReference {
      * The creation date of the job associated with this job reference.
      */
     created: string;
+    
+    /**
+     * The last update date of the job associated with this job reference.
+     */
+    updated: string;
 }

@@ -1,5 +1,6 @@
 <div class="view-wrapper template-list-wrapper">
     <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
+    <update-date [dateTime]="lastUpdated"></update-date>
     <nz-table  #templatesTable [nzData]="templateList">
         <thead>
           <tr>

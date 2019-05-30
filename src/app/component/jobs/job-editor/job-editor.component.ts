@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
 
 /**
  * The view responsible for editing Asteria sessions.

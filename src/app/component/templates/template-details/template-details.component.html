@@ -1,6 +1,33 @@
 <div class="view-wrapper template-details-wrapper">
   <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
-  <nz-timeline *ngIf="template">
-    <nz-timeline-item *ngFor='let process of template.processes;'>{{ process.type }}</nz-timeline-item>
-  </nz-timeline>
+  <update-date [dateTime]="lastUpdated"></update-date>
+
+  <nz-card style="width:100%;" [nzActions]="[actionStart, actionEdit, actionDelete]">
+    <nz-card-meta [nzTitle]="template?.name" [nzAvatar]="iconTemplate"></nz-card-meta>
+    <div class="template-details-content">
+      <h4><i nz-icon type="info-circle" nzTheme="outline"></i> Description</h4>
+      <p>
+        {{ template?.description }}
+      </p>
+      <h4><i nz-icon nzType="fork" nzTheme="outline"></i> Processes</h4>
+      <p class="timeline-container">
+        <nz-timeline *ngIf="template">
+          <nz-timeline-item *ngFor='let process of template.processes;'>{{ process.type }}</nz-timeline-item>
+        </nz-timeline>
+      </p>
+    </div>
+  </nz-card>
 </div>
+
+<ng-template #iconTemplate>
+  <nz-avatar nzIcon="tag" nzSize="small"></nz-avatar>
+</ng-template>
+<ng-template #actionStart>
+  <i nz-icon nzType="step-forward" nzTheme="outline"></i>
+</ng-template>
+<ng-template #actionEdit>
+  <i nz-icon type="edit"></i>
+</ng-template>
+<ng-template #actionDelete>
+  <i nz-icon type="delete"></i>
+</ng-template>

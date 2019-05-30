@@ -1,14 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DndModule } from 'ngx-drag-drop';
-import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
-
-import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,14 +20,11 @@ import { TemplateDetailsComponent } from './component/templates/template-details
 
 // Config components
 import { FileReadConfigComponent } from './component/template-config/file-read-config/file-read-config.component';
-import { AtlasViewComponent } from './component/layout/atlas-view/atlas-view.component';
-import { ApîModule } from './api/api.module';
-
-registerLocaleData(en);
+import { ApiModule } from './api/api.module';
+import { GuiModule } from './gui-module/gui.module';
 
 const COMPONENTS: any[] = [
   AppComponent,
-  AtlasViewComponent,
   // Main app views
   AtlasContainerComponent,
   SplashScreenComponent,
@@ -55,19 +49,17 @@ const ENTRY_COMPONENTS: any[] = [
   ],
   entryComponents: [ ...ENTRY_COMPONENTS ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
-    NgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
-    ApîModule,
     HttpClientModule,
     BrowserAnimationsModule,
     DragDropModule,
-    DndModule
-  ],
-  providers: [
-    { provide: NZ_I18N, useValue: en_US }
+    DndModule,
+    ApiModule,
+    GuiModule
   ],
   bootstrap: [AppComponent]
 })

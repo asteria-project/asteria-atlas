@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { AtlasViewComponent } from '../atlas-view/atlas-view.component';
+import { AtlasViewComponent } from '../../../gui-module';
 
 @Component({
   selector: 'splash-screen',

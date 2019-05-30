@@ -1,8 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
-import { TemplateService, BreadcrumbItemBuilder } from '../../../api';
+import { TemplateService } from '../../../api';
 import { ActivatedRoute } from '@angular/router';
-import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
+import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
 
 /**
  * The view responsible for displaying the details of an Asteria session template.
@@ -41,7 +41,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
     this.title = 'Template Details';
     this.backButtonRoute = '/templates';
     this.breadcrumbService.setItems([
-      BreadcrumbItemBuilder.build('Job Templates', this.backButtonRoute),
+      BreadcrumbItemBuilder.build('Process Templates', this.backButtonRoute),
       BreadcrumbItemBuilder.build(this.title)
     ]);
   }
@@ -53,6 +53,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
     const id: string = this._route.snapshot.paramMap.get('id');
     this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
       this.template = template;
+      this.lastUpdated = Date.now();
     });
   }
 }

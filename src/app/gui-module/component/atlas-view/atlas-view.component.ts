@@ -1,6 +1,6 @@
 import { Component, Injector } from '@angular/core';
-import { BreadcrumbService } from '../../../api/service/ui/breadcrumb.service';
 import { Router } from '@angular/router';
+import { BreadcrumbService } from '../../service/breadcrumb.service';
 
 /**
  * The <code>AtlasViewComponent</code> class is the base class for all Atlas app views.
@@ -30,6 +30,11 @@ export abstract class AtlasViewComponent {
    * The route associated with the title back button.
    */
   protected backButtonRoute: string = '';
+
+  /**
+   * Indicates the last update timestamp for data displayed in this view.
+   */
+  protected lastUpdated: number = null;
 
   /**
    * Create a new <code>AtlasViewComponent</code> instance.

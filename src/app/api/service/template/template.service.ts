@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { HeliosTemplate } from 'asteria-eos';
 import { Observable, of} from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { NotificationService } from '../ui/notification.service';
-import { ErrorMessageBuilder } from '../../util/error/error-message.builder';
+import { NotificationService, ErrorMessageBuilder } from '../../../gui-module';
 
 /**
  * The <code>TemplateService</code> service provides access to the Helios templates API.

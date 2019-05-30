@@ -1,11 +1,13 @@
 import { Injectable, Injector } from '@angular/core';
-import { BreadcrumbItem } from '../../util/breadcrumb/breadcrumb-item.model';
-import { BreadcrumbItemBuilder } from '../../util/breadcrumb/breadcrumb-item.builder';
+import { BreadcrumbItem } from '../util/breadcrumb/breadcrumb-item.model';
+import { BreadcrumbItemBuilder } from '../util/breadcrumb/breadcrumb-item.builder';
 
 /**
  * The <code>BreadcrumbService</code> service allows to manage the Atlas app breadcrumb.
  */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class BreadcrumbService {
  
     /**

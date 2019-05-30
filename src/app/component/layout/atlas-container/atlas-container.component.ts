@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { BreadcrumbService } from 'src/app/api/service/ui/breadcrumb.service';
+import { BreadcrumbService } from '../../../gui-module';
 
 /**
  * The <code>AtlasContainerComponent</code> component provides the main layout of the Atlas application.

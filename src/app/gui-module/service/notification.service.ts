@@ -4,7 +4,9 @@ import { NzNotificationService } from 'ng-zorro-antd';
 /**
  * The <code>NotificationService</code> service is responsible for managing the application notifications.
  */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class NotificationService {
  
     /**

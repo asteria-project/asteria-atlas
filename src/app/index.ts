@@ -3,3 +3,5 @@
  */
 //--> api module
 export * from './api';
+//--> gui module
+export * from './gui-module';

@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
-import { BreadcrumbItemBuilder, TemplateService } from '../../../api';
-import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
+import { TemplateService } from '../../../api';
+import { AtlasViewComponent, BreadcrumbItemBuilder, } from '../../../gui-module';
 
 /**
  * The view responsible for displaying the list of Asteria session templates.
@@ -42,6 +42,7 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
   public ngOnInit(): void {
     this._templateService.getTemplates().subscribe((templates: Array<HeliosTemplate>)=> {
       this.templateList = templates;
+      this.lastUpdated = Date.now();
     });
   }
 

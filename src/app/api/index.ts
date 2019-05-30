@@ -14,14 +14,8 @@ export * from './business/process-type.enum';
 export * from './service/config/process-definition.service';
 //--> service/template
 export * from './service/template/template.service';
-//--> service/ui
-export * from './service/ui/breadcrumb.service';
-export * from './service/ui/notification.service';
 //--> service
 export * from './service/process-config-component.resolver';
-//--> util/breadcrumb
-export * from './util/breadcrumb/breadcrumb-item.builder';
-export * from './util/breadcrumb/breadcrumb-item.model';
 //--> util/builder
 export * from './util/builder/helios-process-descriptor.builder';
 export * from './util/builder/helios-template.builder';

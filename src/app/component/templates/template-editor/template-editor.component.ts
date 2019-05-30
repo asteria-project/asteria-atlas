@@ -1,10 +1,10 @@
 import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { AtlasViewComponent } from '../../layout/atlas-view/atlas-view.component';
 import { ActivatedRoute } from '@angular/router';
 import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DndDropEvent } from 'ngx-drag-drop';
+import { AtlasViewComponent, BreadcrumbItem, BreadcrumbItemBuilder, } from '../../../gui-module';
 import { 
   HeliosProcessDescriptorBuilder,
   HeliosTemplateBuilder,
@@ -12,10 +12,8 @@ import {
   ProcessCategory,
   ProcessDefinition,
   ProcessDefinitionService,
-  BreadcrumbItem,
   ProcessType,
   TemplateService,
-  BreadcrumbItemBuilder,
   ProcessConfigComponentResolver
  } from '../../../api';
 
