@@ -1,5 +1,6 @@
 <nz-layout>
-    <nz-sider [nzTheme]="'light'" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
+    <nz-sider [nzTheme]="'light'" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate"
+              [nzWidth]="250">
         <div class="brand">
             <img src="./assets/asteria-logo-32.png" nz-tooltip nzTitle="ATLAS">
             <div *ngIf="!isCollapsed">ATLAS</div>
@@ -12,14 +13,27 @@
             </li>
             <li nz-submenu>
                 <span title nz-tooltip nzTitle="Jobs">
-                    <i nz-icon type="sliders"></i> <span class="nav-text">Jobs</span>
+                    <i nz-icon nzType="file-sync" nzTheme="outline"></i> <span class="nav-text">Jobs</span>
                 </span>
                 <ul>
                     <li nz-menu-item routerLink="/jobs">
                         <i nz-icon type="table"></i> All Jobs
                     </li>
-                    <li nz-menu-item routerLink="/templates">
-                        <i nz-icon type="code"></i> Job Templates
+                    <li nz-menu-item >
+                        <i nz-icon type="edit"></i> Job Editor
+                    </li>
+                </ul>
+            </li>
+            <li nz-submenu>
+                <span title nz-tooltip nzTitle="Processes">
+                    <i nz-icon type="sliders"></i> <span class="nav-text">Processes</span>
+                </span>
+                <ul>
+                    <li nz-menu-item routerLink="/processes">
+                        <i nz-icon type="table"></i> All Processes
+                    </li>
+                    <li nz-menu-item routerLink="/processes/templates">
+                        <i nz-icon type="code"></i> Process Templates
                     </li>
                     <li nz-menu-item routerLink="/edit/template">
                         <i nz-icon type="edit"></i> Template Editor

@@ -29,7 +29,7 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
     */
   constructor(protected injector: Injector) {
     super(injector);
-    this.title = 'Job Templates';
+    this.title = 'Process Templates';
     this._templateService = injector.get(TemplateService);
     this.breadcrumbService.setItems([
       BreadcrumbItemBuilder.build(this.title)
@@ -52,6 +52,6 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
    * @param {HeliosTemplate} template the template selected by the user.
    */
   protected selectTemplate(template: HeliosTemplate): void {
-    this.router.navigate( [`/templates/${template.id}`] );
+    this.router.navigate( [`/processes/templates/${template.id}`] );
   }
 }

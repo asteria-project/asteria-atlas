@@ -38,8 +38,8 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
     super(injector);
     this._templateService = injector.get(TemplateService);
     this._route = injector.get(ActivatedRoute);
-    this.title = 'Template Details';
-    this.backButtonRoute = '/templates';
+    this.title = 'Process Template Details';
+    this.backButtonRoute = '/processes/templates';
     this.breadcrumbService.setItems([
       BreadcrumbItemBuilder.build('Process Templates', this.backButtonRoute),
       BreadcrumbItemBuilder.build(this.title)

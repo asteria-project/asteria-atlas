@@ -108,7 +108,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    */
   constructor(protected injector: Injector) {
     super(injector);
-    this.title = 'Template Editor';
+    this.title = 'Process Template Editor';
     this._templateService = injector.get(TemplateService);
     this._fb = injector.get(FormBuilder);
     this._route = injector.get(ActivatedRoute);

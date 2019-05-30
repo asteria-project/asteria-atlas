@@ -12,8 +12,8 @@ const routes: Routes = [
   { path: 'events', component: EventListComponent },
   { path: 'jobs', component: JobListComponent },
   { path: 'jobs/edit', component: JobEditorComponent },
-  { path: 'templates', component: TemplateListComponent },
-  { path: 'templates/:id', component: TemplateDetailsComponent },
+  { path: 'processes/templates', component: TemplateListComponent },
+  { path: 'processes/templates/:id', component: TemplateDetailsComponent },
   {
     path: 'edit',
     loadChildren: './edit-module/edit.module#EditModule'
