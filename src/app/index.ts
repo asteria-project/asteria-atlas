@@ -6,3 +6,7 @@
 export * from './business-module';
 //--> gui module
 export * from './gui-module';
+//--> edit module
+export * from './edit-module';
+//--> process module
+export * from './process-module';

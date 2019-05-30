@@ -31,7 +31,9 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
     super(injector);
     this.title = 'Process Templates';
     this._templateService = injector.get(TemplateService);
+    this.backButtonRoute = '/processes';
     this.breadcrumbService.setItems([
+      BreadcrumbItemBuilder.build('Processes', this.backButtonRoute),
       BreadcrumbItemBuilder.build(this.title)
     ]);
   }

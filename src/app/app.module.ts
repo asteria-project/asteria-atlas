@@ -15,9 +15,7 @@ import { AtlasContainerComponent } from './component/layout/atlas-container/atla
 import { SplashScreenComponent } from './component/layout/splash-screen/splash-screen.component';
 import { JobEditorComponent } from './component/jobs/job-editor/job-editor.component';
 import { JobListComponent } from './component/jobs/job-list/job-list.component';
-import { TemplateListComponent } from './component/templates/template-list/template-list.component';
 import { EventListComponent } from './component/events/event-list/event-list.component';
-import { TemplateDetailsComponent } from './component/templates/template-details/template-details.component';
 
 const COMPONENTS: any[] = [
   AppComponent,
@@ -27,10 +25,7 @@ const COMPONENTS: any[] = [
   EventListComponent,
   // Job views
   JobEditorComponent,
-  JobListComponent,
-  // Template views
-  TemplateListComponent,
-  TemplateDetailsComponent
+  JobListComponent
 ];
 
 @NgModule({

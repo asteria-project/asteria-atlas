@@ -41,6 +41,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
     this.title = 'Process Template Details';
     this.backButtonRoute = '/processes/templates';
     this.breadcrumbService.setItems([
+      BreadcrumbItemBuilder.build('Processes', '/processes'),
       BreadcrumbItemBuilder.build('Process Templates', this.backButtonRoute),
       BreadcrumbItemBuilder.build(this.title)
     ]);
