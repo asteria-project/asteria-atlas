@@ -57,4 +57,25 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
       this.lastUpdated = Date.now();
     });
   }
+
+  /**
+   * Run a new process based on the current template.
+   */
+  protected runProcess(): void {
+
+  }
+  
+  /**
+   * Edit the current template.
+   */
+  protected editTemplate(): void {
+    this.router.navigate( [`/edit/template/${this.template.id}`] );
+  }
+
+  /**
+   * Delete the current template.
+   */
+  protected deleteTemplate(): void {
+
+  }
 }

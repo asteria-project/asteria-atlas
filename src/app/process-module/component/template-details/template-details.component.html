@@ -2,8 +2,7 @@
   <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
   <update-date [dateTime]="lastUpdated"></update-date>
 
-  <nz-card style="width:100%;" [nzActions]="[actionStart, actionEdit, actionDelete]">
-    <nz-card-meta [nzTitle]="template?.name" [nzAvatar]="iconTemplate"></nz-card-meta>
+  <nz-card style="width:100%;" [nzTitle]="template?.name" [nzActions]="[actionStart, actionEdit, actionDelete]">
     <div class="template-details-content">
       <h4><i nz-icon type="info-circle" nzTheme="outline"></i> Description</h4>
       <p>
@@ -19,15 +18,12 @@
   </nz-card>
 </div>
 
-<ng-template #iconTemplate>
-  <nz-avatar nzIcon="tag" nzSize="small"></nz-avatar>
-</ng-template>
 <ng-template #actionStart>
-  <i nz-icon nzType="step-forward" nzTheme="outline"></i>
+  <i nz-icon nzType="step-forward" nzTheme="outline" (click)="runProcess()"></i>
 </ng-template>
 <ng-template #actionEdit>
-  <i nz-icon type="edit"></i>
+  <i nz-icon type="edit" (click)="editTemplate()"></i>
 </ng-template>
 <ng-template #actionDelete>
-  <i nz-icon type="delete"></i>
+  <i nz-icon type="delete" nzTheme="twotone" nzTwotoneColor="#f5222d" (click)="deleteTemplate()"></i>
 </ng-template>

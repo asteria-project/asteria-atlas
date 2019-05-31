@@ -6,16 +6,14 @@
             <div *ngIf="!isCollapsed">ATLAS</div>
         </div>
         <ul nz-menu [nzTheme]="'light'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
-            <li nz-menu-item>
-                <span title nz-tooltip nzTitle="Events" routerLink="/events">
-                    <i nz-icon type="bars"></i><span class="nav-text">Events</span>
-                </span>
-            </li>
             <li nz-submenu>
                 <span title nz-tooltip nzTitle="Jobs">
                     <i nz-icon nzType="file-sync" nzTheme="outline"></i> <span class="nav-text">Jobs</span>
                 </span>
                 <ul>
+                    <li nz-menu-item>
+                        <i nz-icon type="bars"></i> Job Events
+                    </li>
                     <li nz-menu-item routerLink="/jobs">
                         <i nz-icon type="table"></i> All Jobs
                     </li>

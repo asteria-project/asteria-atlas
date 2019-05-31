@@ -34,3 +34,23 @@
 .selectable-row {
     cursor: pointer;
 }
+
+/* NotFoundComponent */
+.not-found-view {
+    h1 {
+        color: $asteria-blue;
+        text-align: center;
+        font-size: 10rem;
+        line-height: 5rem;
+        margin-top: 4rem;
+    }
+    > p {
+        color: $asteria-purple;
+        text-align: center;
+        font-size: 3rem;
+    }
+    blockquote {
+        font-size: 1rem;
+        margin: 0 5rem 5rem 5rem;
+    }
+}

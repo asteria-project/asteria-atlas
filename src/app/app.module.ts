@@ -11,21 +11,16 @@ import { GuiModule } from './gui-module/gui.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AtlasContainerComponent } from './component/layout/atlas-container/atlas-container.component';
-import { SplashScreenComponent } from './component/layout/splash-screen/splash-screen.component';
-import { JobEditorComponent } from './component/jobs/job-editor/job-editor.component';
-import { JobListComponent } from './component/jobs/job-list/job-list.component';
-import { EventListComponent } from './component/events/event-list/event-list.component';
+import { AtlasContainerComponent } from './layout/component/atlas-container/atlas-container.component';
+import { SplashScreenComponent } from './layout/component/splash-screen/splash-screen.component';
+import { NotFoundComponent } from './layout/component/not-found/not-found.component';
 
 const COMPONENTS: any[] = [
   AppComponent,
   // Main app views
   AtlasContainerComponent,
   SplashScreenComponent,
-  EventListComponent,
-  // Job views
-  JobEditorComponent,
-  JobListComponent
+  NotFoundComponent
 ];
 
 @NgModule({
