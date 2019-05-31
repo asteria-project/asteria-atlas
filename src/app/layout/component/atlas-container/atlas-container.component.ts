@@ -1,5 +1,5 @@
-import { Component, Injector } from '@angular/core';
-import { BreadcrumbService } from '../../../gui-module';
+import { Component, Injector, OnInit } from '@angular/core';
+import { BreadcrumbService, WaitingService, SpinnerState } from '../../../gui-module';
 
 /**
  * The <code>AtlasContainerComponent</code> component provides the main layout of the Atlas application.
@@ -9,17 +9,27 @@ import { BreadcrumbService } from '../../../gui-module';
   templateUrl: './atlas-container.component.html',
   styleUrls: [ './atlas-container.component.scss' ]
 })
-export class AtlasContainerComponent {
+export class AtlasContainerComponent implements OnInit {
 
   /**
-   * Indicates the the menu is collapsed (<code>true</code>), or not (<code>false</code>).
+   * Indicates that the menu is collapsed (<code>true</code>), or not (<code>false</code>).
    */
   protected isCollapsed: boolean = false;
+
+  /**
+   * Indicates that state of the blocking modal component.
+   */
+  protected spinnerState: SpinnerState = null;
 
   /**
    * The reference to the breadcrumb service.
    */
   protected readonly breadcrumbService: BreadcrumbService = null;
+
+  /**
+   * The reference to the waiting service.
+   */
+  private readonly _waitingService: WaitingService = null;
 
   /**
    * Create a new <code>AtlasContainerComponent</code> instance.
@@ -28,5 +38,15 @@ export class AtlasContainerComponent {
     */
    constructor(protected injector: Injector) {
     this.breadcrumbService = injector.get(BreadcrumbService);
+    this._waitingService = injector.get(WaitingService);
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public ngOnInit(): void {
+    this._waitingService.stateChange.subscribe((state: SpinnerState)=> {
+      this.spinnerState = state;
+    });
   }
 }

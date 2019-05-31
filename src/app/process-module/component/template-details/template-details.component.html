@@ -2,28 +2,76 @@
   <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
   <update-date [dateTime]="lastUpdated"></update-date>
 
-  <nz-card style="width:100%;" [nzTitle]="template?.name" [nzActions]="[actionStart, actionEdit, actionDelete]">
-    <div class="template-details-content">
-      <h4><i nz-icon type="info-circle" nzTheme="outline"></i> Description</h4>
+  
+  <nz-card style="width:100%;" [nzTitle]="template?.name">
+    <nz-card nzType="inner" nzTitle="Template">
+      <h4>Description</h4>
       <p>
         {{ template?.description }}
       </p>
-      <h4><i nz-icon nzType="fork" nzTheme="outline"></i> Processes</h4>
+      <h4>Processes</h4>
       <p class="timeline-container">
-        <nz-timeline *ngIf="template">
+        <nz-timeline *ngIf="template" nzMode="alternate">
           <nz-timeline-item *ngFor='let process of template.processes;'>{{ process.type }}</nz-timeline-item>
         </nz-timeline>
       </p>
-    </div>
+    </nz-card>
+    <div>&nbsp;</div>
+    <nz-card nzType="inner" nzTitle="Actions">
+      <h4>Edit template</h4>
+      <div>
+        <p>
+            Template modifications are not applied to existing <a>Jobs</a>.
+        </p>
+        <p>
+          <button nz-button nzType="primary" (click)="editTemplate()">
+            <i nz-icon nzType="edit" nzTheme="outline"></i>
+            Edit template
+          </button>
+        </p>
+      </div>
+      <h4>Export template</h4>
+      <div>
+        <p>
+          Template will be exported in JSON format.
+        </p>
+        <p>
+          <button nz-button (click)="exportTemplate()">
+            <i nz-icon nzType="export" nzTheme="outline"></i>
+            Export template
+          </button>
+        </p>
+      </div>
+    </nz-card>
+    <div>&nbsp;</div>
+    <nz-card nzType="inner" nzTitle="Danger Zone" class="danger-zone">
+      <h4>Run process</h4>
+      <div>
+        <p>
+          This command executes template-based processes synchronously.
+          Application may be blocked for a long time.
+          <br>
+          You can declare a <a>new Job</a> to run this process asynchronously.
+        </p>
+        <p>
+          <button nz-button (click)="runProcess()">
+            <i nz-icon nzType="play-circle" nzTheme="outline"></i>
+            Run process
+          </button>
+        </p>
+      </div>
+      <h4>Delete this template</h4>
+      <div>
+        <p>
+          Once you delete a template, there is no going back. Please be certain.
+        </p>
+        <p>
+          <button nz-button nzType="danger" (click)="editTemplate()">
+            <i nz-icon type="delete"></i>
+            Delete template
+          </button>
+        </p>
+      </div>
+    </nz-card>
   </nz-card>
 </div>
-
-<ng-template #actionStart>
-  <i nz-icon nzType="step-forward" nzTheme="outline" (click)="runProcess()"></i>
-</ng-template>
-<ng-template #actionEdit>
-  <i nz-icon type="edit" (click)="editTemplate()"></i>
-</ng-template>
-<ng-template #actionDelete>
-  <i nz-icon type="delete" nzTheme="twotone" nzTwotoneColor="#f5222d" (click)="deleteTemplate()"></i>
-</ng-template>

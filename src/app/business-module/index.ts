@@ -13,6 +13,8 @@ export * from './model/process-definition-category.model';
 export * from './model/process-definition.model';
 //--> service/config
 export * from './service/config/process-definition.service';
+//--> service/process
+export * from './service/process/process.service';
 //--> service/template
 export * from './service/template/template.service';
 //--> util/builder

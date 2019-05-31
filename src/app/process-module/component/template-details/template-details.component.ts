@@ -1,8 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
-import { TemplateService } from '../../../business-module';
+import { TemplateService, ProcessService } from '../../../business-module';
 import { ActivatedRoute } from '@angular/router';
-import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, FileSaverService } from '../../../gui-module';
 
 /**
  * The view responsible for displaying the details of an Asteria session template.
@@ -18,6 +18,17 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
    * The reference to the template service.
    */
   private readonly _templateService: TemplateService = null;
+
+  /**
+   * The reference to the process service.
+   */
+  private readonly _processService: ProcessService = null;
+
+  /**
+   * The reference to the file saver service.
+   */
+  private readonly _fileSaverService: FileSaverService = null;
+  
 
   /**
    * The reference to the current route.
@@ -36,8 +47,6 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
     */
   constructor(protected injector: Injector) {
     super(injector);
-    this._templateService = injector.get(TemplateService);
-    this._route = injector.get(ActivatedRoute);
     this.title = 'Process Template Details';
     this.backButtonRoute = '/processes/templates';
     this.breadcrumbService.setItems([
@@ -45,6 +54,10 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
       BreadcrumbItemBuilder.build('Process Templates', this.backButtonRoute),
       BreadcrumbItemBuilder.build(this.title)
     ]);
+    this._templateService = injector.get(TemplateService);
+    this._processService = injector.get(ProcessService);
+    this._fileSaverService = injector.get(FileSaverService); 
+    this._route = injector.get(ActivatedRoute);
   }
 
   /**
@@ -62,14 +75,30 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
    * Run a new process based on the current template.
    */
   protected runProcess(): void {
-
+    this._processService.run(this.template).subscribe((result: any)=> {
+      console.log(result);
+    });
   }
-  
+
   /**
    * Edit the current template.
    */
   protected editTemplate(): void {
     this.router.navigate( [`/edit/template/${this.template.id}`] );
+  }
+
+  /**
+   * Export the current template.
+   */
+  protected exportTemplate(): void {
+    const name: string = this.template.name;
+    const tpl: HeliosTemplate = {
+      name: name,
+      id: null,
+      description: this.template.description,
+      processes: this.template.processes
+    };
+    this._fileSaverService.saveJson(tpl, name);
   }
 
   /**

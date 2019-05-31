@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { GuiModule } from '../gui-module/gui.module';
 
 // Services
-import { TemplateService } from './service/template/template.service';
 import { ProcessDefinitionService } from './service/config/process-definition.service';
 
 /**
@@ -22,8 +21,7 @@ import { ProcessDefinitionService } from './service/config/process-definition.se
     ],
     declarations: [ ],
     providers: [
-      { provide: ProcessDefinitionService, useClass: ProcessDefinitionService },
-      { provide: TemplateService, useClass: TemplateService }
+      { provide: ProcessDefinitionService, useClass: ProcessDefinitionService }
     ]
   })
   export class BusinessModule { }

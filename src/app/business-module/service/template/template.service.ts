@@ -8,7 +8,9 @@ import { NotificationService, ErrorMessageBuilder } from '../../../gui-module';
 /**
  * The <code>TemplateService</code> service provides access to the Helios templates API.
  */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TemplateService {
 
     /**
