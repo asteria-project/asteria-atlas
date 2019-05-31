@@ -1,8 +1,6 @@
 <div class="view-wrapper template-details-wrapper">
   <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
   <update-date [dateTime]="lastUpdated"></update-date>
-
-  
   <nz-card style="width:100%;" [nzTitle]="template?.name">
     <nz-card nzType="inner" nzTitle="Template">
       <h4>Description</h4>
@@ -10,6 +8,7 @@
         {{ template?.description }}
       </p>
       <h4>Processes</h4>
+      <nz-divider></nz-divider>
       <p class="timeline-container">
         <nz-timeline *ngIf="template" nzMode="alternate">
           <nz-timeline-item *ngFor='let process of template.processes;'>{{ process.type }}</nz-timeline-item>

@@ -1,0 +1,20 @@
+<div class="view-wrapper template-run-process-wrapper">
+  <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
+  <update-date [dateTime]="lastUpdated"></update-date>
+  <nz-card style="width:100%;" [nzTitle]="template?.name">
+      <h4>Process result:</h4>
+      <p>
+        Process duration: {{ processDuration }} ms
+      </p>
+      <p>
+        <textarea rows="10" nz-input [(ngModel)]="resultValue"></textarea>
+      </p>
+      <p>
+        <button nz-button nzType="primary">
+          <i nz-icon nzType="save" nzTheme="outline"></i>
+          Save result
+        </button>
+      </p>
+
+  </nz-card>
+</div>

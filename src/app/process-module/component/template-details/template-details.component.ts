@@ -1,6 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
-import { TemplateService, ProcessService } from '../../../business-module';
+import { TemplateService } from '../../../business-module';
 import { ActivatedRoute } from '@angular/router';
 import { AtlasViewComponent, BreadcrumbItemBuilder, FileSaverService } from '../../../gui-module';
 
@@ -20,15 +20,9 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
   private readonly _templateService: TemplateService = null;
 
   /**
-   * The reference to the process service.
-   */
-  private readonly _processService: ProcessService = null;
-
-  /**
    * The reference to the file saver service.
    */
   private readonly _fileSaverService: FileSaverService = null;
-  
 
   /**
    * The reference to the current route.
@@ -41,7 +35,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
   protected template: HeliosTemplate = null;
 
   /**
-   * Create a new <code>TemplateListComponent</code> instance.
+   * Create a new <code>TemplateDetailsComponent</code> instance.
    * 
     * @param {Injector} injector the reference to the Angular services injector.
     */
@@ -55,7 +49,6 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
       BreadcrumbItemBuilder.build(this.title)
     ]);
     this._templateService = injector.get(TemplateService);
-    this._processService = injector.get(ProcessService);
     this._fileSaverService = injector.get(FileSaverService); 
     this._route = injector.get(ActivatedRoute);
   }
@@ -72,12 +65,10 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
   }
 
   /**
-   * Run a new process based on the current template.
+   * Launch a new process based on the current template.
    */
   protected runProcess(): void {
-    this._processService.run(this.template).subscribe((result: any)=> {
-      console.log(result);
-    });
+    this.router.navigate([`/processes/templates/${this.template.id}/run-process`]);
   }
 
   /**
