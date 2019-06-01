@@ -1,1 +1,14 @@
-<div>Test</div>
+<div class="process-description">
+    <p>
+        <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+        The <code>read-file</code> process allows to read input data from files stored in the workspace.
+    </p>
+</div>
+<nz-divider nzDashed [nzText]="divider">
+    <ng-template #divider><i nz-icon type="tool"></i> Properties</ng-template>
+</nz-divider>
+<div class="process-properties">
+    <nz-input-group nzAddOnBefore="workspace/">
+        <input type="text" nz-input [(ngModel)]="inputValue" placeholder="File name"/>
+    </nz-input-group>
+</div>

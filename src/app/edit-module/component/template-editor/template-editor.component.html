@@ -37,8 +37,8 @@
                 <div class="workflow-container">
                     <div class="process-edit-container">
                         <div *ngIf="this.currentProcess">
-                            <h3>
-                                <i nz-icon nzType="deployment-unit"></i> {{ currentProcess.type }}
+                            <h3 class="asteria-blue">
+                                <i nz-icon [nzType]="getCurrProcessIcon()"></i> {{ currentProcess.type }}
                             </h3>
                             <nz-divider></nz-divider>
                         </div>

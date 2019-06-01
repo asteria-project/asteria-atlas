@@ -1,4 +1,4 @@
-import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector } from '@angular/core';
+import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector, ComponentRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
@@ -16,6 +16,7 @@ import {
   TemplateService
  } from '../../../business-module';
 import { ProcessConfigComponentResolver } from '../../service/template/process-config-component.resolver';
+import { ProcessEditorComponent } from '../../model/process-editor-component.model';
 
 /**
  * The view responsible for editing Asteria session templates.
@@ -209,12 +210,12 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   /**
    * Start edition for the specified process reference.
    * 
-   * @param {ProcessTemplate} process the refrence to the process to edit.
+   * @param {HeliosProcessDescriptor} process the refrence to the process to edit.
    */
   protected editProcess(process: HeliosProcessDescriptor): void {
     this.currentProcess = process;
     const compRef: Type<any> = this._configCompResolver.getComponent(process.type as ProcessType);
-    this.loadConfigEditor(compRef);
+    this.loadConfigEditor(compRef, process);
   }
   
   /**
@@ -237,11 +238,13 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * Load the component that allows to set the config of process.
    * 
    * @param {Type<any>} compRef the reference to the component to load and display.
+   * @param {HeliosProcessDescriptor} process the refrence to the process to edit.
    */
-  private loadConfigEditor(compRef: Type<any>): void {
+  private loadConfigEditor(compRef: Type<any>, process: HeliosProcessDescriptor): void {
     this.configContainer.clear();
-    const factory: ComponentFactory<any> = this._factoryResolver.resolveComponentFactory(compRef);
-    this.configContainer.createComponent(factory);
+    const factory: ComponentFactory<ProcessEditorComponent> = this._factoryResolver.resolveComponentFactory(compRef);
+    const component: ComponentRef<ProcessEditorComponent> = this.configContainer.createComponent(factory);
+    component.instance.setProcess(process);
   }
   
   /**
@@ -289,5 +292,9 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
         this.router.navigate( ['/templates'] );
       });
     }
+  }
+
+  protected getCurrProcessIcon(): string {
+    return 'file';
   }
 }

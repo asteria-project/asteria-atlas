@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { ProcessEditorComponent } from 'src/app/edit-module/model/process-editor-component.model';
+import { HeliosProcessDescriptor } from 'asteria-eos';
 
 /**
  * The component responsible for editing config of an Asteria "file-read" process.
@@ -9,7 +11,7 @@ import { FormBuilder } from '@angular/forms';
   templateUrl: './file-read-config.component.html',
   styleUrls: [ './file-read-config.component.scss' ]
 })
-export class FileReadConfigComponent implements OnInit {
+export class FileReadConfigComponent implements OnInit, ProcessEditorComponent {
 
   /**
    * Create a new <code>FileReadConfigComponent</code> instance.
@@ -26,6 +28,13 @@ export class FileReadConfigComponent implements OnInit {
       templateName: [null, [Validators.required]],
       remember: [true]
     });*/
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public setProcess(process: HeliosProcessDescriptor): void {
+    console.log(process)
   }
   
   protected submitForm(): void {

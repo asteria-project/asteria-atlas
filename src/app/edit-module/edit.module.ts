@@ -13,6 +13,7 @@ import { ProcessConfigComponentResolver } from './service/template/process-confi
 // Module components
 import { TemplateEditorComponent } from './component/template-editor/template-editor.component';
 import { FileReadConfigComponent } from './component/template-editor-config/file-read-config/file-read-config.component';
+import { NoConfigComponent } from './component/template-editor-config/no-config/no-config.component';
 
 
 const COMPONENTS: any[] = [
@@ -20,6 +21,7 @@ const COMPONENTS: any[] = [
 ];
 
 const ENTRY_COMPONENTS: any[] = [
+  NoConfigComponent,
   FileReadConfigComponent
 ];
 
