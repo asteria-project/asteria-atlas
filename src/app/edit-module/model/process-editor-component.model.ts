@@ -10,7 +10,7 @@ export interface ProcessEditorComponent {
      * Set the Helios process descriptor to this component.
      * 
      * @param {HeliosProcessDescriptor} process the reference to Helios process descriptor ot associate with this
-     *                                           component.
+     *                                          component.
      */
     setProcess(process: HeliosProcessDescriptor): void,
 }

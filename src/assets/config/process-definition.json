@@ -28,5 +28,15 @@
         "type": "filter",
         "category": "data",
         "description": "Filters the input stream data."
+    },
+    {
+        "type": "read-dataset",
+        "category": "persistence",
+        "description": "Reads input stream data from the specified dataset."
+    },
+    {
+        "type": "write-dataset",
+        "category": "persistence",
+        "description": "Writes stream data into the specified dataset."
     }
 ]

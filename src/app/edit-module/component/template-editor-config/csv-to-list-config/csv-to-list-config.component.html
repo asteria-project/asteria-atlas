@@ -1,0 +1,53 @@
+<nz-divider nzDashed [nzText]="descriptionDivider">
+    <ng-template #descriptionDivider><i nz-icon nzType="info-circle" nzTheme="outline"></i> Description</ng-template>
+</nz-divider>
+<div class="process-description">
+    <p>
+        The <code>csv-to-list</code> process allows to convert comma-separated value (CSV) format into Asteria object list.
+    </p>
+</div>
+<nz-divider nzDashed [nzText]="divider">
+    <ng-template #divider><i nz-icon type="tool"></i> Properties</ng-template>
+</nz-divider>
+<form class="process-properties">
+    <nz-input-group> 
+        <div nz-col nzSpan="6">
+            <nz-form-label nzFor="separator">Separator</nz-form-label>
+        </div>
+        <div nz-col nzSpan="4">
+            <input type="text" [(ngModel)]="separatorModel" name="separator" maxlength="1"
+                   (ngModelChange)="valuechange($event)" nz-input/>
+        </div>
+    </nz-input-group>
+</form>
+<nz-divider nzDashed></nz-divider>
+<div nz-row>
+    <div nz-col [nzSpan]="12">
+        <h4>Columns Mapping</h4>
+    </div>
+    <div nz-col [nzSpan]="12" class="add-col-map-container">
+        <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTitle="Add column mapping">
+            <i nz-icon type="plus"></i>
+        </button>
+    </div>
+</div>
+<div class="process-properties">
+    <nz-table #colsMapTable [nzData]="colsMapModel">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Property Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of colsMapTable.data;">
+                <td>{{ item.id }}</td>
+                <td>{{ item.prop }}</td>
+                <td>
+                    <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete"></i>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

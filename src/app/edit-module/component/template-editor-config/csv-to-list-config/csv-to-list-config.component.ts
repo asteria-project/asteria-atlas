@@ -3,18 +3,14 @@ import { ProcessEditorComponent } from 'src/app/edit-module/model/process-editor
 import { HeliosProcessDescriptor } from 'asteria-eos';
 
 /**
- * The component responsible for editing config of an Asteria "file-read" process.
+ * The component responsible for editing config of an Asteria "csv-to-list" process.
  */
 @Component({
-  selector: 'file-read-config',
-  templateUrl: './file-read-config.component.html'
+  selector: 'csv-to-list-config',
+  templateUrl: './csv-to-list-config.component.html',
+  styleUrls: [ './csv-to-list-config.component.scss' ]
 })
-export class FileReadConfigComponent implements ProcessEditorComponent {
-
-  /**
-   * The reference to the <code>'workspace/'/<code> string.
-   */
-  private readonly WORKSPACE_STRING_REF: string = 'workspace/';
+export class CsvToListReadConfigComponent implements ProcessEditorComponent {
 
   /**
    * The reference to an empty string (<code>''<code>).
@@ -24,7 +20,12 @@ export class FileReadConfigComponent implements ProcessEditorComponent {
   /**
    * The reference to the file name value.
    */
-  protected fileNameModel: string = null;
+  protected separatorModel: string = null;
+  
+  /**
+   * The list of <code>CsvColumnMapper</code> objects displayed in this component.
+   */
+  protected colsMapModel: Array<any> = null;
 
   /**
    * The reference to the process descriptor associated with this component.
@@ -32,7 +33,7 @@ export class FileReadConfigComponent implements ProcessEditorComponent {
   protected process: HeliosProcessDescriptor = null;
 
   /**
-   * Create a new <code>FileReadConfigComponent</code> instance.
+   * Create a new <code>CsvToListReadConfigComponent</code> instance.
    */
   constructor() {}
 
@@ -41,7 +42,8 @@ export class FileReadConfigComponent implements ProcessEditorComponent {
    */
   public setProcess(process: HeliosProcessDescriptor): void {
     this.process = process;
-    this.fileNameModel = process.config.replace(this.WORKSPACE_STRING_REF, this.EMPTY_STRING_REF);
+    this.separatorModel = process.config.separator;
+    this.colsMapModel = process.config.colsMap || new Array<any>();
   }
 
   /**
@@ -50,6 +52,6 @@ export class FileReadConfigComponent implements ProcessEditorComponent {
    * @param {Event} event the reference to the event fired by the user's action.
    */
   protected valuechange(event: Event): void {
-    this.process.config = this.WORKSPACE_STRING_REF + this.fileNameModel;
+    //this.process.config = this.WORKSPACE_STRING_REF + this.fileNameModel;
   }
 }

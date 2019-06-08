@@ -135,6 +135,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
       this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
         this.template = template;
         this.initForm();
+        this.lastUpdated = Date.now();
       });
       items.push(BreadcrumbItemBuilder.build('Template Details', `/templates/${id}`));
       this.updateForm.get('templateName').disable();
@@ -215,7 +216,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   protected editProcess(process: HeliosProcessDescriptor): void {
     this.currentProcess = process;
     const compRef: Type<any> = this._configCompResolver.getComponent(process.type as ProcessType);
-    this.loadConfigEditor(compRef, process);
+    this.loadConfigEditor(compRef);
   }
   
   /**
@@ -240,11 +241,12 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * @param {Type<any>} compRef the reference to the component to load and display.
    * @param {HeliosProcessDescriptor} process the refrence to the process to edit.
    */
-  private loadConfigEditor(compRef: Type<any>, process: HeliosProcessDescriptor): void {
+  private loadConfigEditor(compRef: Type<any>): void {
     this.configContainer.clear();
     const factory: ComponentFactory<ProcessEditorComponent> = this._factoryResolver.resolveComponentFactory(compRef);
     const component: ComponentRef<ProcessEditorComponent> = this.configContainer.createComponent(factory);
-    component.instance.setProcess(process);
+    const instance: ProcessEditorComponent = component.instance;
+    instance.setProcess(this.currentProcess);
   }
   
   /**

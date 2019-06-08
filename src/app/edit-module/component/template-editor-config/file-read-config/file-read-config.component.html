@@ -1,14 +1,20 @@
+<nz-divider nzDashed [nzText]="descriptionDivider">
+    <ng-template #descriptionDivider><i nz-icon nzType="info-circle" nzTheme="outline"></i> Description</ng-template>
+</nz-divider>
 <div class="process-description">
     <p>
-        <i nz-icon nzType="info-circle" nzTheme="outline"></i>
         The <code>read-file</code> process allows to read input data from files stored in the workspace.
     </p>
 </div>
 <nz-divider nzDashed [nzText]="divider">
     <ng-template #divider><i nz-icon type="tool"></i> Properties</ng-template>
 </nz-divider>
-<div class="process-properties">
+<form class="process-properties">
     <nz-input-group nzAddOnBefore="workspace/">
-        <input type="text" nz-input [(ngModel)]="inputValue" placeholder="File name"/>
+        <input type="text" [(ngModel)]="fileNameModel" name="fileName"
+               (ngModelChange)="valuechange($event)" nz-input placeholder="directory / file name"/>
     </nz-input-group>
-</div>
+</form>
+<nz-divider nzDashed [nzText]="previewDivider">
+    <ng-template #previewDivider><i nz-icon nzType="eye" nzTheme="outline"></i> Preview</ng-template>
+</nz-divider>
