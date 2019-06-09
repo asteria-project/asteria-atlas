@@ -15,7 +15,7 @@
                     </nz-form-control>
                     <nz-form-control>
                         <nz-input-group [nzPrefix]="prefixDescription">
-                            <input formControlName="templateDescription"  nz-input placeholder="Template description">
+                            <input formControlName="templateDescription" nz-input placeholder="Template description">
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -33,8 +33,8 @@
     </form>
 
     <div nz-row nzGutter="16">
-        <div nz-col class="gutter-row" nzSpan="18">
-            <nz-card class="w-100" nzTitle="Workflow">
+        <div nz-col class="gutter-row" [nzSpan]="showProcessPanel ? 18 : 24">
+            <nz-card class="w-100" nzTitle="Workflow" [nzExtra]="workflowExtraTemplate">
                 <div class="workflow-container">
                     <div class="process-edit-container">
                         <div *ngIf="this.currentProcess">
@@ -50,7 +50,7 @@
                                   nzNotFoundContent="Drop new process here...">
                         </nz-empty>
                         <div class="process-list" *ngIf="template && template.processes.length !== 0"
-                            cdkDropList (cdkDropListDropped)="processListOnDrop($event)">
+                             cdkDropList (cdkDropListDropped)="processListOnDrop($event)">
                             <div class=process-box-joint>&nbsp;</div>
                             <div class="process-box" *ngFor="let process of template.processes" cdkDrag>
                                 <div class="process-box-content"
@@ -76,7 +76,7 @@
                 </div>
             </nz-card>
         </div>
-        <div nz-col class="gutter-row" nzSpan="6">
+        <div nz-col class="gutter-row" nzSpan="6" *ngIf="showProcessPanel">
             <nz-card *ngIf="processDefMap" class="process-def-list" nzTitle="Processes">
                 <nz-dropdown>
                     <a nz-dropdown> Select process category <i nz-icon type="down"></i> </a>
@@ -108,3 +108,11 @@
 
 <ng-template #prefixName><i nz-icon type="tag"></i></ng-template>
 <ng-template #prefixDescription><i nz-icon type="info-circle" nzTheme="outline"></i></ng-template>
+<ng-template #workflowExtraTemplate>
+    <a (click)="showProcessPanel = !showProcessPanel">
+        <i nz-icon nzType="eye-invisible" nzTheme="outline" *ngIf="showProcessPanel"
+           nz-tooltip nzTitle="Hide process panel"></i>
+        <i nz-icon nzType="eye" nzTheme="outline" *ngIf="!showProcessPanel"
+           nz-tooltip nzTitle="whow process panel"></i>
+    </a>
+</ng-template>

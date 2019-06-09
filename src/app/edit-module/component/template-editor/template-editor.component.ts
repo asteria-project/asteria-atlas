@@ -29,6 +29,11 @@ import { ProcessEditorComponent } from '../../model/process-editor-component.mod
 export class TemplateEditorComponent extends AtlasViewComponent implements OnInit {
 
   /**
+   * Indicates whether the process manel is displayed (<code>true</code>), or not (<code>false</code>).
+   */
+  protected showProcessPanel: boolean = true;
+
+  /**
    * The form used to set the name and the descrition of the template.
    */
   protected updateForm: FormGroup = null;

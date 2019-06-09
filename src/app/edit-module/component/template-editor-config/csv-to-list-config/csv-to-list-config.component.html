@@ -16,7 +16,7 @@
         </div>
         <div nz-col nzSpan="4">
             <input type="text" [(ngModel)]="separatorModel" name="separator" maxlength="1"
-                   (ngModelChange)="valuechange($event)" nz-input/>
+                   (ngModelChange)="valuechange($event)" nz-input (focus)="onSeparatorFocus()"/>
         </div>
     </nz-input-group>
 </form>
@@ -26,7 +26,8 @@
         <h4>Columns Mapping</h4>
     </div>
     <div nz-col [nzSpan]="12" class="add-col-map-container">
-        <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTitle="Add column mapping">
+        <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTitle="Add column mapping"
+                (click)="createColsMapItem($event)">
             <i nz-icon type="plus"></i>
         </button>
     </div>
@@ -42,10 +43,39 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of colsMapTable.data;">
-                <td>{{ item.id }}</td>
-                <td>{{ item.prop }}</td>
                 <td>
-                    <i nz-icon nzType="delete" nzTheme="outline" nz-tooltip nzTitle="Delete"></i>
+                    <div class="editable-cell" *ngIf="editItem !== item; else editIdTpl">
+                        <div class="editable-cell-value-wrap">
+                            {{ item.id }}
+                        </div>
+                    </div>
+                    <ng-template #editIdTpl>
+                        <nz-input-number [(ngModel)]="item.id" [nzMin]="-1"  [nzStep]="1"></nz-input-number>
+                    </ng-template>
+                </td>
+                <td>
+                    <div class="editable-cell" *ngIf="editItem !== item; else editPropNameTpl">
+                        <div class="editable-cell-value-wrap">
+                            {{ item.prop }}
+                        </div>
+                    </div>
+                    <ng-template #editPropNameTpl>
+                        <input type="text" nz-input [(ngModel)]="item.prop" placeholder="add property name"/>
+                    </ng-template>
+                </td>
+                <td class="action-container">
+                    <a *ngIf="editItem !== item" (click)="startEdit(item, $event)" nz-tooltip nzTitle="Edit">
+                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                    </a>
+                    <a *ngIf="editItem !== item" (click)="deleteColsMapItem(item)" nz-tooltip nzTitle="Delete">
+                        <i nz-icon nzType="delete" nzTheme="outline" class="red-6"></i>
+                    </a>
+                    <a *ngIf="editItem === item" (click)="endEdit($event, true)" nz-tooltip nzTitle="Apply">
+                        <i nz-icon nzType="check" nzTheme="outline"></i>
+                    </a>
+                    <a *ngIf="editItem === item" (click)="endEdit($event)" nz-tooltip nzTitle="Cancel">
+                        <i nz-icon nzType="close" nzTheme="outline"></i>
+                    </a>
                 </td>
             </tr>
         </tbody>
