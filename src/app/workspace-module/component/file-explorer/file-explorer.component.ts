@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, NotificationService } from '../../../gui-module';
 import { CommonChar } from 'asteria-gaia';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats } from 'asteria-eos';
@@ -42,6 +42,11 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
   private readonly _workspace: WorkspaceService = null;
   
   /**
+   * The reference to the Atlas notifications service.
+   */
+  private readonly _notification: NotificationService = null;
+    
+  /**
    * The reference to the path currently displayed in the file explorer.
    */
   protected dirPathModel: string = CommonChar.EMPTY;
@@ -63,6 +68,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
       BreadcrumbItemBuilder.build(this.title)
     ]);
     this._workspace = injector.get(WorkspaceService);
+    this._notification = injector.get(NotificationService);
   }
   
   /**
@@ -99,5 +105,49 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    */
   public getFileIcon(file: HeliosFileStats): string {
     return FileExtensionUtils.getIcon(file);
+  }
+
+  /**
+   * Copy the specified file path into the clipboard.
+   * 
+   * @param {any} path the file path to copy into the clipboard.
+   */
+  protected copyFilePath(path: any): void {
+    try {
+      document.addEventListener('copy', (event: ClipboardEvent) => {
+        event.clipboardData.setData('text/plain', path);
+        event.preventDefault();
+        document.removeEventListener('copy', null);
+        this._notification.success(
+          'Copy Success',
+          `Path copied to clipboard: "${path}"`
+        );
+      });
+      document.execCommand('copy');
+    } catch (e) {
+      this._notification.success(
+        'Copy Error',
+        e
+      )
+    }
+  }
+
+  /**
+   * Return the full path for the specified file.
+   * 
+   * @param {HeliosFileStats} file the file for which to get the full path.
+   * 
+   * @returns {string} the full path for the specified file.
+   */
+  protected getFilePath(file: HeliosFileStats): string {
+    return `${file.path}${file.name}.${file.extention}`;
+  }
+  
+  /**
+   * Delete the specified file, or directory.
+   * 
+   * @param {HeliosFileStats} file the file to delete.
+   */
+  protected deleteFile(file: HeliosFileStats): void {
   }
 }

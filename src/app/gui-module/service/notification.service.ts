@@ -41,4 +41,23 @@ export class NotificationService {
             }
         );
     }
+    
+    /**
+     * Display a success notification.
+     * 
+     * @param {string} title the title of the notification.
+     * @param {string} message the message of the notification.
+     */
+    public success(title: string, message: string): void {
+        this._notification.success(
+            title,
+            message,
+            {
+                nzStyle: {
+                    'background-color': '#f6ffed',
+                    border: '1px solid #b7eb8f'
+                }
+            }
+        );
+    }
 }

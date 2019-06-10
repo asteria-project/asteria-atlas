@@ -14,16 +14,21 @@
       </div>
       <div nz-col class="gutter-row" nzSpan="19">
         <ul class="file-details">
-          <li *ngFor="let stats of fileStatsModel">
+          <li *ngFor="let stats of fileStatsModel; let idx = index;">
               <div nz-row>
                 <div nz-col nzSpan="1">
                   <i nz-icon [nzType]="getFileIcon(stats)" nzTheme="outline"></i>
                 </div>
                 <div nz-col nzSpan="10">{{ stats.name + '.' + stats.extention }}</div>
                 <div nz-col nzSpan="6"><span *ngIf="stats.isFile">{{ stats.size | fileSize }}</span></div>
-                <div nz-col nzSpan="7" class="text-right">
-                  <i nz-icon nzType="snippets" nzTheme="outline"></i>
-                  <i nz-icon nzType="delete" nzTheme="outline"></i>
+                <div nz-col nzSpan="7" class="text-right action-container">
+                  <a (click)="copyFilePath(getFilePath(stats))"
+                      nz-tooltip nzTitle="Copy file path to clipboard">
+                    <i nz-icon nzType="snippets" nzTheme="outline"></i>
+                  </a>
+                  <a (click)="deleteFile(stats)" nz-tooltip nzTitle="Delete">
+                    <i nz-icon nzType="delete" nzTheme="outline"></i>
+                  </a>
                 </div>
               </div>
           </li>
