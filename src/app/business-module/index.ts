@@ -17,6 +17,8 @@ export * from './service/config/process-definition.service';
 export * from './service/process/process.service';
 //--> service/template
 export * from './service/template/template.service';
+//--> service/workspace
+export * from './service/workspace/workspace.service';
 //--> util/builder
 export * from './util/builder/helios-process-descriptor.builder';
 export * from './util/builder/helios-template.builder';

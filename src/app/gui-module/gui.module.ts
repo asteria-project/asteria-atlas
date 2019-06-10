@@ -10,6 +10,9 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd';
 import { AtlasViewComponent } from './component/atlas-view/atlas-view.component';
 import { UpdateDateComponent } from './component/update-date/update-date.component';
 
+// Module pipes
+import { FileSizePipe } from './util/pipe/file-size.pipe';
+
 registerLocaleData(en);
 
 const COMPONENTS: any[] = [
@@ -17,9 +20,14 @@ const COMPONENTS: any[] = [
   UpdateDateComponent
 ];
 
+const PIPES: any[] = [
+  FileSizePipe
+];
+
 @NgModule({
   declarations: [
-    ...COMPONENTS
+    ...COMPONENTS,
+    ...PIPES
   ],
   entryComponents: [],
   imports: [
@@ -29,7 +37,8 @@ const COMPONENTS: any[] = [
   exports: [
     CommonModule,
     NgZorroAntdModule,
-    ...COMPONENTS
+    ...COMPONENTS,
+    ...PIPES
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }

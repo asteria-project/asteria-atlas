@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'edit',
     loadChildren: './edit-module/edit.module#EditModule'
   },
+  {
+    path: 'workspace',
+    loadChildren: './workspace-module/workspace.module#WorkspaceModule'
+  },
   { path: '**',  component: NotFoundComponent },
 ];
 

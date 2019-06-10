@@ -10,9 +10,14 @@
     <ng-template #divider><i nz-icon type="tool"></i> Properties</ng-template>
 </nz-divider>
 <form class="process-properties">
-    <nz-input-group nzAddOnBefore="workspace/">
+    <nz-input-group nzAddOnBefore="workspace/" [nzAddOnAfter]="addOnAfterTemplate">
         <input type="text" [(ngModel)]="fileNameModel" name="fileName"
                (ngModelChange)="valuechange($event)" nz-input placeholder="directory / file name"/>
+        <ng-template #addOnAfterTemplate>
+            <a routerLink="/workspace" nz-tooltip nzTitle="Search files">
+                <i nz-icon nzType="search" nzTheme="outline"></i>
+            </a>
+        </ng-template>
     </nz-input-group>
 </form>
 <nz-divider nzDashed [nzText]="previewDivider">
