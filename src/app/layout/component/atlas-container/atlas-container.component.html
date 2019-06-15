@@ -40,9 +40,17 @@
                     <span title nz-tooltip nzTitle="Data">
                         <i nz-icon type="hdd"></i> <span class="nav-text">Data</span>
                     </span>
+                </li>
+                <li nz-submenu>
+                    <span title nz-tooltip nzTitle="Workspace">
+                        <i nz-icon nzType="ant-cloud" nzTheme="outline"></i> <span class="nav-text">Workspace</span>
+                    </span>
                     <ul>
                         <li nz-menu-item routerLink="/workspace">
-                            <i nz-icon nzType="folder" nzTheme="fill"></i> <span class="nav-text">Workspace</span>
+                            <i nz-icon nzType="folder" nzTheme="fill"></i> <span class="nav-text">Files</span>
+                        </li>
+                        <li nz-menu-item routerLink="/workspace/preview">
+                            <i nz-icon nzType="eye" nzTheme="outline"></i> <span class="nav-text">File Preview</span>
                         </li>
                     </ul>
                 </li>

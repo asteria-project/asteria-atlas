@@ -1,26 +1,16 @@
 import { Injectable, Injector } from '@angular/core';
-import { NotificationService, ErrorMessageBuilder } from '../../../gui-module';
-import { HttpClient } from '@angular/common/http';
+import { ErrorMessageBuilder } from '../../../gui-module';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AbstractHeliosService } from '../core/abstract-helios.service';
 
 /**
  * The service responsible for working with files stored int the Helios server workspace.
  */
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class WorkspaceService {
-
-  /**
-   * The reference to the Angular HTTP service.
-   */
-  private readonly _http: HttpClient = null;
-
-  /**
-   * The reference to the Atlas notifications service.
-   */
-  private readonly _notification: NotificationService = null;
+export class WorkspaceService extends AbstractHeliosService {
     
   /**
    * Create a new <code>WorkspaceService</code> instance.
@@ -28,8 +18,7 @@ export class WorkspaceService {
    * @param {Injector} injector the reference to the Angular services injector.
    */
   constructor(protected injector: Injector) {
-    this._http = injector.get(HttpClient);
-    this._notification = injector.get(NotificationService);
+    super(injector);
   }
   
   /**
@@ -41,15 +30,36 @@ export class WorkspaceService {
    */
   public list(dirPath: string): Observable<any> {
     const route: string = `http://localhost:3000/asteria/workspace/controller/list/${dirPath}`;
-    return this._http.get<any>(route)
-                      .pipe(
-                        catchError(error=> {
-                            this._notification.error(
-                                'Worspace File List Error', 
-                                ErrorMessageBuilder.build(error.status)
-                            );
-                            return of([]);
-                        })
+    return this.http.get<any>(route)
+                    .pipe(
+                      catchError(error=> {
+                        this.notification.error(
+                          'Worspace File List Error', 
+                          ErrorMessageBuilder.build(error.status)
+                        );
+                        return of([]);
+                      })
+                    );
+  }
+  
+  /**
+   * Return a preview of the specified CSV file.
+   * 
+   * @param {string} filePath the path to the file to preview.
+   * 
+   * @returns {Observable<string>} a preview of the specified CSV file.
+   */
+  public csvPreview(filePath: string): Observable<any> {
+    const route: string = `http://localhost:3000/asteria/workspace/controller/preview/${filePath}`;
+    return this.http.get(route, {responseType: 'text'})
+                    .pipe(
+                      catchError(error=> {
+                        this.notification.error(
+                          'File Preview Error', 
+                          ErrorMessageBuilder.build(error.status)
+                        );
+                        return of([]);
+                      })
                     );
   }
 }

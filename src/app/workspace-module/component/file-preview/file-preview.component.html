@@ -1,0 +1,27 @@
+<div class="file-preview-wrapper">
+  <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
+  <update-date [dateTime]="lastUpdated"></update-date>
+  <nz-card class="w-100" nzTitle="File Preview">
+      <form class="directory-name-input">
+        <nz-input-group nzAddOnBefore="workspace/">
+            <input type="text" [ngModel]="dirPathModel" name="dirPath" nz-input/>
+        </nz-input-group>
+      </form>
+      <div>&nbsp;</div>
+      <nz-table #previewTable *ngIf="previewRows!.length" [nzData]="previewRows"
+                nzShowPagination="false" nzPageSize="11" nzSize="small">
+        <thead>
+          <tr>
+              <th *ngFor="let item of previewTable.data[0];">{{item}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let items of previewTable.data; let idx = index;">
+            <ng-container *ngIf="idx>0">
+                <td *ngFor="let item of items;">{{item}}</td>
+            </ng-container>
+          </tr>
+       </tbody>
+      </nz-table>
+    </nz-card>
+</div>
