@@ -41,7 +41,8 @@
                 <a (click)="deleteFile(stats)" nz-tooltip nzTitle="Delete">
                   <i nz-icon nzType="delete" nzTheme="outline"></i>
                 </a>
-                <a *ngIf="stats.extention === 'csv'" nz-tooltip nzTitle="Preview">
+                <a *ngIf="stats.extention === 'csv'" nz-tooltip nzTitle="Preview"
+                    (click)="previewFile(stats)">
                   <i nz-icon nzType="eye" nzTheme="outline"></i>
                 </a>
               </td>

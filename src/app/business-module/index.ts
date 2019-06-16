@@ -2,6 +2,7 @@
  * Module API definitions (please maintain alphabetical order).
  */
 //--> model/enum
+export * from './model/enum/csv-separator-type.enum';
 export * from './model/enum/process-category.enum';
 export * from './model/enum/process-type.enum';
 //--> model/impl

@@ -150,4 +150,13 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    */
   protected deleteFile(file: HeliosFileStats): void {
   }
+
+  /**
+   * Open the specified file into the preview view.
+   * 
+   * @param {HeliosFileStats} file the file to preview.
+   */
+  protected previewFile(file: HeliosFileStats): void {
+    this.router.navigate( [`workspace/preview/${this.getFilePath(file)}`]) ;
+  }
 }

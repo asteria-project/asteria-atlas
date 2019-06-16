@@ -5,7 +5,8 @@ import { FilePreviewComponent } from './component/file-preview/file-preview.comp
 
 const routes: Routes = [
   { path: '', component: FileExplorerComponent },
-  { path: 'preview', component: FilePreviewComponent }
+  { path: 'preview', component: FilePreviewComponent },
+  { path: 'preview/:filePath', component: FilePreviewComponent }
 ];
 
 @NgModule({

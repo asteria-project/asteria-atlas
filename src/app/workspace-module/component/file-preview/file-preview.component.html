@@ -1,27 +1,60 @@
 <div class="file-preview-wrapper">
   <nz-page-header (nzBack)="titleBack()" nzBackIcon [nzTitle]="title"></nz-page-header>
   <update-date [dateTime]="lastUpdated"></update-date>
-  <nz-card class="w-100" nzTitle="File Preview">
+  <nz-card class="w-100" nzTitle="CSV File Preview">
+      <div>&nbsp;</div>
       <form class="directory-name-input">
-        <nz-input-group nzAddOnBefore="workspace/">
-            <input type="text" [ngModel]="dirPathModel" name="dirPath" nz-input/>
+        <nz-input-group nzAddOnBefore="workspace/" nzSearch [nzAddOnAfter]="suffixSearchIconButton">
+          <input type="text" [(ngModel)]="dirPathModel" name="dirPath" nz-input/>
         </nz-input-group>
+        <ng-template #suffixSearchIconButton>
+          <button nz-button nzType="primary" nzSearch (click)="previewFile()">
+            <i nz-icon type="search"></i>
+          </button>
+        </ng-template>
       </form>
       <div>&nbsp;</div>
-      <nz-table #previewTable *ngIf="previewRows!.length" [nzData]="previewRows"
-                nzShowPagination="false" nzPageSize="11" nzSize="small">
+      <nz-divider nzText="Preview" nzOrientation="left"></nz-divider>
+      <div nz-row>
+          <div nz-col nzSpan="4">Separated by:</div>
+          <div nz-col nzSpan="16">
+            <nz-radio-group [(ngModel)]="separatorType" (ngModelChange)="separatorSelectHandler($event)">
+              <label nz-radio [ngStyle]="style" [nzValue]="0">Tab</label>
+              <label nz-radio [ngStyle]="style" [nzValue]="1">Comma</label>
+              <label nz-radio [ngStyle]="style" [nzValue]="2">Semicolon</label>
+              <label nz-radio [ngStyle]="style" [nzValue]="3">Space</label>
+              <label nz-radio [ngStyle]="style" [nzValue]="4">
+                Other
+                <input type="text" nz-input [disabled]="separatorType !== 4" style="width: 50px; margin-left: 10px;"
+                        maxlength="1"/>
+              </label>
+            </nz-radio-group>
+          </div>
+          <div nz-col nzSpan="4" class="text-right">
+              <button nz-button nzType="default" [disabled]="rawData === null">
+                <i nz-icon nzType="snippets" nzTheme="outline"></i>
+                Copy
+              </button>
+              
+          </div>
+        </div>
+      <div>&nbsp;</div>
+      <nz-table #previewTable *ngIf="previewRows!.length" [nzData]="previewRows" [nzScroll]="{ x: '1100px' }"
+                nzShowPagination="false" nzPageSize="11" nzSize="small" nzBordered>
         <thead>
-          <tr>
-              <th *ngFor="let item of previewTable.data[0];">{{item}}</th>
+          <tr class="header-cell">
+            <th nzWidth="20px" nzLeft="0px"><i nz-icon nzType="ordered-list" nzTheme="outline"></i></th>
+            <th *ngFor="let item of previewTable.data[0];">{{item}}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let items of previewTable.data; let idx = index;">
             <ng-container *ngIf="idx>0">
-                <td *ngFor="let item of items;">{{item}}</td>
+              <td class="header-cell" nzWidth="20px" nzLeft="0px">{{idx}}</td>
+              <td *ngFor="let item of items;">{{item}}</td>
             </ng-container>
           </tr>
-       </tbody>
+      </tbody>
       </nz-table>
     </nz-card>
 </div>

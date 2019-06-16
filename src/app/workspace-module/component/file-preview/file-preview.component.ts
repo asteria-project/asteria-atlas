@@ -1,7 +1,8 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
 import { CommonChar } from 'asteria-gaia';
-import { WorkspaceService } from 'src/app/business-module';
+import { WorkspaceService, CsvSeparatorType } from '../../..//business-module';
+import { ActivatedRoute } from '@angular/router';
 
 /**
  * The view responsible for displaying the preview of a file.
@@ -19,12 +20,26 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
   private readonly _wsService: WorkspaceService = null;
 
   /**
+   * The reference to the current route.
+   */
+  private _route: ActivatedRoute = null;
+
+  private _useActivatedRoute: boolean = false;
+
+  /**
    * The reference to the path currently displayed in the view.
    */
   protected dirPathModel: string = CommonChar.EMPTY;
 
-  
-  protected separator: string = ';';
+  /**
+   * The seperator character used to determine CSV columns.
+   */
+  protected separator: string = ',';
+
+  /**
+   * The reference to the separator currently used to render CSV data.
+   */
+  protected separatorType: CsvSeparatorType = CsvSeparatorType.COMMA;
 
   protected rawData: string = null;
 
@@ -42,6 +57,7 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
       BreadcrumbItemBuilder.build(this.title)
     ]);
     this._wsService = injector.get(WorkspaceService);
+    this._route = injector.get(ActivatedRoute);
     this.previewRows = new Array<Array<string>>();
   }
   
@@ -49,7 +65,19 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
    * @inheritdoc
    */
   public ngOnInit(): void {
-    this.dirPathModel = 'worldcitiespop.csv';
+    this.dirPathModel = this._route.snapshot.paramMap.get('filePath');
+    if (this.dirPathModel) {
+      this.previewFile();
+      this._useActivatedRoute = true;
+    } else {
+      this.lastUpdated = Date.now();
+    }
+  }
+
+  /**
+   * Call the webservice to load a preview of the current CSV file.
+   */
+  protected previewFile(): void {
     this._wsService.csvPreview(this.dirPathModel).subscribe((preview: string)=> {
       this.rawData = preview;
       this.createDataPreview();
@@ -57,10 +85,42 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
     });
   }
 
+  /**
+   * Create preview data built from user input and the current CSV file.
+   */
   private createDataPreview(): void {
-    const tmpDataArr: Array<string> = this.rawData.split('\n');
-    tmpDataArr.forEach((item: string)=> {
-      this.previewRows.push(item.split(this.separator));
-    });
+    if (this.separator !== null && this.rawData !== null) {
+      const newPreviewRows: Array<Array<string>> = new Array<Array<string>>();
+      const tmpDataArr: Array<string> = this.rawData.split('\n');
+      tmpDataArr.forEach((item: string)=> {
+        newPreviewRows.push(item.split(this.separator));
+      });
+      this.previewRows = newPreviewRows;
+    }
+  }
+
+  /**
+   * 
+   * @param {CsvSeparatorType} value 
+   */
+  protected separatorSelectHandler(value: CsvSeparatorType): void {
+    switch (value) {
+      case CsvSeparatorType.TAB :
+        this.separator = '\t';
+        break;
+      case CsvSeparatorType.COMMA :
+        this.separator = ',';
+        break;
+      case CsvSeparatorType.SPACE :
+        this.separator = ' ';
+        break;
+      case CsvSeparatorType.OTHER :
+        this.separator = null;
+        break;
+      case CsvSeparatorType.SEMICOLON :
+      default :
+        this.separator = ';';
+    }
+    this.createDataPreview();
   }
 }

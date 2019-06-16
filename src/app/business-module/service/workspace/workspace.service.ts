@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { ErrorMessageBuilder } from '../../../gui-module';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { AbstractHeliosService } from '../core/abstract-helios.service';
 
 /**
@@ -29,14 +29,17 @@ export class WorkspaceService extends AbstractHeliosService {
    * @returns {Observable<any>} the list of files and directories stored in the specified directory.
    */
   public list(dirPath: string): Observable<any> {
+    this.waitingService.show();
     const route: string = `http://localhost:3000/asteria/workspace/controller/list/${dirPath}`;
     return this.http.get<any>(route)
                     .pipe(
+                      tap((value: any)=> this.waitingService.hide()),
                       catchError(error=> {
                         this.notification.error(
                           'Worspace File List Error', 
                           ErrorMessageBuilder.build(error.status)
                         );
+                        this.waitingService.hide();
                         return of([]);
                       })
                     );
@@ -50,14 +53,17 @@ export class WorkspaceService extends AbstractHeliosService {
    * @returns {Observable<string>} a preview of the specified CSV file.
    */
   public csvPreview(filePath: string): Observable<any> {
+    this.waitingService.show();
     const route: string = `http://localhost:3000/asteria/workspace/controller/preview/${filePath}`;
     return this.http.get(route, {responseType: 'text'})
                     .pipe(
+                      tap((value: any)=> this.waitingService.hide()),
                       catchError(error=> {
                         this.notification.error(
                           'File Preview Error', 
                           ErrorMessageBuilder.build(error.status)
                         );
+                        this.waitingService.hide();
                         return of([]);
                       })
                     );
