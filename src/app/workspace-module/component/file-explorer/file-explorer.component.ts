@@ -1,6 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder, NotificationService } from '../../../gui-module';
-import { CommonChar } from 'asteria-gaia';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats } from 'asteria-eos';
 import { FileExtensionUtils } from '../../util/file-extension.utils';
@@ -49,7 +48,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
   /**
    * The reference to the path currently displayed in the file explorer.
    */
-  protected dirPathModel: string = CommonChar.EMPTY;
+  protected dirPathModel: string = '';
 
   /**
    * The list of files currently displayed in the file explorer.
@@ -75,7 +74,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    * @inheritdoc
    */
   public ngOnInit(): void {
-    this._workspace.list(CommonChar.EMPTY).subscribe((files: any)=> {
+    this._workspace.list('').subscribe((files: any)=> {
       const model: Array<HeliosFileStats> = files.data;
       model.sort((a: HeliosFileStats, b: HeliosFileStats)=> {
         let result: number = 0;

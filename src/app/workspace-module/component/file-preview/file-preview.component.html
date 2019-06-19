@@ -14,9 +14,20 @@
         </ng-template>
       </form>
       <div>&nbsp;</div>
-      <nz-divider nzText="Preview" nzOrientation="left"></nz-divider>
-      <div nz-row>
-          <div nz-col nzSpan="4">Separated by:</div>
+      <div *ngIf="heliosCsvPreview">
+        <nz-descriptions nzTitle="File Information" [nzColumn]="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }">
+          <nz-descriptions-item nzTitle="Size">
+            {{ heliosCsvPreview.stats.size | fileSize }}
+          </nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Estimated number of rows">
+            {{ getEstimatedRowsNum() | number }}
+          </nz-descriptions-item>
+        </nz-descriptions>
+        <div class="ant-descriptions-title">Content Preview</div>
+        <div nz-row>
+          <div nz-col nzSpan="4">
+            <span class="ant-descriptions-item-label">Separated by</span>
+          </div>
           <div nz-col nzSpan="16">
             <nz-radio-group [(ngModel)]="separatorType" (ngModelChange)="separatorSelectHandler($event)">
               <label nz-radio [ngStyle]="style" [nzValue]="0">Tab</label>
@@ -31,30 +42,30 @@
             </nz-radio-group>
           </div>
           <div nz-col nzSpan="4" class="text-right">
-              <button nz-button nzType="default" [disabled]="rawData === null">
+              <button nz-button nzType="default">
                 <i nz-icon nzType="snippets" nzTheme="outline"></i>
                 Copy
               </button>
-              
           </div>
         </div>
-      <div>&nbsp;</div>
-      <nz-table #previewTable *ngIf="previewRows!.length" [nzData]="previewRows" [nzScroll]="{ x: '1100px' }"
-                nzShowPagination="false" nzPageSize="11" nzSize="small" nzBordered>
-        <thead>
-          <tr class="header-cell">
-            <th nzWidth="20px" nzLeft="0px"><i nz-icon nzType="ordered-list" nzTheme="outline"></i></th>
-            <th *ngFor="let item of previewTable.data[0];">{{item}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let items of previewTable.data; let idx = index;">
-            <ng-container *ngIf="idx>0">
-              <td class="header-cell" nzWidth="20px" nzLeft="0px">{{idx}}</td>
-              <td *ngFor="let item of items;">{{item}}</td>
-            </ng-container>
-          </tr>
-      </tbody>
-      </nz-table>
+        <div>&nbsp;</div>
+        <nz-table #previewTable *ngIf="previewRows!.length" [nzData]="previewRows" [nzScroll]="{ x: '1100px' }"
+                  nzShowPagination="false" nzPageSize="11" nzSize="small" nzBordered>
+          <thead>
+            <tr class="header-cell">
+              <th nzWidth="20px" nzLeft="0px"><i nz-icon nzType="ordered-list" nzTheme="outline"></i></th>
+              <th *ngFor="let item of previewTable.data[0];">{{item}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let items of previewTable.data; let idx = index;">
+              <ng-container *ngIf="idx>0">
+                <td class="header-cell" nzWidth="20px" nzLeft="0px">{{idx}}</td>
+                <td *ngFor="let item of items;">{{item}}</td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
     </nz-card>
 </div>

@@ -1,8 +1,8 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
-import { CommonChar } from 'asteria-gaia';
 import { WorkspaceService, CsvSeparatorType } from '../../..//business-module';
 import { ActivatedRoute } from '@angular/router';
+import { HeliosData, HeliosCsvPreview } from 'asteria-eos';
 
 /**
  * The view responsible for displaying the preview of a file.
@@ -29,7 +29,7 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
   /**
    * The reference to the path currently displayed in the view.
    */
-  protected dirPathModel: string = CommonChar.EMPTY;
+  protected dirPathModel: string = '';
 
   /**
    * The seperator character used to determine CSV columns.
@@ -41,7 +41,7 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
    */
   protected separatorType: CsvSeparatorType = CsvSeparatorType.COMMA;
 
-  protected rawData: string = null;
+  protected heliosCsvPreview: HeliosCsvPreview = null;
 
   protected previewRows: Array<Array<string>> = null;
 
@@ -78,8 +78,9 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
    * Call the webservice to load a preview of the current CSV file.
    */
   protected previewFile(): void {
-    this._wsService.csvPreview(this.dirPathModel).subscribe((preview: string)=> {
-      this.rawData = preview;
+    this.heliosCsvPreview = null;
+    this._wsService.csvPreview(this.dirPathModel).subscribe((preview: HeliosData<HeliosCsvPreview>)=> {
+      this.heliosCsvPreview = preview.data;
       this.createDataPreview();
       this.lastUpdated = Date.now();
     });
@@ -89,9 +90,10 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
    * Create preview data built from user input and the current CSV file.
    */
   private createDataPreview(): void {
-    if (this.separator !== null && this.rawData !== null) {
+    if (this.separator !== null && this.heliosCsvPreview !== null) {
+      const rawData: string = this.heliosCsvPreview.content;
       const newPreviewRows: Array<Array<string>> = new Array<Array<string>>();
-      const tmpDataArr: Array<string> = this.rawData.split('\n');
+      const tmpDataArr: Array<string> = rawData.split('\n');
       tmpDataArr.forEach((item: string)=> {
         newPreviewRows.push(item.split(this.separator));
       });
@@ -122,5 +124,16 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
         this.separator = ';';
     }
     this.createDataPreview();
+  }
+
+  protected getEstimatedRowsNum(): number {
+    const chunkSize: number = this.byteCount(this.heliosCsvPreview.content);
+    const rowSize: number = chunkSize / 10;
+    return Math.round(this.heliosCsvPreview.stats.size / rowSize) + 1;
+  }
+
+  private byteCount(input: string): number {
+    const rawData: string = input.substring(input.indexOf('\n'));
+    return encodeURI(rawData).split(/%..|./).length - 1;
   }
 }

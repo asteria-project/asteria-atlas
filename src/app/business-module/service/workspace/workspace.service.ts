@@ -3,6 +3,7 @@ import { ErrorMessageBuilder } from '../../../gui-module';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AbstractHeliosService } from '../core/abstract-helios.service';
+import { HeliosCsvPreview, HeliosData } from 'asteria-eos';
 
 /**
  * The service responsible for working with files stored int the Helios server workspace.
@@ -50,12 +51,12 @@ export class WorkspaceService extends AbstractHeliosService {
    * 
    * @param {string} filePath the path to the file to preview.
    * 
-   * @returns {Observable<string>} a preview of the specified CSV file.
+   * @returns {Observable<HeliosData<HeliosCsvPreview>>} a preview of the specified CSV file.
    */
-  public csvPreview(filePath: string): Observable<any> {
+  public csvPreview(filePath: string): Observable<HeliosData<HeliosCsvPreview>> {
     this.waitingService.show();
     const route: string = `http://localhost:3000/asteria/workspace/controller/preview/${filePath}`;
-    return this.http.get(route, {responseType: 'text'})
+    return this.http.get<HeliosData<HeliosCsvPreview>>(route)
                     .pipe(
                       tap((value: any)=> this.waitingService.hide()),
                       catchError(error=> {

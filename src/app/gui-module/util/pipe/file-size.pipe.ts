@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CommonChar } from 'asteria-gaia';
 
 /**
  * Convert bytes into largest possible unit. Takes a precision argument that defaults to 2.
@@ -30,7 +29,7 @@ export class FileSizePipe implements PipeTransform {
    * @returns {string}
    */
   transform(bytes: number = 0, precision: number = 2) : string {
-    let result: string = CommonChar.EMPTY
+    let result: string = '';
     if (isNaN(parseFloat(String(bytes))) || ! isFinite(bytes)) {
         result = '?';
     } else {
@@ -39,7 +38,7 @@ export class FileSizePipe implements PipeTransform {
             bytes /= 1024;
             unit ++;
         }
-        result = bytes.toFixed(+precision) + CommonChar.WHITE_SPACE + FileSizePipe.UNITS[ unit ];
+        result = bytes.toFixed(+precision) + ' ' + FileSizePipe.UNITS[ unit ];
     }
     return result;
   }
