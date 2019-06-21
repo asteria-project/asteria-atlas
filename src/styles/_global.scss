@@ -29,6 +29,13 @@
     color: $asteria-purple;
 }
 
+.asteria-bg-blue {
+    background-color: $asteria-blue;
+}
+.asteria-bg-purple {
+    background-color: $asteria-purple;
+}
+
 /* The wrapper container rules for all app views */
 .view-wrapper {
     padding: $container-padding;
@@ -66,5 +73,15 @@
 .action-container {
     i {
         padding-right: 1rem;
+    }
+}
+
+/* Global styles for module home views */
+.home-view-title {
+    span {
+        color: $asteria-blue;
+        font-size: 1rem;
+        font-weight: bold;
+        padding-left: 0.5rem;
     }
 }

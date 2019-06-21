@@ -9,8 +9,10 @@ import { WorkspaceRoutingModule } from './workspace-routing.module';
 // Module components
 import { FileExplorerComponent } from './component/file-explorer/file-explorer.component';
 import { FilePreviewComponent } from './component/file-preview/file-preview.component';
+import { WorkspaceHomeComponent } from './component/workspace-home/workspace-home.component';
 
 const COMPONENTS: any[] = [
+  WorkspaceHomeComponent,
   FileExplorerComponent,
   FilePreviewComponent
 ];
