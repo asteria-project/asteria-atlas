@@ -62,8 +62,10 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    */
   constructor(protected injector: Injector) {
     super(injector);
-    this.title = 'Workspace';
+    this.title = 'File Explorer';
+    this.backButtonRoute = '/workspace';
     this.breadcrumbService.setItems([
+      BreadcrumbItemBuilder.build('Workspace', '/workspace'),
       BreadcrumbItemBuilder.build(this.title)
     ]);
     this._workspace = injector.get(WorkspaceService);

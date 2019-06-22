@@ -65,11 +65,11 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
     this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
       this.template = template;
       this.lastUpdated = Date.now();
-      this.backButtonRoute = '/processes/templates/' + id;
+      this.backButtonRoute = '/process/templates/' + id;
       this.breadcrumbService.setItems([
-        BreadcrumbItemBuilder.build('Processes', '/processes'),
-        BreadcrumbItemBuilder.build('Process Template Details', '/processes/templates/'),
-        BreadcrumbItemBuilder.build('Process Templates', this.backButtonRoute),
+        BreadcrumbItemBuilder.build('Processes', '/process'),
+        BreadcrumbItemBuilder.build('Process Templates', '/process/templates'),
+        BreadcrumbItemBuilder.build('Process Template Details', this.backButtonRoute),
         BreadcrumbItemBuilder.build(this.title)
       ]);
       this.runProcess();
@@ -83,7 +83,7 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
     const start: number = Date.now();
     this._processService.run(this.template).subscribe((result: any)=> {
       this.resultValue = result.toString();
-      const end: number =  Date.now()
+      const end: number =  Date.now();
       this.processDuration = end - start;
       this.lastUpdated = end;
     });

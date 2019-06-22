@@ -1,12 +1,16 @@
 <div class="workspace-home-wrapper">
   <div class="home-view-title">
-    <nz-avatar [nzSize]="large" nzIcon="cloud" class="asteria-bg-blue"></nz-avatar>
+    <nz-avatar [nzSize]="large" nzIcon="sliders" class="asteria-bg-blue"></nz-avatar>
     <span>{{title}}</span>
   </div>
 
   <div class="home-view-description">
     <p>
-      The workspace section provides utilities for accessing the Helios server file system.
+      The Template section provides utilities for working with Helios templates.
+    </p>
+    <p>
+      Helios templates allows to declare collections of Asteria processes that are executed by
+      <a [routerLink]="['../job']">Helios jobs</a>.
     </p>
   </div>
 

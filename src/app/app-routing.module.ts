@@ -6,11 +6,11 @@ import { NotFoundComponent } from './layout/component/not-found/not-found.compon
 const routes: Routes = [
   { path: '', component: SplashScreenComponent },
   {
-    path: 'jobs',
+    path: 'job',
     loadChildren: './job-module/job.module#JobModule'
   },
   {
-    path: 'processes',
+    path: 'process',
     loadChildren: './process-module/process.module#ProcessModule'
   },
   {

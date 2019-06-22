@@ -42,9 +42,9 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
   constructor(protected injector: Injector) {
     super(injector);
     this.title = 'Process Template Details';
-    this.backButtonRoute = '/processes/templates';
+    this.backButtonRoute = '/process/templates';
     this.breadcrumbService.setItems([
-      BreadcrumbItemBuilder.build('Processes', '/processes'),
+      BreadcrumbItemBuilder.build('Processes', '/process'),
       BreadcrumbItemBuilder.build('Process Templates', this.backButtonRoute),
       BreadcrumbItemBuilder.build(this.title)
     ]);
@@ -68,7 +68,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
    * Launch a new process based on the current template.
    */
   protected runProcess(): void {
-    this.router.navigate([`/processes/templates/${this.template.id}/run-process`]);
+    this.router.navigate([`/process/templates/${this.template.id}/run-process`]);
   }
 
   /**

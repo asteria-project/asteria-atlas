@@ -5,6 +5,7 @@
 export * from './component/atlas-view/atlas-view.component';
 export * from './component/update-date/update-date.component';
 //--> model/
+export * from './model/home-link.model';
 export * from './model/spinner-state.model';
 //--> service
 export * from './service/breadcrumb.service';

@@ -8,14 +8,14 @@
             </div>
             <ul nz-menu [nzTheme]="'light'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
                 <li nz-submenu>
-                    <span title nz-tooltip nzTitle="Jobs">
+                    <span title nz-tooltip nzTitle="Jobs" routerLink="/job">
                         <i nz-icon nzType="file-sync" nzTheme="outline"></i> <span class="nav-text">Jobs</span>
                     </span>
                     <ul>
                         <li nz-menu-item>
                             <i nz-icon type="bars"></i> Job Events
                         </li>
-                        <li nz-menu-item routerLink="/jobs">
+                        <li nz-menu-item routerLink="/job/jobs">
                             <i nz-icon type="table"></i> All Jobs
                         </li>
                         <li nz-menu-item >
@@ -24,11 +24,11 @@
                     </ul>
                 </li>
                 <li nz-submenu>
-                    <span title nz-tooltip nzTitle="Processes">
+                    <span title nz-tooltip nzTitle="Processes" routerLink="/process">
                         <i nz-icon type="sliders"></i> <span class="nav-text">Processes</span>
                     </span>
                     <ul>
-                        <li nz-menu-item routerLink="/processes/templates">
+                        <li nz-menu-item routerLink="/process/templates">
                             <i nz-icon type="code"></i> Process Templates
                         </li>
                         <li nz-menu-item routerLink="/edit/template">
@@ -47,7 +47,7 @@
                     </span>
                     <ul>
                         <li nz-menu-item routerLink="/workspace/explorer">
-                            <i nz-icon nzType="folder" nzTheme="fill"></i> <span class="nav-text">Files</span>
+                            <i nz-icon nzType="folder" nzTheme="outline"></i> <span class="nav-text">File Explorer</span>
                         </li>
                         <li nz-menu-item routerLink="/workspace/preview">
                             <i nz-icon nzType="eye" nzTheme="outline"></i> <span class="nav-text">File Preview</span>

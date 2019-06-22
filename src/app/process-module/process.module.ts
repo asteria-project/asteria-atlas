@@ -9,8 +9,10 @@ import { ProcessRoutingModule } from './process-routing.module';
 import { TemplateDetailsComponent } from './component/template-details/template-details.component';
 import { TemplateListComponent } from './component/template-list/template-list.component';
 import { ProcessRunComponent } from './component/process-run/process-run.component';
+import { ProcessHomeComponent } from './component/process-home/process-home.component';
 
 const COMPONENTS: any[] = [
+  ProcessHomeComponent,
   TemplateListComponent,
   TemplateDetailsComponent,
   ProcessRunComponent

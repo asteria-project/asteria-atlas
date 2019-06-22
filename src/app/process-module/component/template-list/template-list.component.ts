@@ -31,7 +31,7 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
     super(injector);
     this.title = 'Process Templates';
     this._templateService = injector.get(TemplateService);
-    this.backButtonRoute = '/processes';
+    this.backButtonRoute = '/process';
     this.breadcrumbService.setItems([
       BreadcrumbItemBuilder.build('Processes', this.backButtonRoute),
       BreadcrumbItemBuilder.build(this.title)
@@ -54,6 +54,6 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
    * @param {HeliosTemplate} template the template selected by the user.
    */
   protected selectTemplate(template: HeliosTemplate): void {
-    this.router.navigate( [`/processes/templates/${template.id}`] );
+    this.router.navigate( [`/process/templates/${template.id}`] );
   }
 }

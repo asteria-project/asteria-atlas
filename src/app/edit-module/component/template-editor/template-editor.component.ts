@@ -135,6 +135,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   public ngOnInit(): void {
     const id: string = this._route.snapshot.paramMap.get('id');
     const items: Array<BreadcrumbItem> = new Array<BreadcrumbItem>();
+    items.push(BreadcrumbItemBuilder.build('Processes', '/process'));
     this.initProcessCategoryList();
     if (id) {
       this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
@@ -142,14 +143,19 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
         this.initForm();
         this.lastUpdated = Date.now();
       });
-      items.push(BreadcrumbItemBuilder.build('Template Details', `/templates/${id}`));
+      this.backButtonRoute = `/process/templates/${id}`
+      items.push(BreadcrumbItemBuilder.build('Process Templates', `/process/templates`));
+      items.push(BreadcrumbItemBuilder.build('Process Template Details', this.backButtonRoute));
       this.updateForm.get('templateName').disable();
+      
     } else {
       items.push(BreadcrumbItemBuilder.build(this.title));
+      this.backButtonRoute = '/process';
       this.submitBtnLabel = 'Create';
       this.template = HeliosTemplateBuilder.build();
       this.initForm();
     }
+    items.push(BreadcrumbItemBuilder.build('Process Template Editor'));
     this.breadcrumbService.setItems(items);
   }
 

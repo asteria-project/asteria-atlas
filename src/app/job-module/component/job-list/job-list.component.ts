@@ -25,7 +25,9 @@ export class JobListComponent extends AtlasViewComponent implements OnInit {
   constructor(protected injector: Injector) {
     super(injector)
     this.title = 'All Jobs';
+    this.backButtonRoute = '/job';
     this.breadcrumbService.setItems([
+      BreadcrumbItemBuilder.build('Jobs', '/job'),
       BreadcrumbItemBuilder.build(this.title)
     ]);
   }

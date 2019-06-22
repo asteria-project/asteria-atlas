@@ -35,7 +35,7 @@ export class ProcessService extends AbstractHeliosService {
     const httpOptions: any = {
       responseType:'text'
     };
-    return this.http.post<string>('http://localhost:3000/asteria/process/' + template.id, null, httpOptions)
+    return this.http.post<string>('http://localhost:3000/asteria/process/controller/' + template.id, null, httpOptions)
                     .pipe(
                       tap((value: any)=> this.waitingService.hide()),
                       catchError((error: HttpErrorResponse)=> {

@@ -6,8 +6,10 @@ import { JobRoutingModule } from './job-routing.module';
 
 // Module components
 import { JobListComponent } from './component/job-list/job-list.component';
+import { JobHomeComponent } from './component/job-home/job-home.component';
 
 const COMPONENTS: any[] = [
+  JobHomeComponent,
   JobListComponent
 ];
 
