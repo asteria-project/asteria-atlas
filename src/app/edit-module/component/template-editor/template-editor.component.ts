@@ -147,15 +147,13 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
       items.push(BreadcrumbItemBuilder.build('Process Templates', `/process/templates`));
       items.push(BreadcrumbItemBuilder.build('Process Template Details', this.backButtonRoute));
       this.updateForm.get('templateName').disable();
-      
     } else {
-      items.push(BreadcrumbItemBuilder.build(this.title));
       this.backButtonRoute = '/process';
       this.submitBtnLabel = 'Create';
       this.template = HeliosTemplateBuilder.build();
       this.initForm();
     }
-    items.push(BreadcrumbItemBuilder.build('Process Template Editor'));
+    items.push(BreadcrumbItemBuilder.build(this.title));
     this.breadcrumbService.setItems(items);
   }
 

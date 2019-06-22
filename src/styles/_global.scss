@@ -36,6 +36,13 @@
     background-color: $asteria-purple;
 }
 
+/* Disabled links */
+a.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
 /* The wrapper container rules for all app views */
 .view-wrapper {
     padding: $container-padding;

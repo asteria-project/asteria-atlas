@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { AtlasViewComponent, BreadcrumbItemBuilder, NotificationService } from '../../../gui-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, NotificationService, BreadcrumbItem } from '../../../gui-module';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats } from 'asteria-eos';
 import { FileExtensionUtils } from '../../util/file-extension.utils';
@@ -63,13 +63,26 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
   constructor(protected injector: Injector) {
     super(injector);
     this.title = 'File Explorer';
-    this.backButtonRoute = '/workspace';
-    this.breadcrumbService.setItems([
-      BreadcrumbItemBuilder.build('Workspace', '/workspace'),
-      BreadcrumbItemBuilder.build(this.title)
-    ]);
+    this.initBreadcrumb();
     this._workspace = injector.get(WorkspaceService);
     this._notification = injector.get(NotificationService);
+  }
+
+  private initBreadcrumb(): void {
+    const snapshot: BreadcrumbItem[] = this.breadcrumbService.snapshot;
+    const currItem: BreadcrumbItem = BreadcrumbItemBuilder.build(this.title);
+    if (snapshot) {
+      this.backButtonRoute = snapshot[snapshot.length - 1].route;
+      snapshot.push(currItem);
+      this.breadcrumbService.setItems(snapshot);
+      this.breadcrumbService.clearSnapshot();
+    } else {
+      this.backButtonRoute = '/workspace';
+      this.breadcrumbService.setItems([
+        BreadcrumbItemBuilder.build('Workspace', '/workspace'),
+        currItem
+      ]);
+    }
   }
   
   /**

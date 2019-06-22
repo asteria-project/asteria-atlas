@@ -110,9 +110,9 @@
 <ng-template #prefixDescription><i nz-icon type="info-circle" nzTheme="outline"></i></ng-template>
 <ng-template #workflowExtraTemplate>
     <a (click)="showProcessPanel = !showProcessPanel">
-        <i nz-icon nzType="eye-invisible" nzTheme="outline" *ngIf="showProcessPanel"
+        <i nz-icon nzType="right" nzTheme="outline" *ngIf="showProcessPanel"
            nz-tooltip nzTitle="Hide process panel"></i>
-        <i nz-icon nzType="eye" nzTheme="outline" *ngIf="!showProcessPanel"
+        <i nz-icon nzType="left" nzTheme="outline" *ngIf="!showProcessPanel"
            nz-tooltip nzTitle="whow process panel"></i>
     </a>
 </ng-template>

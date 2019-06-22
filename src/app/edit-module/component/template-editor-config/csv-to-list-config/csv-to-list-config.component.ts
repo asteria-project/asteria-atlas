@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { ProcessEditorComponent } from 'src/app/edit-module/model/process-editor-component.model';
+import { Component, Injector } from '@angular/core';
+import { ProcessEditorComponent } from '../../../model/process-editor-component.model';
 import { HeliosProcessDescriptor } from 'asteria-eos';
+import { AtlasViewComponent } from '../../../../gui-module';
 
 /**
  * The component responsible for editing config of an Asteria "csv-to-list" process.
@@ -10,7 +11,7 @@ import { HeliosProcessDescriptor } from 'asteria-eos';
   templateUrl: './csv-to-list-config.component.html',
   styleUrls: [ './csv-to-list-config.component.scss' ]
 })
-export class CsvToListConfigComponent implements ProcessEditorComponent {
+export class CsvToListConfigComponent extends AtlasViewComponent implements ProcessEditorComponent {
 
   /**
    * The reference to the (<code>'undefined'<code>) string.
@@ -44,8 +45,12 @@ export class CsvToListConfigComponent implements ProcessEditorComponent {
   
   /**
    * Create a new <code>CsvToListConfigComponent</code> instance.
+   * 
+   * @param {Injector} injector the reference to the Angular services injector.
    */
-  constructor() {}
+  constructor(protected injector: Injector) {
+    super(injector);
+  }
 
   /**
    * @inheritdoc

@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
-import { ProcessEditorComponent } from 'src/app/edit-module/model/process-editor-component.model';
+import { Component, Injector } from '@angular/core';
+import { ProcessEditorComponent } from '../../../model/process-editor-component.model';
 import { HeliosProcessDescriptor } from 'asteria-eos';
+import { AtlasViewComponent } from '../../../../gui-module';
 
 /**
  * The component responsible for editing config of an Asteria "file-read" process.
  */
 @Component({
   selector: 'file-read-config',
-  templateUrl: './file-read-config.component.html'
+  templateUrl: './file-read-config.component.html',
+  styleUrls: ['./file-read-config.component.scss']
 })
-export class FileReadConfigComponent implements ProcessEditorComponent {
+export class FileReadConfigComponent extends AtlasViewComponent implements ProcessEditorComponent {
 
   /**
    * The reference to the <code>'workspace/'/<code> string.
@@ -33,15 +35,20 @@ export class FileReadConfigComponent implements ProcessEditorComponent {
 
   /**
    * Create a new <code>FileReadConfigComponent</code> instance.
+   * 
+   * @param {Injector} injector the reference to the Angular services injector.
    */
-  constructor() {}
+  constructor(protected injector: Injector) {
+    super(injector);
+  }
 
   /**
    * @inheritdoc
    */
   public setProcess(process: HeliosProcessDescriptor): void {
     this.process = process;
-    this.fileNameModel = process.config.replace(this.WORKSPACE_STRING_REF, this.EMPTY_STRING_REF);
+    const processFileName: string = process.config || this.EMPTY_STRING_REF;
+    this.fileNameModel = processFileName.replace(this.WORKSPACE_STRING_REF, this.EMPTY_STRING_REF);
   }
 
   /**
@@ -51,5 +58,21 @@ export class FileReadConfigComponent implements ProcessEditorComponent {
    */
   protected valuechange(event: Event): void {
     this.process.config = this.WORKSPACE_STRING_REF + this.fileNameModel;
+  }
+
+  protected allowPreview(): boolean {
+    return this.fileNameModel && this.fileNameModel.length > 4;
+  }
+
+  /**
+   * Navigate to the specified route.
+   * 
+   * @param {string} route the route where to navigate to.
+   */
+  protected navigateTo(route: string): void {
+    if (route === 'explorer' || this.allowPreview) {
+      this.breadcrumbService.takeSnapshot(this.router.url);
+      this.router.navigate( [`/workspace/${route}`] );
+    }
   }
 }
