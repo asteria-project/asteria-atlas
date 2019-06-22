@@ -68,6 +68,9 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
     this._notification = injector.get(NotificationService);
   }
 
+  /**
+   * Initialize the breadcrumb.
+   */
   private initBreadcrumb(): void {
     const snapshot: BreadcrumbItem[] = this.breadcrumbService.snapshot;
     const currItem: BreadcrumbItem = BreadcrumbItemBuilder.build(this.title);

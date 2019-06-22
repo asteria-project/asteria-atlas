@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
-import { WorkspaceService, CsvSeparatorType } from '../../..//business-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem } from '../../../gui-module';
+import { WorkspaceService, CsvSeparatorType } from '../../../business-module';
 import { ActivatedRoute } from '@angular/router';
 import { HeliosData, HeliosCsvPreview } from 'asteria-eos';
 
@@ -54,15 +54,32 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
     super(injector);
     this.title = 'File Preview';
     this.backButtonRoute = '/workspace';
-    this.breadcrumbService.setItems([
-      BreadcrumbItemBuilder.build('Workspace', '/workspace'),
-      BreadcrumbItemBuilder.build(this.title)
-    ]);
+    this.initBreadcrumb();
     this._wsService = injector.get(WorkspaceService);
     this._route = injector.get(ActivatedRoute);
     this.previewRows = new Array<Array<string>>();
   }
   
+  /**
+   * Initialize the breadcrumb.
+   */
+  private initBreadcrumb(): void {
+    const snapshot: BreadcrumbItem[] = this.breadcrumbService.snapshot;
+    const currItem: BreadcrumbItem = BreadcrumbItemBuilder.build(this.title);
+    if (snapshot) {
+      this.backButtonRoute = snapshot[snapshot.length - 1].route;
+      snapshot.push(currItem);
+      this.breadcrumbService.setItems(snapshot);
+      this.breadcrumbService.clearSnapshot();
+    } else {
+      this.backButtonRoute = '/workspace';
+      this.breadcrumbService.setItems([
+        BreadcrumbItemBuilder.build('Workspace', '/workspace'),
+        currItem
+      ]);
+    }
+  }
+
   /**
    * @inheritdoc
    */
@@ -128,12 +145,24 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
     this.createDataPreview();
   }
 
+  /**
+   * Return the estimated number of rows for the current file.
+   * 
+   * @returns {number} the estimated number of rows for the current file.
+   */
   protected getEstimatedRowsNum(): number {
     const chunkSize: number = this.byteCount(this.heliosCsvPreview.content);
     const rowSize: number = chunkSize / 10;
     return Math.round(this.heliosCsvPreview.stats.size / rowSize) + 1;
   }
 
+  /**
+   * Return the size, in bytes, of the specified input string.
+   * 
+   * @param {string} input the input string for which to get the size.
+   * 
+   * @returns {numpber} the size, in bytes, of the specified input string.
+   */
   private byteCount(input: string): number {
     const rawData: string = input.substring(input.indexOf('\n'));
     return encodeURI(rawData).split(/%..|./).length - 1;

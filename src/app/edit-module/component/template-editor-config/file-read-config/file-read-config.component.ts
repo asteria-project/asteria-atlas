@@ -60,6 +60,12 @@ export class FileReadConfigComponent extends AtlasViewComponent implements Proce
     this.process.config = this.WORKSPACE_STRING_REF + this.fileNameModel;
   }
 
+  /**
+   * Return a boolean value that indicates whether file preview is allowed (<code>true</code>), or not
+   * (<code>false</code>).
+   * 
+   * @returns {boolean} <code>true</code> whether file preview is allowed; false otherwise.
+   */
   protected allowPreview(): boolean {
     return this.fileNameModel && this.fileNameModel.length > 4;
   }
@@ -70,9 +76,12 @@ export class FileReadConfigComponent extends AtlasViewComponent implements Proce
    * @param {string} route the route where to navigate to.
    */
   protected navigateTo(route: string): void {
-    if (route === 'explorer' || this.allowPreview) {
+    if (route === 'explorer') {
       this.breadcrumbService.takeSnapshot(this.router.url);
       this.router.navigate( [`/workspace/${route}`] );
+    } else if (route === 'preview' && this.allowPreview) {
+      this.breadcrumbService.takeSnapshot(this.router.url);
+      this.router.navigate( [`/workspace/${route}/${this.fileNameModel}`] );
     }
   }
 }
