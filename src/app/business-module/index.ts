@@ -23,8 +23,5 @@ export * from './service/template/template.service';
 //--> service/workspace
 export * from './service/workspace/workspace.service';
 //--> util/builder
-export * from './util/builder/clipboard-item.builder';
 export * from './util/builder/helios-process-descriptor.builder';
 export * from './util/builder/helios-template.builder';
-//--> util/model
-export * from './util/model/clipboard-item.model';

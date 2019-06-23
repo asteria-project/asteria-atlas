@@ -1,4 +1,4 @@
-import { ClipboardItem } from '../model/clipboard-item.model';
+import { ClipboardItem } from '../../model/clipboard-item.model';
 
 /**
  * The builder that creates <code>ClipboardItem</code> objects.

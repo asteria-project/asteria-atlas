@@ -117,4 +117,12 @@
     <nz-alert *ngIf="clipboardService!.size === 0" nzType="info"
               nzMessage="there is no data registered in the clipboard.">
     </nz-alert>
+    <div *ngIf="clipboardService && clipboardService.items">
+        <nz-list [nzDataSource]="clipboardService.items" nzBordered [nzHeader]="'Header'" [nzRenderItem]="item"
+        nzSize="small">
+            <ng-template #item let-item>
+                <nz-list-item [nzContent]="item.name"></nz-list-item>
+            </ng-template>
+        </nz-list>
+    </div>
 </nz-drawer>

@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { NotificationService } from './notification.service';
-import { ClipboardItem } from '../../business-module';
+import { ClipboardItem } from '../model/clipboard-item.model';
 
 /**
  * The service responsible for managing Atlas clipboard.
@@ -11,7 +11,7 @@ import { ClipboardItem } from '../../business-module';
 export class ClipboardService {
 
   /**
-   * The list of items stored in clipboard
+   * The list of items stored in clipboard.
    */
   private _items: ClipboardItem[] = null;
 
@@ -33,6 +33,13 @@ export class ClipboardService {
    */
   public get size(): number {
     return this._items.length;
+  }
+
+  /**
+   * Return list of items stored in clipboard.
+   */
+  public get items(): ClipboardItem[] {
+    return this._items;
   }
 
   /**

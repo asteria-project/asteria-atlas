@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService } from '../../../gui-module';
-import { WorkspaceService, ClipboardItemBuilder } from '../../../business-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder } from '../../../gui-module';
+import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats } from 'asteria-eos';
 import { FileExtensionUtils } from '../../util/file-extension.utils';
 

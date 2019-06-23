@@ -5,6 +5,7 @@
 export * from './component/atlas-view/atlas-view.component';
 export * from './component/update-date/update-date.component';
 //--> model/
+export * from './model/clipboard-item.model';
 export * from './model/home-link.model';
 export * from './model/spinner-state.model';
 //--> service
@@ -16,5 +17,7 @@ export * from './service/waiting.service';
 //--> util/breadcrumb
 export * from './util/breadcrumb/breadcrumb-item.builder';
 export * from './util/breadcrumb/breadcrumb-item.model';
+//--> util/clipboard
+export * from './util/clipboard/clipboard-item.builder';
 //--> util/error
 export * from './util/error/error-message.builder';
