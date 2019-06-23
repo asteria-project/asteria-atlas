@@ -14,11 +14,13 @@ import { AppComponent } from './app.component';
 import { AtlasContainerComponent } from './layout/component/atlas-container/atlas-container.component';
 import { SplashScreenComponent } from './layout/component/splash-screen/splash-screen.component';
 import { NotFoundComponent } from './layout/component/not-found/not-found.component';
+import { ClipboardComponent } from './layout/component/clipboard/clipboard.component';
 
 const COMPONENTS: any[] = [
   AppComponent,
   // Main app views
   AtlasContainerComponent,
+  ClipboardComponent,
   SplashScreenComponent,
   NotFoundComponent
 ];

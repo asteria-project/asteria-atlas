@@ -37,7 +37,8 @@ export class NotificationService {
                 nzStyle: {
                     'background-color': '#fff1f0',
                     border: '1px solid #ffa39e'
-                }
+                },
+                nzDuration: 2500
             }
         );
     }

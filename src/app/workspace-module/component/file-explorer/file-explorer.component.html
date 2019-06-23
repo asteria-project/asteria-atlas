@@ -12,7 +12,7 @@
       <div nz-col class="gutter-row" nzSpan="5">
         <nz-tree [nzData]="nodes" nzShowLine></nz-tree>
       </div>
-      <div nz-col class="gutter-row" nzSpan="19">
+      <div *ngIf="fileStatsModel" nz-col class="gutter-row" nzSpan="19">
         <nz-table #filesTable [nzData]="fileStatsModel" nzShowPagination="false" nzSize="small">
           <thead>
             <tr>

@@ -11,9 +11,9 @@ import { ClipboardItem } from '../model/clipboard-item.model';
 export class ClipboardService {
 
   /**
-   * The list of items stored in clipboard.
+   * The list of items stored in the clipboard.
    */
-  private _items: ClipboardItem[] = null;
+  private _items: Array<ClipboardItem> = null;
 
   /**
    * Indicates whether the clipboard panel is opened (<code>true</code>), or not (<code>false</code>).
@@ -38,8 +38,8 @@ export class ClipboardService {
   /**
    * Return list of items stored in clipboard.
    */
-  public get items(): ClipboardItem[] {
-    return this._items;
+  public get items(): Array<ClipboardItem> {
+    return this._items.slice().reverse();
   }
 
   /**
@@ -54,7 +54,7 @@ export class ClipboardService {
    */
   constructor(protected injector: Injector) {
     this._notification = injector.get(NotificationService);
-    this._items = new Array();
+    this._items = new Array<ClipboardItem>();
   }
 
   /**
@@ -72,13 +72,20 @@ export class ClipboardService {
   }
 
   /**
+   * Remove all elements from the clipboard.
+   */
+  public clear(): void {
+    this._items.splice(0);
+  }
+
+  /**
    * Copy the specified item into the clipboard.
    * 
    * @param {ClipboardItem} input the item to copy into the clipboard.
    */
   public copyToClipboard(input: ClipboardItem): void {
+    this._items.push(input);
     try {
-      this._items.push(input);
       document.addEventListener('copy', (event: ClipboardEvent) => {
         event.clipboardData.setData('text/plain', input.content);
         event.preventDefault();

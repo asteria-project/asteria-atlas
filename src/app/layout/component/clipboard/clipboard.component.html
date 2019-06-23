@@ -1,0 +1,20 @@
+<nz-drawer [nzVisible]="clipboardService!.visible" [nzWidth]="640" [nzClosable]="true"
+           (nzOnClose)="clipboardService.close()">
+    <h2 class="clipboard-title ant-page-header-title-view-title">
+        <i nz-icon nzType="inbox" nzTheme="outline"></i>
+        Atlas Clipboard
+    </h2>
+    <nz-alert *ngIf="clipboardService.items.length === 0" nzType="info"
+              nzMessage="There is no data registered in the clipboard.">
+    </nz-alert>
+    <div *ngIf="clipboardService.items.length > 0">
+        <a (click)="clearAll()">
+            <i nz-icon nzType="delete" nzTheme="outline"></i> Clear all
+        </a>
+        <nz-list [nzDataSource]="clipboardService.items" nzBordered [nzRenderItem]="item" nzSize="small">
+            <ng-template #item let-item>
+                <nz-list-item [nzContent]="item.name"></nz-list-item>
+            </ng-template>
+        </nz-list>
+    </div>
+</nz-drawer>

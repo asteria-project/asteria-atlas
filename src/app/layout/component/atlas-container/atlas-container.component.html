@@ -85,7 +85,7 @@
                         </nz-breadcrumb>
                     </div>
                     <div nz-col [nzSpan]="1">
-                        <nz-badge [nzCount]="clipboardService!.size">
+                        <nz-badge [nzCount]="clipboardService!.size" [nzStyle]="{ backgroundColor: '#52c41a' }">
                             <button nz-button (click)="clipboardService.open()"
                                     title nz-tooltip nzTitle="Open clipboard">
                                 <i nz-icon nzType="inbox" nzTheme="outline"></i>
@@ -108,21 +108,4 @@
         <i nz-tooltip nzTitle="Show/Hide Menu" nz-icon type="up"></i>
     </ng-template>
 </nz-spin>
-<nz-drawer [nzVisible]="clipboardService!.visible" [nzWidth]="640" [nzClosable]="true"
-           (nzOnClose)="clipboardService.close()">
-    <h2 class="ant-page-header-title-view-title">
-        <i nz-icon nzType="inbox" nzTheme="outline"></i>
-        Atlas Clipboard
-    </h2>
-    <nz-alert *ngIf="clipboardService!.size === 0" nzType="info"
-              nzMessage="there is no data registered in the clipboard.">
-    </nz-alert>
-    <div *ngIf="clipboardService && clipboardService.items">
-        <nz-list [nzDataSource]="clipboardService.items" nzBordered [nzHeader]="'Header'" [nzRenderItem]="item"
-        nzSize="small">
-            <ng-template #item let-item>
-                <nz-list-item [nzContent]="item.name"></nz-list-item>
-            </ng-template>
-        </nz-list>
-    </div>
-</nz-drawer>
+<clipboard></clipboard>

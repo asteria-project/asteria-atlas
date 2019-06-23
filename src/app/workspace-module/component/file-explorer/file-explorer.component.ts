@@ -131,7 +131,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    */
   protected copyFilePath(fileName: string, path: any): void {
     this._clipboard.copyToClipboard(
-      ClipboardItemBuilder.build('file path of ' + fileName, path)
+      ClipboardItemBuilder.build('File path of ' + fileName, path)
     );
   }
 
