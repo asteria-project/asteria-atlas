@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { ClipboardService } from '../../../gui-module';
+import { ClipboardService } from '../../service/clipboard.service';
 
 /**
  * The <code>ClipboardComponent</code> component allows to manage the Atlas clipboard.

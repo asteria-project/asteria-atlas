@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { AtlasViewComponent } from '../../../gui-module';
+import { AtlasViewComponent } from '../atlas-view/atlas-view.component';
 
 @Component({
   selector: 'not-found',

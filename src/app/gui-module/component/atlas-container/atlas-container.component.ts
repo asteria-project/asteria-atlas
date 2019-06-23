@@ -1,5 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { BreadcrumbService, WaitingService, SpinnerState, ClipboardService } from '../../../gui-module';
+import { SpinnerState } from '../../model/spinner-state.model';
+import { ClipboardService } from '../../service/clipboard.service';
+import { BreadcrumbService } from '../../service/breadcrumb.service';
+import { WaitingService } from '../../service/waiting.service';
 
 /**
  * The <code>AtlasContainerComponent</code> component provides the main layout of the Atlas application.

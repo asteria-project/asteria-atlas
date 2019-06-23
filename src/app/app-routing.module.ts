@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SplashScreenComponent } from './layout/component/splash-screen/splash-screen.component';
-import { NotFoundComponent } from './layout/component/not-found/not-found.component';
+import { SplashScreenComponent, NotFoundComponent } from './gui-module';
 
 const routes: Routes = [
   { path: '', component: SplashScreenComponent },

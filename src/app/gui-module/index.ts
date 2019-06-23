@@ -2,7 +2,11 @@
  * GUI module API definitions (please maintain alphabetical order).
  */
 //--> component/
+export * from './component/atlas-container/atlas-container.component';
 export * from './component/atlas-view/atlas-view.component';
+export * from './component/clipboard/clipboard.component';
+export * from './component/not-found/not-found.component';
+export * from './component/splash-screen/splash-screen.component';
 export * from './component/update-date/update-date.component';
 //--> model/
 export * from './model/clipboard-item.model';
