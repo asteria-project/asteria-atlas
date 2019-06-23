@@ -9,6 +9,7 @@ export * from './model/home-link.model';
 export * from './model/spinner-state.model';
 //--> service
 export * from './service/breadcrumb.service';
+export * from './service/clipboard.service';
 export * from './service/file-saver.service';
 export * from './service/notification.service';
 export * from './service/waiting.service';

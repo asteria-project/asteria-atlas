@@ -60,7 +60,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
     const id: string = this._route.snapshot.paramMap.get('id');
     this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
       this.template = template;
-      this.lastUpdated = Date.now();
+      this.setUpdatedDate();
     });
   }
 

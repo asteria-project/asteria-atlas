@@ -54,7 +54,7 @@ export class JobListComponent extends AtlasViewComponent implements OnInit {
         updated: '1559216578507'
       }
     ];
-    this.lastUpdated = Date.now();
+    this.setUpdatedDate();
   }
 
   /**

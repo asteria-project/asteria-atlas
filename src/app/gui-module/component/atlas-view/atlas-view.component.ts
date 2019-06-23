@@ -52,4 +52,11 @@ export abstract class AtlasViewComponent {
   protected titleBack(): void {
     this.router.navigate( [this.backButtonRoute] );
   }
+
+  /**
+   * Set the value of the last updated date.
+   */
+  protected setUpdatedDate(): void {
+    this.lastUpdated = Date.now();
+  }
 }

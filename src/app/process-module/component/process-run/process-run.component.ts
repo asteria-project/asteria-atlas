@@ -64,7 +64,7 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
     const id: string = this._route.snapshot.paramMap.get('id');
     this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
       this.template = template;
-      this.lastUpdated = Date.now();
+      this.setUpdatedDate();
       this.backButtonRoute = '/process/templates/' + id;
       this.breadcrumbService.setItems([
         BreadcrumbItemBuilder.build('Processes', '/process'),

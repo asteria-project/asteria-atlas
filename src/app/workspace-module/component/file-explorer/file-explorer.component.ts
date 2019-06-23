@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { AtlasViewComponent, BreadcrumbItemBuilder, NotificationService, BreadcrumbItem } from '../../../gui-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService } from '../../../gui-module';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats } from 'asteria-eos';
 import { FileExtensionUtils } from '../../util/file-extension.utils';
@@ -39,12 +39,13 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    * The reference to the Atlas workspace service.
    */
   private readonly _workspace: WorkspaceService = null;
+
   
   /**
-   * The reference to the Atlas notifications service.
+   * The reference to the Atlas clipboard managment service.
    */
-  private readonly _notification: NotificationService = null;
-    
+  private readonly _clipboard: ClipboardService = null;
+  
   /**
    * The reference to the path currently displayed in the file explorer.
    */
@@ -65,7 +66,6 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
     this.title = 'File Explorer';
     this.initBreadcrumb();
     this._workspace = injector.get(WorkspaceService);
-    this._notification = injector.get(NotificationService);
   }
 
   /**
@@ -109,7 +109,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
         return result;
       });
       this.fileStatsModel = model;
-      this.lastUpdated = Date.now();
+      this.setUpdatedDate();
     });
   }
 
@@ -130,23 +130,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    * @param {any} path the file path to copy into the clipboard.
    */
   protected copyFilePath(path: any): void {
-    try {
-      document.addEventListener('copy', (event: ClipboardEvent) => {
-        event.clipboardData.setData('text/plain', path);
-        event.preventDefault();
-        document.removeEventListener('copy', null);
-        this._notification.success(
-          'Copy Success',
-          `Path copied to clipboard: "${path}"`
-        );
-      });
-      document.execCommand('copy');
-    } catch (e) {
-      this._notification.success(
-        'Copy Error',
-        e
-      )
-    }
+    this._clipboard.copyToClipboard(path);
   }
 
   /**

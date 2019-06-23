@@ -24,8 +24,6 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
    */
   private _route: ActivatedRoute = null;
 
-  private _useActivatedRoute: boolean = false;
-
   /**
    * The reference to the path currently displayed in the view.
    */
@@ -87,9 +85,8 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
     this.dirPathModel = this._route.snapshot.paramMap.get('filePath');
     if (this.dirPathModel) {
       this.previewFile();
-      this._useActivatedRoute = true;
     } else {
-      this.lastUpdated = Date.now();
+      this.setUpdatedDate();
     }
   }
 
@@ -101,7 +98,7 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
     this._wsService.csvPreview(this.dirPathModel).subscribe((preview: HeliosData<HeliosCsvPreview>)=> {
       this.heliosCsvPreview = preview.data;
       this.createDataPreview();
-      this.lastUpdated = Date.now();
+      this.setUpdatedDate();
     });
   }
 
@@ -121,8 +118,9 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
   }
 
   /**
+   * Invoked each time the user selects a new kind of separator.
    * 
-   * @param {CsvSeparatorType} value 
+   * @param {CsvSeparatorType} value the new separator selected by the user.
    */
   protected separatorSelectHandler(value: CsvSeparatorType): void {
     switch (value) {

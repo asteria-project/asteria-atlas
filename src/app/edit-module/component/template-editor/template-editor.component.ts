@@ -141,7 +141,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
       this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
         this.template = template;
         this.initForm();
-        this.lastUpdated = Date.now();
+        this.setUpdatedDate();
       });
       this.backButtonRoute = `/process/templates/${id}`
       items.push(BreadcrumbItemBuilder.build('Process Templates', `/process/templates`));

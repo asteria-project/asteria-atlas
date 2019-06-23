@@ -36,6 +36,19 @@
     background-color: $asteria-purple;
 }
 
+.danger-text {
+    color: $error;
+}
+.success-text {
+    color: $success;
+}
+.success-primary {
+    color: $primary;
+}
+.success-warning {
+    color: $warning;
+}
+
 /* Disabled links */
 a.disabled {
     color: gray;
