@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService } from '../../../gui-module';
-import { WorkspaceService } from '../../../business-module';
+import { WorkspaceService, ClipboardItemBuilder } from '../../../business-module';
 import { HeliosFileStats } from 'asteria-eos';
 import { FileExtensionUtils } from '../../util/file-extension.utils';
 
@@ -39,7 +39,6 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    * The reference to the Atlas workspace service.
    */
   private readonly _workspace: WorkspaceService = null;
-
   
   /**
    * The reference to the Atlas clipboard managment service.
@@ -66,6 +65,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
     this.title = 'File Explorer';
     this.initBreadcrumb();
     this._workspace = injector.get(WorkspaceService);
+    this._clipboard = injector.get(ClipboardService);
   }
 
   /**
@@ -129,8 +129,10 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    * 
    * @param {any} path the file path to copy into the clipboard.
    */
-  protected copyFilePath(path: any): void {
-    this._clipboard.copyToClipboard(path);
+  protected copyFilePath(fileName: string, path: any): void {
+    this._clipboard.copyToClipboard(
+      ClipboardItemBuilder.build('file path of ' + fileName, path)
+    );
   }
 
   /**
@@ -142,6 +144,17 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    */
   protected getFilePath(file: HeliosFileStats): string {
     return `${file.path}${file.name}.${file.extention}`;
+  }
+
+  /**
+   * Return the file name for the specified file.
+   * 
+   * @param {HeliosFileStats} file the file for which to get the file name.
+   * 
+   * @returns {string} the file name for the specified file.
+   */
+  protected getFileName(file: HeliosFileStats): string {
+    return `${file.name}.${file.extention}`;
   }
   
   /**

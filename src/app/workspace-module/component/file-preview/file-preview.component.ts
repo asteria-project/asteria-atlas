@@ -1,8 +1,8 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem } from '../../../gui-module';
-import { WorkspaceService, CsvSeparatorType } from '../../../business-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService } from '../../../gui-module';
+import { WorkspaceService, CsvSeparatorType, ClipboardItemBuilder } from '../../../business-module';
 import { ActivatedRoute } from '@angular/router';
-import { HeliosData, HeliosCsvPreview } from 'asteria-eos';
+import { HeliosData, HeliosCsvPreview, HeliosFileStats } from 'asteria-eos';
 
 /**
  * The view responsible for displaying the preview of a file.
@@ -44,6 +44,11 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
   protected previewRows: Array<Array<string>> = null;
 
   /**
+   * The reference to the Atlas clipboard managment service.
+   */
+  private readonly _clipboard: ClipboardService = null;
+  
+  /**
    * Create a new <code>FilePreviewComponent</code> instance.
    * 
    * @param {Injector} injector the reference to the Angular services injector.
@@ -54,6 +59,7 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
     this.backButtonRoute = '/workspace';
     this.initBreadcrumb();
     this._wsService = injector.get(WorkspaceService);
+    this._clipboard = injector.get(ClipboardService);
     this._route = injector.get(ActivatedRoute);
     this.previewRows = new Array<Array<string>>();
   }
@@ -164,5 +170,24 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
   private byteCount(input: string): number {
     const rawData: string = input.substring(input.indexOf('\n'));
     return encodeURI(rawData).split(/%..|./).length - 1;
+  }
+  
+  /**
+   * Copy the content of the current file preview into the clipboard.
+   */
+  protected copyFileContent(): void {
+    this._clipboard.copyToClipboard(
+      ClipboardItemBuilder.build('CSV file preview of ' + this.getFileName(), this.heliosCsvPreview.content)
+    );
+  }
+
+  /**
+   * Return the name of the current file preview.
+   * 
+   * @returns {string} the name of the current file preview.
+   */
+  protected getFileName(): string {
+    const file: HeliosFileStats = this.heliosCsvPreview.stats;
+    return `${file.name}.${file.extention}`;
   }
 }

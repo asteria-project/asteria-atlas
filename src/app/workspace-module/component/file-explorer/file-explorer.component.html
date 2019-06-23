@@ -25,7 +25,7 @@
           <tbody>
             <tr *ngFor="let stats of filesTable.data">
               <td>
-                {{ stats.name + '.' + stats.extention }}
+                {{ getFileName(stats) }}
               </td>
               <td>
                 <span *ngIf="stats.isFile">{{ stats.size | fileSize }}</span>
@@ -34,7 +34,7 @@
                 {{ stats.mode }}
               </td>
               <td class="action-container">
-                <a (click)="copyFilePath(getFilePath(stats))"
+                <a (click)="copyFilePath(getFileName(stats), getFilePath(stats))"
                     nz-tooltip nzTitle="Copy file path to clipboard">
                   <i nz-icon nzType="snippets" nzTheme="outline"></i>
                 </a>

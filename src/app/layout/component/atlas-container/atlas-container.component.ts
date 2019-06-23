@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { BreadcrumbService, WaitingService, SpinnerState } from '../../../gui-module';
+import { BreadcrumbService, WaitingService, SpinnerState, ClipboardService } from '../../../gui-module';
 
 /**
  * The <code>AtlasContainerComponent</code> component provides the main layout of the Atlas application.
@@ -22,6 +22,11 @@ export class AtlasContainerComponent implements OnInit {
   protected spinnerState: SpinnerState = null;
 
   /**
+   * The reference to the clipboard service.
+   */
+  protected readonly clipboardService: ClipboardService = null;
+
+  /**
    * The reference to the breadcrumb service.
    */
   protected readonly breadcrumbService: BreadcrumbService = null;
@@ -39,6 +44,7 @@ export class AtlasContainerComponent implements OnInit {
    constructor(protected injector: Injector) {
     this.breadcrumbService = injector.get(BreadcrumbService);
     this._waitingService = injector.get(WaitingService);
+    this.clipboardService = injector.get(ClipboardService);
   }
 
   /**

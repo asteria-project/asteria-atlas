@@ -72,15 +72,27 @@
             </ul>
         </nz-sider>
         <nz-layout style="background: #fff;">
-            <nz-header style="background: #fff; padding:0;">
-                <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" 
-                    (click)="isCollapsed = !isCollapsed"></i>
-                <nz-breadcrumb *ngIf="breadcrumbService" style="display:inline-block;margin-left:1rem;">
-                    <nz-breadcrumb-item *ngFor="let item of breadcrumbService.items">
-                        <a *ngIf="item.route" [routerLink]="item.route">{{ item.label }}</a>
-                        <span *ngIf="!item.route">{{ item.label }}</span>
-                    </nz-breadcrumb-item>
-                </nz-breadcrumb>
+            <nz-header style="background: #fff; padding:0; margin-right:1rem;">
+                <div nz-row>
+                    <div nz-col [nzSpan]="23">
+                        <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" 
+                           (click)="isCollapsed = !isCollapsed"></i>
+                        <nz-breadcrumb *ngIf="breadcrumbService" style="display:inline-block;margin-left:1rem;">
+                            <nz-breadcrumb-item *ngFor="let item of breadcrumbService.items">
+                                <a *ngIf="item.route" [routerLink]="item.route">{{ item.label }}</a>
+                                <span *ngIf="!item.route">{{ item.label }}</span>
+                            </nz-breadcrumb-item>
+                        </nz-breadcrumb>
+                    </div>
+                    <div nz-col [nzSpan]="1">
+                        <nz-badge [nzCount]="clipboardService!.size">
+                            <button nz-button (click)="clipboardService.open()"
+                                    title nz-tooltip nzTitle="Open clipboard">
+                                <i nz-icon nzType="inbox" nzTheme="outline"></i>
+                            </button>
+                        </nz-badge>
+                    </div>
+                </div>
             </nz-header>
             <nz-content style="margin:0 1.2rem; background: #fff;">
                 <div style="background: #fff;">
@@ -96,3 +108,13 @@
         <i nz-tooltip nzTitle="Show/Hide Menu" nz-icon type="up"></i>
     </ng-template>
 </nz-spin>
+<nz-drawer [nzVisible]="clipboardService!.visible" [nzWidth]="640" [nzClosable]="true"
+           (nzOnClose)="clipboardService.close()">
+    <h2 class="ant-page-header-title-view-title">
+        <i nz-icon nzType="inbox" nzTheme="outline"></i>
+        Atlas Clipboard
+    </h2>
+    <nz-alert *ngIf="clipboardService!.size === 0" nzType="info"
+              nzMessage="there is no data registered in the clipboard.">
+    </nz-alert>
+</nz-drawer>

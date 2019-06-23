@@ -2,7 +2,7 @@ import { HeliosProcessDescriptor } from 'asteria-eos';
 import { HeliosProcessDescriptorImpl } from '../../model/impl/helios-process-descriptor.impl';
 
 /**
- * The builder that dreates <code>HeliosProcessDescriptor</code> objects.
+ * The builder that creates <code>HeliosProcessDescriptor</code> objects.
  */
 export class HeliosProcessDescriptorBuilder {
 
