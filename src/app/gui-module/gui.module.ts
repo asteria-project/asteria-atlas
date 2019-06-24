@@ -1,6 +1,7 @@
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 // Locale
@@ -42,6 +43,7 @@ const PIPES: any[] = [
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     NgZorroAntdModule
   ],
   exports: [

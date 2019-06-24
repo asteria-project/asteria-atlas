@@ -79,6 +79,15 @@ export class ClipboardService {
   }
 
   /**
+   * Remove the specified item  from the clipboard.
+   * 
+   * @param {ClipboardItem} item the item to remove.
+   */
+  public removeFromClipboard(item: ClipboardItem): void {
+    this._items.splice(this._items.indexOf(item), 1);
+  }
+
+  /**
    * Copy the specified item into the clipboard.
    * 
    * @param {ClipboardItem} input the item to copy into the clipboard.

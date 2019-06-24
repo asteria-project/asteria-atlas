@@ -10,9 +10,9 @@ import { NzNotificationService } from 'ng-zorro-antd';
 export class NotificationService {
  
     /**
-     * The reference to the Zorro notifications service.
+     * The reference to the NgZorro notifications service.
      */
-    private _notification: NzNotificationService = null;
+    private readonly _notification: NzNotificationService = null;
 
     /**
      * Create a new <code>NotificationService</code> instance.
@@ -57,7 +57,8 @@ export class NotificationService {
                 nzStyle: {
                     'background-color': '#f6ffed',
                     border: '1px solid #b7eb8f'
-                }
+                },
+                nzDuration: 2500
             }
         );
     }

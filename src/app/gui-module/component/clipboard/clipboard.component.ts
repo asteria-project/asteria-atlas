@@ -1,5 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { ClipboardService } from '../../service/clipboard.service';
+import { ClipboardItem } from '../../model/clipboard-item.model';
 
 /**
  * The <code>ClipboardComponent</code> component allows to manage the Atlas clipboard.
@@ -14,7 +15,12 @@ export class ClipboardComponent {
   /**
    * The reference to the clipboard service.
    */
-  protected clipboardService: ClipboardService = null;
+  protected readonly clipboardService: ClipboardService = null;
+
+  /**
+   * Specified the co,tent of the current item selected by the user.
+   */
+  protected itemContent: string = null;
 
   /**
    * Create a new <code>ClipboardComponent</code> instance.
@@ -30,5 +36,24 @@ export class ClipboardComponent {
    */
   protected clearAll(): void {
     this.clipboardService.clear();
+    this.itemContent = null;
+  }
+
+  /**
+   * 
+   * 
+   * @param {ClipboardItem} item 
+   */
+  protected showItemContent(item: ClipboardItem): void {
+    this.itemContent = item.content;
+  }
+
+  /**
+   * Delete the specified item  from the clipboard.
+   * 
+   * @param {ClipboardItem} item the item to delete.
+   */
+  protected deleteItem(item: ClipboardItem): void {
+    this.clipboardService.removeFromClipboard(item);
   }
 }
