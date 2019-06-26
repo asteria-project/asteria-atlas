@@ -1,7 +1,15 @@
+.clipboard-title {
+    margin-bottom: 2rem;
+}
 .clipboard-clear-all-btn {
     display: block;
     margin-bottom: 1rem;
 }
-.clipboard-item-list {
-    margin-bottom: 1rem;
+.clipboard-item-list-wrapper {
+    margin-bottom: 1.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+    border: solid 1px #e8e8e8;
+    border-radius: 2px;
+    padding: 0.25rem 1rem;
 }

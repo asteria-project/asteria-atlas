@@ -95,18 +95,19 @@ export class ClipboardService {
   public copyToClipboard(input: ClipboardItem): void {
     this._items.push(input);
     try {
-      document.addEventListener('copy', (event: ClipboardEvent) => {
+      const handler: EventListenerOrEventListenerObject = (event: ClipboardEvent) => {
         event.clipboardData.setData('text/plain', input.content);
         event.preventDefault();
-        document.removeEventListener('copy', null);
+        document.removeEventListener('copy', handler);
         this._notification.success(
           'Copy Success',
           `Element copied to clipboard: "${input.name}"`
         );
-      });
+      };
+      document.addEventListener('copy', handler);
       document.execCommand('copy');
     } catch (e) {
-      this._notification.success(
+      this._notification.error(
         'Copy Error',
         e
       )

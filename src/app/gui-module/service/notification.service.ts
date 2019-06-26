@@ -10,6 +10,28 @@ import { NzNotificationService } from 'ng-zorro-antd';
 export class NotificationService {
  
     /**
+     * The config object for success notifications.
+     */
+    private readonly SUCCESS_CONFIG: any = {
+        nzStyle: {
+            'background-color': '#f6ffed',
+            border: '1px solid #b7eb8f'
+        },
+        nzDuration: 2500
+    };
+
+    /**
+     * The config object for error notifications.
+     */
+    private readonly ERROR_CONFIG: any = {
+        nzStyle: {
+            'background-color': '#fff1f0',
+            border: '1px solid #ffa39e'
+        },
+        nzDuration: 2500
+    };
+
+    /**
      * The reference to the NgZorro notifications service.
      */
     private readonly _notification: NzNotificationService = null;
@@ -30,17 +52,7 @@ export class NotificationService {
      * @param {string} message the message of the notification.
      */
     public error(title: string, message: string): void {
-        this._notification.error(
-            title,
-            message,
-            {
-                nzStyle: {
-                    'background-color': '#fff1f0',
-                    border: '1px solid #ffa39e'
-                },
-                nzDuration: 2500
-            }
-        );
+        this._notification.error(title, message, this.ERROR_CONFIG);
     }
     
     /**
@@ -50,16 +62,6 @@ export class NotificationService {
      * @param {string} message the message of the notification.
      */
     public success(title: string, message: string): void {
-        this._notification.success(
-            title,
-            message,
-            {
-                nzStyle: {
-                    'background-color': '#f6ffed',
-                    border: '1px solid #b7eb8f'
-                },
-                nzDuration: 2500
-            }
-        );
+        this._notification.success(title, message, this.SUCCESS_CONFIG);
     }
 }

@@ -4,35 +4,38 @@
         <i nz-icon nzType="inbox" nzTheme="outline"></i>
         Atlas Clipboard
     </h2>
-    <nz-divider></nz-divider>
     <nz-alert *ngIf="clipboardService.items.length === 0" nzType="info"
               nzMessage="There is no data registered in the clipboard.">
     </nz-alert>
     <div *ngIf="clipboardService.items.length > 0">
-        <a class="clipboard-clear-all-btn" (click)="clearAll()">
-            <i nz-icon nzType="delete" nzTheme="outline"></i> Clear all
-        </a>
-        <nz-list class="clipboard-item-list" [nzDataSource]="clipboardService.items"
-                 nzBordered [nzRenderItem]="item" nzSize="small">
-            <ng-template #item let-item>
-                <nz-list-item>
-                    <nz-list-item-meta [nzTitle]="itemTitle">
-                        <ng-template #itemTitle>
-                            <div nz-row>
-                                <div nz-col nzSpan="18">
-                                    <a (click)="showItemContent(item)">{{ item.name }}</a>
+        <div class="text-right">
+            <a class="clipboard-clear-all-btn" (click)="clearAll()">
+                <i nz-icon nzType="delete" nzTheme="outline"></i> Clear all
+            </a>
+        </div>
+        <div class="clipboard-item-list-wrapper">
+            <nz-list class="clipboard-item-list" [nzDataSource]="clipboardService.items"
+                 [nzRenderItem]="item" nzSize="small">
+                <ng-template #item let-item>
+                    <nz-list-item>
+                        <nz-list-item-meta [nzTitle]="itemTitle">
+                            <ng-template #itemTitle>
+                                <div nz-row>
+                                    <div nz-col nzSpan="18">
+                                        <a (click)="showItemContent(item)">{{ item.name }}</a>
+                                    </div>
+                                    <div nz-col nzSpan="6" class="text-right">
+                                        <a (click)="deleteItem(item)" nz-tooltip nzTitle="Delete item">
+                                            <i nz-icon nzType="delete" nzTheme="outline"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div nz-col nzSpan="6" class="text-right">
-                                    <a (click)="deleteItem(item)" nz-tooltip nzTitle="Delete item">
-                                        <i nz-icon nzType="delete" nzTheme="outline"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </nz-list-item-meta>
-                </nz-list-item>
-            </ng-template>
-        </nz-list>
+                            </ng-template>
+                        </nz-list-item-meta>
+                    </nz-list-item>
+                </ng-template>
+            </nz-list>
+        </div>
         <textarea rows="5" nz-input [ngModel]="itemContent"></textarea>
     </div>
 </nz-drawer>
