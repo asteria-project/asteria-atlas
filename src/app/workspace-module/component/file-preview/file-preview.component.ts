@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, Injector, AfterViewInit } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder } from '../../../gui-module';
 import { WorkspaceService, CsvSeparatorType } from '../../../business-module';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { HeliosData, HeliosCsvPreview, HeliosFileStats } from 'asteria-eos';
   templateUrl: './file-preview.component.html',
   styleUrls: [ './file-preview.component.scss' ]
 })
-export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
+export class FilePreviewComponent extends AtlasViewComponent implements AfterViewInit {
 
   /**
    * The reference to the Helios workspace service.
@@ -87,7 +87,7 @@ export class FilePreviewComponent extends AtlasViewComponent implements OnInit {
   /**
    * @inheritdoc
    */
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
     this.dirPathModel = this._route.snapshot.paramMap.get('filePath');
     if (this.dirPathModel) {
       this.previewFile();
