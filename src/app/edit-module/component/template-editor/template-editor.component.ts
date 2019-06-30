@@ -46,7 +46,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   /**
    * The reference to the HTML element where config component as are loaded.
    */
-  @ViewChild('configContainer', { static: false })
+  @ViewChild('configContainer', { static: false, read: ViewContainerRef })
   protected configContainer: ViewContainerRef = null;
 
   /**
