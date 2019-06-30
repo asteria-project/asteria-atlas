@@ -6,19 +6,19 @@ const routes: Routes = [
   { path: '', component: SplashScreenComponent },
   {
     path: 'job',
-    loadChildren: './job-module/job.module#JobModule'
+    loadChildren: () => import('./job-module/job.module').then(m => m.JobModule)
   },
   {
     path: 'process',
-    loadChildren: './process-module/process.module#ProcessModule'
+    loadChildren: () => import('./process-module/process.module').then(m => m.ProcessModule)
   },
   {
     path: 'edit',
-    loadChildren: './edit-module/edit.module#EditModule'
+    loadChildren: () => import('./edit-module/edit.module').then(m => m.EditModule)
   },
   {
     path: 'workspace',
-    loadChildren: './workspace-module/workspace.module#WorkspaceModule'
+    loadChildren: () => import('./workspace-module/workspace.module').then(m => m.WorkspaceModule)
   },
   { path: '**',  component: NotFoundComponent },
 ];

@@ -56,6 +56,16 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
   protected fileStatsModel: Array<HeliosFileStats> = null;
 
   /**
+   * Indicates whether the URL import modal is displayed (<code>true</code>), or not (<code>false</code>).
+   */
+  protected modalVisible: boolean = false;
+
+  /**
+   * The URL to a file to import into the file system.
+   */
+  protected urlImportModel: string = null;
+
+  /**
    * Create a new <code>FileExplorerComponent</code> instance.
    * 
    * @param {Injector} injector the reference to the Angular services injector.
@@ -172,5 +182,19 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    */
   protected previewFile(file: HeliosFileStats): void {
     this.router.navigate( [`workspace/preview/${this.getFilePath(file)}`]) ;
+  }
+
+  /**
+   * Open the URL import modal.
+   */
+  protected openUrlImportModal(): void {
+    this.modalVisible = true;
+  }
+
+  /**
+   * Handle the user's cancel action over the URL import modal.
+   */
+  protected handleCancel(): void {
+    this.modalVisible = false;
   }
 }

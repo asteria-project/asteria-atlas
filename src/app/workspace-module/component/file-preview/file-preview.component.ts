@@ -39,8 +39,14 @@ export class FilePreviewComponent extends AtlasViewComponent implements AfterVie
    */
   protected separatorType: CsvSeparatorType = CsvSeparatorType.COMMA;
 
+  /**
+   * The reference to the value object that contains file preview information.
+   */
   protected heliosCsvPreview: HeliosCsvPreview = null;
 
+  /**
+   * The list of items that contain preview for a single CSV row.
+   */
   protected previewRows: Array<Array<string>> = null;
 
   /**

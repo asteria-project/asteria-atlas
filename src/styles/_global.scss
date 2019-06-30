@@ -89,10 +89,13 @@ a.disabled {
     }
 }
 
-/* Container for icon-based actions */
+/* Container for icon-based actions: a > i */
 .action-container {
-    i {
+    a {
         padding-right: 1rem;
+    }
+    a:last-child {
+        padding-right: 0;
     }
 }
 

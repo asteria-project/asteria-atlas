@@ -3,8 +3,18 @@
   <update-date [dateTime]="lastUpdated"></update-date>
   <nz-card class="w-100" nzTitle="File Explorer">
     <form class="directory-name-input">
-      <nz-input-group nzAddOnBefore="workspace/">
+      <nz-input-group nzAddOnBefore="workspace/" [nzAddOnAfter]="importItems">
         <input type="text" [ngModel]="dirPathModel" name="dirPath" nz-input/>
+        <ng-template #importItems>
+          <div class="action-container">
+            <a>
+              <i nz-icon nzType="cloud-upload" nzTheme="outline" nz-tooltip nzTitle="Import file"></i>
+            </a>
+            <a (click)="openUrlImportModal()">
+              <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
+            </a>
+          </div>
+        </ng-template>
       </nz-input-group>
     </form>
     <div>&nbsp;</div>
@@ -53,3 +63,14 @@
     </div>
   </nz-card>
 </div>
+
+<nz-modal [(nzVisible)]="modalVisible" nzTitle="Import file from URL" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <form class="url-import-input">
+        <nz-input-group [nzAddOnBefore]="importUrlItem">
+          <input type="text" [(ngModel)]="urlImportModel" name="urlImport" nz-input/>
+          <ng-template #importUrlItem>
+            <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
+          </ng-template>
+        </nz-input-group>
+      </form>
+</nz-modal>
