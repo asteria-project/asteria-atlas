@@ -4,14 +4,14 @@
   <nz-card class="w-100" nzTitle="File Explorer">
     <form class="directory-name-input">
       <nz-input-group nzAddOnBefore="workspace/" [nzAddOnAfter]="importItems">
-        <input type="text" [ngModel]="dirPathModel" name="dirPath" nz-input/>
+        <input type="text" [ngModel]="dirPathModel" name="dirPath" nz-input [disabled]="true"/>
         <ng-template #importItems>
           <div class="action-container">
             <a>
-              <i nz-icon nzType="cloud-upload" nzTheme="outline" nz-tooltip nzTitle="Import file"></i>
+              <i nz-icon nzType="cloud-upload" nzTheme="outline" nz-tooltip nzTitle="Import from local"></i>
             </a>
             <a (click)="openUrlImportModal()">
-              <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
+              <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import from URL"></i>
             </a>
           </div>
         </ng-template>

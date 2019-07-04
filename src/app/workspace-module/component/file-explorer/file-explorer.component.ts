@@ -164,7 +164,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
    * @returns {string} the file name for the specified file.
    */
   protected getFileName(file: HeliosFileStats): string {
-    return `${file.name}.${file.extention}`;
+    return file.isFile ? `${file.name}.${file.extention}` : file.name;
   }
   
   /**
