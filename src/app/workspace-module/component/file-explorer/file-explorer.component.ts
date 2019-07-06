@@ -58,12 +58,22 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
   /**
    * Indicates whether the URL import modal is displayed (<code>true</code>), or not (<code>false</code>).
    */
-  protected modalVisible: boolean = false;
+  protected importModalVisible: boolean = false;
+
+  /**
+   * Indicates whether the folder creation modal is displayed (<code>true</code>), or not (<code>false</code>).
+   */
+  protected folderModalVisible: boolean = false;
 
   /**
    * The URL to a file to import into the file system.
    */
   protected urlImportModel: string = null;
+
+  /**
+   * The name of the new folder to create.
+   */
+  protected newFolderModel: string = null;
 
   /**
    * Create a new <code>FileExplorerComponent</code> instance.
@@ -185,16 +195,28 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
   }
 
   /**
-   * Open the URL import modal.
+   * Display the modal specified by its reference.
+   * 
+   * @param {string} modalRef the reference to the modal to display.
    */
-  protected openUrlImportModal(): void {
-    this.modalVisible = true;
+  protected openModal(modalRef: string): void {
+    if (modalRef === 'url') {
+      this.importModalVisible = true;
+    } else  if (modalRef === 'folder') {
+      this.folderModalVisible = true;
+    }
   }
 
   /**
-   * Handle the user's cancel action over the URL import modal.
+   * Handle the user's cancel action over a modal.
+   * 
+   * @param {string} modalRef the reference to the modal to hide.
    */
-  protected handleCancel(): void {
-    this.modalVisible = false;
+  protected handleCancel(modalRef: string): void {
+    if (modalRef === 'url') {
+      this.importModalVisible = false;
+    } else  if (modalRef === 'folder') {
+      this.folderModalVisible = false;
+    }
   }
 }

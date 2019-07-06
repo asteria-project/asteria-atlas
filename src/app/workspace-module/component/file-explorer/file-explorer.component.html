@@ -10,8 +10,11 @@
             <a>
               <i nz-icon nzType="cloud-upload" nzTheme="outline" nz-tooltip nzTitle="Import from local"></i>
             </a>
-            <a (click)="openUrlImportModal()">
+            <a (click)="openModal('url')">
               <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import from URL"></i>
+            </a>
+            <a (click)="openModal('folder')">
+              <i nz-icon nzType="folder" nzTheme="outline" nz-tooltip nzTitle="Create new folder"></i>
             </a>
           </div>
         </ng-template>
@@ -64,13 +67,34 @@
   </nz-card>
 </div>
 
-<nz-modal [(nzVisible)]="modalVisible" nzTitle="Import file from URL" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-    <form class="url-import-input">
-        <nz-input-group [nzAddOnBefore]="importUrlItem">
-          <input type="text" [(ngModel)]="urlImportModel" name="urlImport" nz-input/>
-          <ng-template #importUrlItem>
-            <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
-          </ng-template>
-        </nz-input-group>
-      </form>
+<nz-modal [(nzVisible)]="importModalVisible" [nzTitle]="importUrlModalTitle"
+          (nzOnCancel)="handleCancel('url')" (nzOnOk)="handleOk()">
+  <form class="url-import-input">
+      <nz-input-group [nzAddOnBefore]="importUrlItem">
+        <input type="text" [(ngModel)]="urlImportModel" name="urlImport" nz-input/>
+        <ng-template #importUrlItem>
+          <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
+        </ng-template>
+      </nz-input-group>
+    </form>
+    <ng-template #importUrlModalTitle>
+      <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
+      Import file from URL
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="folderModalVisible" [nzTitle]="folderModalTitle"
+          (nzOnCancel)="handleCancel('folder')" (nzOnOk)="handleOk()">
+  <form class="url-import-input">
+      <nz-input-group [nzAddOnBefore]="folderItem">
+        <input type="text" [(ngModel)]="newFolderModel" name="urlImport" nz-input/>
+        <ng-template #folderItem>
+          <i nz-icon nzType="folder" nzTheme="outline" nz-tooltip nzTitle="Create a folder"></i>
+        </ng-template>
+      </nz-input-group>
+    </form>
+    <ng-template #folderModalTitle>
+      <i nz-icon nzType="folder" nzTheme="outline" nz-tooltip nzTitle="Create a folder"></i>
+      Create a folder
+    </ng-template>
 </nz-modal>
