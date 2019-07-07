@@ -1,8 +1,10 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, AfterViewInit, Injector, ViewChild } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder } from '../../../gui-module';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats } from 'asteria-eos';
 import { FileExtensionUtils } from '../../util/file-extension.utils';
+import { NzTreeNodeOptions, NzFormatEmitEvent, NzTreeComponent, NzTreeNode } from 'ng-zorro-antd';
+import { FileExplorerNodeUtils } from '../../util/file-explorer-node.utils';
 
 /**
  * The view responsible for displaying the files registered in the workspace.
@@ -12,28 +14,29 @@ import { FileExtensionUtils } from '../../util/file-extension.utils';
   templateUrl: './file-explorer.component.html',
   styleUrls: [ './file-explorer.component.scss' ]
 })
-export class FileExplorerComponent extends AtlasViewComponent implements OnInit {
+export class FileExplorerComponent extends AtlasViewComponent implements AfterViewInit {
 
-  nodes = [
+  /**
+   * The reference to the navigation tree in this view.
+   */
+  @ViewChild(NzTreeComponent, {static: false})
+  private _tree: NzTreeComponent = null;
+
+  /**
+   * The model used to render items in the tree component.
+   */
+  protected nodes: Array<NzTreeNodeOptions> = [
     {
-      title: 'parent 0',
-      key: '100',
-      author: 'NG ZORRO',
-      children: [
-        { title: 'leaf 0-0', key: '1000', author: 'NG ZORRO', isLeaf: true },
-        { title: 'leaf 0-1', key: '1001', author: 'NG ZORRO', isLeaf: true }
-      ]
-    },
-    {
-      title: 'parent 1',
-      key: '101',
-      author: 'NG ZORRO',
-      children: [
-        { title: 'leaf 1-0', key: '1010', author: 'NG ZORRO', isLeaf: true },
-        { title: 'leaf 1-1', key: '1011', author: 'NG ZORRO', isLeaf: true }
-      ]
+      title: 'workspace',
+      expanded: false,
+      key: '0'
     }
   ];
+
+  /**
+   * The reference to the current node selected in the tree component.
+   */
+  private _currentNode: NzTreeNode = null;
 
   /**
    * The reference to the Atlas workspace service.
@@ -111,26 +114,8 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
   /**
    * @inheritdoc
    */
-  public ngOnInit(): void {
-    this._workspace.list('').subscribe((files: any)=> {
-      const model: Array<HeliosFileStats> = files.data;
-      model.sort((a: HeliosFileStats, b: HeliosFileStats)=> {
-        let result: number = 0;
-        if (a.isFile !== b.isFile) {
-          result = a.isFile === false ? -1 : 1;
-        } else {
-          if (a.name > b.name) {
-            result = -1;
-          }
-          if (b.name > a.name) {
-            result = 1;
-          }
-        }
-        return result;
-      });
-      this.fileStatsModel = model;
-      this.setUpdatedDate();
-    });
+  public ngAfterViewInit(): void {
+    this.loadNode(this._tree.getTreeNodeByKey('0'));
   }
 
   /**
@@ -218,5 +203,69 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit 
     } else  if (modalRef === 'folder') {
       this.folderModalVisible = false;
     }
+  }
+
+  /**
+   * Invoked each time the user clicks on an item in the tree.
+   * 
+   * @param {Required<NzFormatEmitEvent>} event the event associated with the user's action.
+   */
+  protected treeEventHandler(event: Required<NzFormatEmitEvent>): void {
+    const node: NzTreeNode = event.node;
+    const eventName: string = event.eventName;
+    if (node) {
+      if (eventName === 'expand') {
+        if (node.isExpanded) {
+          this.loadNode(node);
+        }
+      } else if (eventName === 'click') {
+        if (node !== this._currentNode) {
+          this.loadNode(node);
+        } else {
+          this._currentNode.setSelected(true);
+        }
+      }
+    }
+  }
+
+  private initdDirPathModel(node: NzTreeNode): void {
+    this.dirPathModel = FileExplorerNodeUtils.getNodeDirPath(node);
+  }
+
+  private loadNode(node: NzTreeNode): void {
+    if (this._currentNode) {
+      this._currentNode.setSelected(false);
+    }
+    this.initdDirPathModel(node);
+    this._workspace.list(this.dirPathModel).subscribe((files: any)=> {
+      const model: Array<HeliosFileStats> = files.data;
+      if (model) {
+        model.sort((a: HeliosFileStats, b: HeliosFileStats)=> {
+          let result: number = 0;
+          if (a.isFile !== b.isFile) {
+            result = a.isFile === false ? -1 : 1;
+          } else {
+            if (a.name > b.name) {
+              result = -1;
+            }
+            if (b.name > a.name) {
+              result = 1;
+            }
+          }
+          return result;
+        });
+      }
+      this.fileStatsModel = model;
+      FileExplorerNodeUtils.setNodeChildren(
+        node,
+        FileExplorerNodeUtils.buildNodeFromModel(model, 1)
+      )
+      node.setExpanded(true);
+      if (!this._currentNode) {
+        node.setSelected(true);
+      }
+      this._currentNode = node;
+      this.setUpdatedDate();
+    });
   }
 }

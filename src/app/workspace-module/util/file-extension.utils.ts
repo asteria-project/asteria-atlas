@@ -1,7 +1,7 @@
 import { HeliosFileStats } from 'asteria-eos';
 
 /**
- * The <code>FileExtensionUtils</code> class provide convenient methos for workiing with helios files extentions.
+ * The <code>FileExtensionUtils</code> class provide convenient methods for working with helios files extentions.
  */
 export class FileExtensionUtils {
 
