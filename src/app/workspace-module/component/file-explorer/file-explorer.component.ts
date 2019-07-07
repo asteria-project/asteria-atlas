@@ -222,7 +222,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
         if (node !== this._currentNode) {
           this.loadNode(node);
         } else {
-          this._currentNode.setSelected(true);
+          this._currentNode.isSelected = true;
         }
       }
     }
@@ -235,7 +235,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    */
   private loadNode(node: NzTreeNode): void {
     if (this._currentNode) {
-      this._currentNode.setSelected(false);
+      this._currentNode.isSelected = false;
     }
     this.dirPathModel = FileExplorerNodeUtils.getNodeDirPath(node);
     this._workspace.list(this.dirPathModel).subscribe((files: any)=> {
@@ -261,9 +261,9 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
         node,
         FileExplorerNodeUtils.buildNodeFromModel(model, 1)
       )
-      node.setExpanded(true);
+      node.isExpanded = true;
       if (!this._currentNode) {
-        node.setSelected(true);
+        node.isSelected = true;
       }
       this._currentNode = node;
       this.setUpdatedDate();

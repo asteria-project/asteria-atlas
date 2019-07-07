@@ -55,7 +55,9 @@ export class AtlasContainerComponent implements OnInit {
    */
   public ngOnInit(): void {
     this._waitingService.stateChange.subscribe((state: SpinnerState)=> {
-      this.spinnerState = state;
+      setTimeout(()=> {
+        this.spinnerState = state;
+      }, 0);
     });
   }
 }
