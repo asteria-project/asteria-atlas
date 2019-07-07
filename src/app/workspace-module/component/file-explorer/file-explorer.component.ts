@@ -176,6 +176,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    * @param {HeliosFileStats} file the file to preview.
    */
   protected previewFile(file: HeliosFileStats): void {
+    this.breadcrumbService.takeSnapshot(this.router.url);
     this.router.navigate( [`workspace/preview/${this.getFilePath(file)}`]) ;
   }
 
