@@ -228,15 +228,16 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     }
   }
 
-  private initdDirPathModel(node: NzTreeNode): void {
-    this.dirPathModel = FileExplorerNodeUtils.getNodeDirPath(node);
-  }
-
+  /**
+   * Load Helios files structure for the specified node.
+   * 
+   * @param {NzTreeNode} node the node for which to load the Helios files structure.
+   */
   private loadNode(node: NzTreeNode): void {
     if (this._currentNode) {
       this._currentNode.setSelected(false);
     }
-    this.initdDirPathModel(node);
+    this.dirPathModel = FileExplorerNodeUtils.getNodeDirPath(node);
     this._workspace.list(this.dirPathModel).subscribe((files: any)=> {
       const model: Array<HeliosFileStats> = files.data;
       if (model) {
