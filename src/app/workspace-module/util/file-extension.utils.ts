@@ -6,6 +6,28 @@ import { HeliosFileStats } from 'asteria-eos';
 export class FileExtensionUtils {
 
     /**
+     * Return the file name for the specified file.
+     * 
+     * @param {HeliosFileStats} file the file for which to get the file name.
+     * 
+     * @returns {string} the file name for the specified file.
+     */
+    public static getFileName(file: HeliosFileStats): string {
+        return file.isFile ? `${file.name}.${file.extention}` : file.name;
+    }
+        
+    /**
+     * Return the full path for the specified file.
+     * 
+     * @param {HeliosFileStats} file the file for which to get the full path.
+     * 
+     * @returns {string} the full path for the specified file.
+     */
+    public static  getFilePath(file: HeliosFileStats): string {
+        return `${file.path}${file.name}.${file.extention}`;
+    }
+
+    /**
      * Return the icon reference to be associated with the extention of the specified file.
      * 
      * @param {HeliosFileStats} file the file for which to get the icon.

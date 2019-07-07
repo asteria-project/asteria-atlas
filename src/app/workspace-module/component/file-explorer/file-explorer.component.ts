@@ -90,6 +90,11 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   protected newFolderModel: string = null;
 
   /**
+   * Store the reference to the <code>FileExtensionUtils</code> class.
+   */
+  protected fileUtils: any = FileExtensionUtils;
+
+  /**
    * Create a new <code>FileExplorerComponent</code> instance.
    * 
    * @param {Injector} injector the reference to the Angular services injector.
@@ -131,17 +136,6 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   }
 
   /**
-   * Return the icon reference to be associated with the extention of the specified file.
-   * 
-   * @param {HeliosFileStats} file the file for which to get the icon.
-   * 
-   * @returns {string} the icon reference to be associated with the extention of the specified file.
-   */
-  public getFileIcon(file: HeliosFileStats): string {
-    return FileExtensionUtils.getIcon(file);
-  }
-
-  /**
    * Copy the specified file path into the clipboard.
    * 
    * @param {any} path the file path to copy into the clipboard.
@@ -153,45 +147,19 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   }
 
   /**
-   * Return the full path for the specified file.
-   * 
-   * @param {HeliosFileStats} file the file for which to get the full path.
-   * 
-   * @returns {string} the full path for the specified file.
-   */
-  protected getFilePath(file: HeliosFileStats): string {
-    return `${file.path}${file.name}.${file.extention}`;
-  }
-
-  /**
-   * Return the file name for the specified file.
-   * 
-   * @param {HeliosFileStats} file the file for which to get the file name.
-   * 
-   * @returns {string} the file name for the specified file.
-   */
-  protected getFileName(file: HeliosFileStats): string {
-    return file.isFile ? `${file.name}.${file.extention}` : file.name;
-  }
-
-  /**
    * Delete the specified file, or directory.
    * 
    * @param {HeliosFileStats} file the file to delete.
    */
   protected deleteFile(file: HeliosFileStats): void {
-    const fileName: string = this.getFileName(file);
+    const fileName: string = this.fileUtils.getFileName(file);
     const pathToRemove: string = this.dirPathModel + fileName;
     this._workspace.remove(pathToRemove).subscribe((result: any)=> {
-      if (result === 'OK') {
-        const msgType: string = file.isFile ? 'File' : 'Directory';
-        const idx: number = this.fileStatsModel.indexOf(file);
-        this.fileStatsModel.splice(idx, 1);
-        this._filesTable.data = this.fileStatsModel;
-        this._notification.success(
-          `${msgType} Remove Success`, `${msgType} "${fileName}" has been successfully removed.`
-        );
-      }
+      const msgType: string = file.isFile ? 'File' : 'Directory';
+      this._notification.success(
+        `${msgType} Remove Success`, `${msgType} "${fileName}" has been successfully removed.`
+      );
+      this.loadNode(this._currentNode);
     });
   }
 
@@ -202,7 +170,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    */
   protected previewFile(file: HeliosFileStats): void {
     this.breadcrumbService.takeSnapshot(this.router.url);
-    this.router.navigate( [`workspace/preview/${this.getFilePath(file)}`]) ;
+    this.router.navigate( [`workspace/preview/${this.fileUtils.getFilePath(file)}`]) ;
   }
 
   /**
@@ -228,6 +196,26 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
       this.importModalVisible = false;
     } else  if (modalRef === 'folder') {
       this.folderModalVisible = false;
+    }
+  }
+
+  /**
+   * Handle the user's validate action over a modal.
+   * 
+   * @param {string} modalRef the reference to the modal to be processed.
+   */
+  protected handleOk(modalRef: string): void {
+    this.handleCancel(modalRef);
+    if (modalRef === 'url') {
+      // TODO
+    } else if (modalRef === 'folder') {
+      this._workspace.mkdir(this.newFolderModel).subscribe((result: any)=> {
+        this._notification.success(
+          `Directory Create Success`, `Directory "${this.newFolderModel}" has been successfully creates.`
+        );
+        this.newFolderModel = null;
+        this.loadNode(this._currentNode);
+      });
     }
   }
 
@@ -294,5 +282,28 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
       this._currentNode = node;
       this.setUpdatedDate();
     });
+  }
+
+  /**
+   * Sort data in the files table, according to the specified sort options.
+   * 
+   * @param {{ key: string; value: string }} sort the options used to sort data.
+   */
+  protected sortFilesHandler(sort: { key: string; value: string }): void {
+    const key: string = sort.key;
+    const value: string = sort.value;
+    const data:  Array<HeliosFileStats> = this.fileStatsModel;
+    if (key && value) {
+      data.sort((a: any, b: any) => {
+        let result: number = 0;
+        if (value === 'ascend') {
+          result = a[key!] > b[key!] ? 1 : -1;
+        } else if (value === 'descend') {
+          result = b[key!] > a[key!] ? 1 : -1;
+        }
+        return result;
+      });
+      this._filesTable.data = this.fileStatsModel = data;
+    }
   }
 }

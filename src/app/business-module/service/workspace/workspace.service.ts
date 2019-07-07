@@ -59,7 +59,7 @@ export class WorkspaceService extends AbstractHeliosService {
    * 
    * @param {string} path the path to the directory to remove.
    * 
-   * @returns {Observable<any>} the result  of the operation.
+   * @returns {Observable<any>} the result of the operation.
    */
   public remove(path: string): Observable<any> {
     this.waitingService.show();
@@ -70,6 +70,31 @@ export class WorkspaceService extends AbstractHeliosService {
         catchError(error => {
           this.notification.error(
             'Worspace Remove Error',
+            ErrorMessageBuilder.build(error.status)
+          );
+          this.waitingService.hide();
+          return of([]);
+        })
+      );
+  }
+
+  /**
+   * Create the directory at the specified path onto the workspace.
+   * 
+   * @param {string} path the path to the directory to create.
+   * 
+   * @returns {Observable<any>} the result of the operation.
+   */
+  public mkdir(path: string): Observable<any> {
+    this.waitingService.show();
+    const route: string = `${this.CONTROLLER_URL}/mkdir?path=${path}`;
+    return this.http.post<any>(route, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
+      .pipe(
+        tap((value: any) => this.waitingService.hide()),
+        catchError(error => {
+          console.log(error)
+          this.notification.error(
+            'Worspace Folder Creation Error',
             ErrorMessageBuilder.build(error.status)
           );
           this.waitingService.hide();
