@@ -161,7 +161,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   protected getFileName(file: HeliosFileStats): string {
     return file.isFile ? `${file.name}.${file.extention}` : file.name;
   }
-  
+
   /**
    * Delete the specified file, or directory.
    * 

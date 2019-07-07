@@ -30,6 +30,7 @@
         <nz-table #filesTable [nzData]="fileStatsModel" nzShowPagination="false" nzSize="small">
           <thead>
             <tr>
+              <th nzShowSort nzSortKey="isFile">Type</th>
               <th nzShowSort nzSortKey="name">Name</th>
               <th nzShowSort nzSortKey="size">Size</th>
               <th>Mode</th>
@@ -38,6 +39,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let stats of filesTable.data">
+              <td>
+                <i nz-icon [nzType]="getFileIcon(stats)"></i>
+              </td>
               <td>
                 {{ getFileName(stats) }}
               </td>
