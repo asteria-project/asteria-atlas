@@ -23,7 +23,7 @@
     <div>&nbsp;</div>
     <div nz-row nzGutter="16">
       <div nz-col class="gutter-row" nzSpan="5">
-        <nz-tree #tree [nzData]="nodes" nzShowLine nzAsyncData (nzClick)="treeEventHandler($event)"
+        <nz-tree #navTree [nzData]="nodes" nzShowLine nzAsyncData (nzClick)="treeEventHandler($event)"
                  (nzExpandChange)="treeEventHandler($event)"></nz-tree>
       </div>
       <div *ngIf="fileStatsModel" nz-col class="gutter-row" nzSpan="19">

@@ -25,3 +25,7 @@ export * from './util/breadcrumb/breadcrumb-item.model';
 export * from './util/clipboard/clipboard-item.builder';
 //--> util/error
 export * from './util/error/error-message.builder';
+//--> util/net
+export * from './util/net/http.utils';
+//--> util/pipe
+export * from './util/pipe/file-size.pipe';

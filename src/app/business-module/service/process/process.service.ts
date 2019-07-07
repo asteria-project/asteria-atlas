@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, empty} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ErrorMessageBuilder } from '../../../gui-module';
+import { ErrorMessageBuilder, HttpUtils } from '../../../gui-module';
 import { HeliosTemplate } from 'asteria-eos';
 import { AbstractHeliosService } from '../core/abstract-helios.service';
 
@@ -15,12 +15,19 @@ import { AbstractHeliosService } from '../core/abstract-helios.service';
 export class ProcessService extends AbstractHeliosService {
 
   /**
+   * The reference to the process controller URL.
+   */
+  private readonly CONTROLLER_URL: string = null;
+
+  /**
    * Create a new <code>TemplateService</code> instance.
    * 
    * @param {Injector} injector the reference to the Angular services injector.
    */
   constructor(protected injector: Injector) {
     super(injector);
+    // TODO: build the URL from the app config.
+    this.CONTROLLER_URL = 'http://localhost:3000/asteria/process/controller';
   }
 
   /**
@@ -35,7 +42,7 @@ export class ProcessService extends AbstractHeliosService {
     const httpOptions: any = {
       responseType:'text'
     };
-    return this.http.post<string>('http://localhost:3000/asteria/process/controller/' + template.id, null, httpOptions)
+    return this.http.post<string>(this.CONTROLLER_URL + template.id, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
                     .pipe(
                       tap((value: any)=> this.waitingService.hide()),
                       catchError((error: HttpErrorResponse)=> {

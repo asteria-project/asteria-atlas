@@ -1,9 +1,9 @@
 import { Component, AfterViewInit, Injector, ViewChild } from '@angular/core';
-import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder } from '../../../gui-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder, NotificationService } from '../../../gui-module';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats } from 'asteria-eos';
 import { FileExtensionUtils } from '../../util/file-extension.utils';
-import { NzTreeNodeOptions, NzFormatEmitEvent, NzTreeComponent, NzTreeNode } from 'ng-zorro-antd';
+import { NzTreeNodeOptions, NzFormatEmitEvent, NzTreeComponent, NzTreeNode, NzTableComponent } from 'ng-zorro-antd';
 import { FileExplorerNodeUtils } from '../../util/file-explorer-node.utils';
 
 /**
@@ -20,7 +20,13 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    * The reference to the navigation tree in this view.
    */
   @ViewChild(NzTreeComponent, {static: false})
-  private _tree: NzTreeComponent = null;
+  private _navTree: NzTreeComponent = null;
+
+  /**
+   * The reference to the files display table in this view.
+   */
+  @ViewChild(NzTableComponent, {static: false})
+  private _filesTable: NzTableComponent = null;
 
   /**
    * The model used to render items in the tree component.
@@ -47,6 +53,11 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    * The reference to the Atlas clipboard managment service.
    */
   private readonly _clipboard: ClipboardService = null;
+
+  /**
+   * The reference to the Atlas notification service.
+   */
+  private readonly _notification: NotificationService = null;
   
   /**
    * The reference to the path currently displayed in the file explorer.
@@ -89,6 +100,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     this.initBreadcrumb();
     this._workspace = injector.get(WorkspaceService);
     this._clipboard = injector.get(ClipboardService);
+    this._notification = injector.get(NotificationService);
   }
 
   /**
@@ -115,7 +127,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    * @inheritdoc
    */
   public ngAfterViewInit(): void {
-    this.loadNode(this._tree.getTreeNodeByKey('0'));
+    this.loadNode(this._navTree.getTreeNodeByKey('0'));
   }
 
   /**
@@ -168,6 +180,19 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    * @param {HeliosFileStats} file the file to delete.
    */
   protected deleteFile(file: HeliosFileStats): void {
+    const fileName: string = this.getFileName(file);
+    const pathToRemove: string = this.dirPathModel + fileName;
+    this._workspace.remove(pathToRemove).subscribe((result: any)=> {
+      if (result === 'OK') {
+        const msgType: string = file.isFile ? 'File' : 'Directory';
+        const idx: number = this.fileStatsModel.indexOf(file);
+        this.fileStatsModel.splice(idx, 1);
+        this._filesTable.data = this.fileStatsModel;
+        this._notification.success(
+          `${msgType} Remove Success`, `${msgType} "${fileName}" has been successfully removed.`
+        );
+      }
+    });
   }
 
   /**

@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { ErrorMessageBuilder } from '../../../gui-module';
+import { ErrorMessageBuilder, HttpUtils } from '../../../gui-module';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AbstractHeliosService } from '../core/abstract-helios.service';
@@ -46,6 +46,30 @@ export class WorkspaceService extends AbstractHeliosService {
         catchError(error => {
           this.notification.error(
             'Worspace File List Error',
+            ErrorMessageBuilder.build(error.status)
+          );
+          this.waitingService.hide();
+          return of([]);
+        })
+      );
+  }
+
+  /**
+   * Remove the specified file, or directory, from the workspace.
+   * 
+   * @param {string} path the path to the directory to remove.
+   * 
+   * @returns {Observable<any>} the result  of the operation.
+   */
+  public remove(path: string): Observable<any> {
+    this.waitingService.show();
+    const route: string = `${this.CONTROLLER_URL}/remove?path=${path}`;
+    return this.http.get<any>(route, HttpUtils.TEXT_RESPONSE_OPTIONS)
+      .pipe(
+        tap((value: any) => this.waitingService.hide()),
+        catchError(error => {
+          this.notification.error(
+            'Worspace Remove Error',
             ErrorMessageBuilder.build(error.status)
           );
           this.waitingService.hide();

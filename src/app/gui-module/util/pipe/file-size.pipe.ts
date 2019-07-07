@@ -26,9 +26,9 @@ export class FileSizePipe implements PipeTransform {
    * @param {number} bytes the size to transform, in bytes.
    * @param {number} precision the precision of transformation.
    * 
-   * @returns {string}
+   * @returns {string} the result of the transformation.
    */
-  transform(bytes: number = 0, precision: number = 2) : string {
+  public transform(bytes: number = 0, precision: number = 2) : string {
     let result: string = '';
     if (isNaN(parseFloat(String(bytes))) || ! isFinite(bytes)) {
         result = '?';
