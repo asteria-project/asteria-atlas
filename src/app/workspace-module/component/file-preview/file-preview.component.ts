@@ -94,12 +94,14 @@ export class FilePreviewComponent extends AtlasViewComponent implements AfterVie
    * @inheritdoc
    */
   public ngAfterViewInit(): void {
-    this.dirPathModel = this._route.snapshot.paramMap.get('filePath');
-    if (this.dirPathModel) {
-      this.previewFile();
-    } else {
-      this.setUpdatedDate();
-    }
+    setTimeout(()=> {
+      this.dirPathModel = this._route.snapshot.paramMap.get('filePath');
+      if (this.dirPathModel) {
+        this.previewFile();
+      } else {
+        this.setUpdatedDate();
+      }
+    }, 0);
   }
 
   /**
