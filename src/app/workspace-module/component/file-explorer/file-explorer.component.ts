@@ -306,4 +306,22 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
       this._filesTable.data = this.fileStatsModel = data;
     }
   }
+
+  /**
+   * Invoked each time the user clicks the file upload button.
+   * 
+   * @param {FileList} files the list of files to upload.
+   */
+  protected handleFileInput(files: FileList): void {
+    const file: File = files.item(0);
+    console.log(file)
+    if (file) {
+      this._workspace.upload(this.dirPathModel, file).subscribe((result: any)=> {
+        this._notification.success(
+          "File Upload Success", `File "${file.name}" has been successfully uploaded.`
+        );
+        this.loadNode(this._currentNode);
+      });
+    }
+  }
 }

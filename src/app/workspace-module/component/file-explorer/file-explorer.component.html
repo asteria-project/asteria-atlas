@@ -4,10 +4,10 @@
   <nz-card class="w-100" nzTitle="File Explorer">
     <form class="directory-name-input">
       <nz-input-group nzAddOnBefore="workspace/" [nzAddOnAfter]="importItems">
-        <input type="text" [ngModel]="dirPathModel" name="dirPath" nz-input [disabled]="true"/>
+        <input type="text" [ngModel]="dirPathModel" name="dirPath" nz-input [disabled]="true">
         <ng-template #importItems>
           <div class="action-container">
-            <a>
+            <a (click)="fileUploader.click()">
               <i nz-icon nzType="cloud-upload" nzTheme="outline" nz-tooltip nzTitle="Import from local"></i>
             </a>
             <a (click)="openModal('url')">
@@ -18,6 +18,7 @@
             </a>
           </div>
         </ng-template>
+        <input type="file" #fileUploader (change)="handleFileInput($event.target.files)" hidden>
       </nz-input-group>
     </form>
     <div>&nbsp;</div>

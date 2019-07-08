@@ -104,6 +104,33 @@ export class WorkspaceService extends AbstractHeliosService {
   }
 
   /**
+   * Upload a file to the specified directory.
+   * 
+   * @param {string} dirPath the path to the directory where to upload the file.
+   * @param {File} file the file to upload at the specified path.
+   * 
+   * @returns {Observable<any>} the result of the upload process.
+   */
+  public upload(dirPath: string, file: File): Observable<any> {
+    this.waitingService.show();
+    const route: string = `${this.CONTROLLER_URL}/upload?path=${dirPath}`;
+    const formData: FormData = new FormData();
+    formData.append('helios', file, file.name);
+    return this.http.post<any>(route, formData, HttpUtils.TEXT_RESPONSE_OPTIONS)
+      .pipe(
+        tap((value: any) => this.waitingService.hide()),
+        catchError(error => {
+          this.notification.error(
+            'Worspace File Upload Error',
+            ErrorMessageBuilder.build(error.status)
+          );
+          this.waitingService.hide();
+          return of([]);
+        })
+      );
+  }
+
+  /**
    * Return a preview of the specified CSV file.
    * 
    * @param {string} filePath the path to the file to preview.

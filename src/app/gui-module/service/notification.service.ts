@@ -21,6 +21,17 @@ export class NotificationService {
     };
 
     /**
+     * The config object for warning notifications.
+     */
+    private readonly WARNING_CONFIG: any = {
+        nzStyle: {
+            'background-color': '#fffbe6',
+            border: '1px solid #ffe58f'
+        },
+        nzDuration: 2500
+    };
+
+    /**
      * The config object for error notifications.
      */
     private readonly ERROR_CONFIG: any = {
@@ -63,5 +74,15 @@ export class NotificationService {
      */
     public success(title: string, message: string): void {
         this._notification.success(title, message, this.SUCCESS_CONFIG);
+    }
+    
+    /**
+     * Display a warning notification.
+     * 
+     * @param {string} title the title of the notification.
+     * @param {string} message the message of the notification.
+     */
+    public warning(title: string, message: string): void {
+        this._notification.success(title, message, this.WARNING_CONFIG);
     }
 }
