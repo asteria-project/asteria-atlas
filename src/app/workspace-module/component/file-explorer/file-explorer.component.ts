@@ -153,7 +153,8 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    */
   protected deleteFile(file: HeliosFileStats): void {
     const fileName: string = this.fileUtils.getFileName(file);
-    const pathToRemove: string = this.dirPathModel + fileName;
+    const slash: string = this.dirPathModel && this.dirPathModel !== '' ? '/' : '';
+    const pathToRemove: string = `${this.dirPathModel}${slash}${fileName}`;
     this._workspace.remove(pathToRemove).subscribe((result: any)=> {
       const msgType: string = file.isFile ? 'File' : 'Directory';
       this._notification.success(
