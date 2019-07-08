@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, Injector, ViewChild } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder, NotificationService } from '../../../gui-module';
 import { WorkspaceService } from '../../../business-module';
-import { HeliosFileStats } from 'asteria-eos';
+import { HeliosFileStats, HeliosData } from 'asteria-eos';
 import { FileExtensionUtils } from '../../util/file-extension.utils';
 import { NzTreeNodeOptions, NzFormatEmitEvent, NzTreeComponent, NzTreeNode, NzTableComponent } from 'ng-zorro-antd';
 import { FileExplorerNodeUtils } from '../../util/file-explorer-node.utils';
@@ -316,7 +316,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     const file: File = files.item(0);
     console.log(file)
     if (file) {
-      this._workspace.upload(this.dirPathModel, file).subscribe((result: any)=> {
+      this._workspace.upload(this.dirPathModel, file).subscribe((result: HeliosData<HeliosFileStats>)=> {
         this._notification.success(
           "File Upload Success", `File "${file.name}" has been successfully uploaded.`
         );

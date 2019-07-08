@@ -109,14 +109,14 @@ export class WorkspaceService extends AbstractHeliosService {
    * @param {string} dirPath the path to the directory where to upload the file.
    * @param {File} file the file to upload at the specified path.
    * 
-   * @returns {Observable<any>} the result of the upload process.
+   * @returns {Observable<HeliosData<HeliosFileStats>>} the result of the upload process.
    */
-  public upload(dirPath: string, file: File): Observable<any> {
+  public upload(dirPath: string, file: File): Observable<HeliosData<HeliosFileStats>> {
     this.waitingService.show();
     const route: string = `${this.CONTROLLER_URL}/upload?path=${dirPath}`;
     const formData: FormData = new FormData();
     formData.append('helios', file, file.name);
-    return this.http.post<any>(route, formData, HttpUtils.TEXT_RESPONSE_OPTIONS)
+    return this.http.post<Observable<HeliosData<HeliosFileStats>>>(route, formData)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
         catchError(error => {
