@@ -310,11 +310,10 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   /**
    * Invoked each time the user clicks the file upload button.
    * 
-   * @param {FileList} files the list of files to upload.
+   * @param {HTMLInputElement} input the reference to the file upload input.
    */
-  protected handleFileInput(files: FileList): void {
-    const file: File = files.item(0);
-    console.log(file)
+  protected handleFileInput(input: HTMLInputElement): void {
+    const file: File = input.files.item(0);
     if (file) {
       this._workspace.upload(this.dirPathModel, file).subscribe((result: HeliosData<HeliosFileStats>)=> {
         this._notification.success(
@@ -322,6 +321,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
         );
         this.loadNode(this._currentNode);
       });
+      input.value = '';
     }
   }
 }

@@ -28,15 +28,17 @@ export class FileExplorerNodeUtils {
      */
     public static buildNodeFromModel(model: Array<HeliosFileStats>, rootKey: number): Array<NzTreeNodeOptions> {
         const result: Array<NzTreeNodeOptions> = [];
-        model.forEach((item: HeliosFileStats)=> {
-        if (!item.isFile) {
-                result.push({
-                    title: item.name,
-                    expanded: false,
-                    key: String(rootKey++)
-                });
-            }
-        });
+        if (model) {
+            model.forEach((item: HeliosFileStats)=> {
+                if (!item.isFile) {
+                    result.push({
+                        title: item.name,
+                        expanded: false,
+                        key: String(rootKey++)
+                    });
+                }
+            });
+        }
         return result;
     }
     
