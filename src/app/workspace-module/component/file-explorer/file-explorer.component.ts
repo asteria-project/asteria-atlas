@@ -2,7 +2,7 @@ import { Component, AfterViewInit, Injector, ViewChild } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder, NotificationService } from '../../../gui-module';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats, HeliosData } from 'asteria-eos';
-import { FileExtensionUtils } from '../../util/file-extension.utils';
+import { FileUtils } from '../../util/file.utils';
 import { NzTreeNodeOptions, NzFormatEmitEvent, NzTreeComponent, NzTreeNode, NzTableComponent } from 'ng-zorro-antd';
 import { FileExplorerNodeUtils } from '../../util/file-explorer-node.utils';
 
@@ -90,9 +90,9 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   protected newFolderModel: string = null;
 
   /**
-   * Store the reference to the <code>FileExtensionUtils</code> class.
+   * Store the reference to the <code>FileUtils</code> class.
    */
-  protected fileUtils: any = FileExtensionUtils;
+  protected fileUtils: any = FileUtils;
 
   /**
    * Create a new <code>FileExplorerComponent</code> instance.
@@ -153,8 +153,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    */
   protected deleteFile(file: HeliosFileStats): void {
     const fileName: string = this.fileUtils.getFileName(file);
-    const slash: string = this.dirPathModel && this.dirPathModel !== '' ? '/' : '';
-    const pathToRemove: string = `${this.dirPathModel}${slash}${fileName}`;
+    const pathToRemove: string = FileUtils.joinPath(this.dirPathModel, fileName);
     this._workspace.remove(pathToRemove).subscribe((result: any)=> {
       const msgType: string = file.isFile ? 'File' : 'Directory';
       this._notification.success(
@@ -192,7 +191,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    * 
    * @param {string} modalRef the reference to the modal to hide.
    */
-  protected handleCancel(modalRef: string): void {
+  protected handleModalCancel(modalRef: string): void {
     if (modalRef === 'url') {
       this.importModalVisible = false;
     } else  if (modalRef === 'folder') {
@@ -205,12 +204,13 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    * 
    * @param {string} modalRef the reference to the modal to be processed.
    */
-  protected handleOk(modalRef: string): void {
-    this.handleCancel(modalRef);
+  protected handleModalOk(modalRef: string): void {
+    this.handleModalCancel(modalRef);
     if (modalRef === 'url') {
       // TODO
     } else if (modalRef === 'folder') {
-      this._workspace.mkdir(this.newFolderModel).subscribe((result: any)=> {
+      const pathTocreate: string = FileUtils.joinPath(this.dirPathModel, this.newFolderModel);
+      this._workspace.mkdir(pathTocreate).subscribe((result: any)=> {
         this._notification.success(
           `Directory Create Success`, `Directory "${this.newFolderModel}" has been successfully creates.`
         );
@@ -324,5 +324,15 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
       });
       input.value = '';
     }
+  }
+
+  /**
+   * Returns the path to the current directory.
+   * 
+   * @returns {string} the path to the current directory.
+   */
+  protected getCurrentDirPath(): string {
+    const finalSlash: string = this.dirPathModel && this.dirPathModel.length !== 0 ? '/' : '';
+    return `workspace/${this.dirPathModel}${finalSlash}`;
   }
 }

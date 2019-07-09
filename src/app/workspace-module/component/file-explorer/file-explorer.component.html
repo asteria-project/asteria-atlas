@@ -74,8 +74,8 @@
 </div>
 
 <nz-modal [(nzVisible)]="importModalVisible" [nzTitle]="importUrlModalTitle"
-          (nzOnCancel)="handleCancel('url')" (nzOnOk)="handleOk('url')">
-  <form class="url-import-input">
+          (nzOnCancel)="handleModalCancel('url')" (nzOnOk)="handleModalOk('url')">
+  <form class="file-import-input">
       <nz-input-group [nzAddOnBefore]="importUrlItem">
         <input type="text" [(ngModel)]="urlImportModel" name="urlImport" nz-input/>
         <ng-template #importUrlItem>
@@ -90,12 +90,13 @@
 </nz-modal>
 
 <nz-modal [(nzVisible)]="folderModalVisible" [nzTitle]="folderModalTitle"
-          (nzOnCancel)="handleCancel('folder')" (nzOnOk)="handleOk('folder')">
-  <form class="url-import-input">
+          (nzOnCancel)="handleModalCancel('folder')" (nzOnOk)="handleModalOk('folder')">
+  <form class="file-import-input">
       <nz-input-group [nzAddOnBefore]="folderItem">
         <input type="text" [(ngModel)]="newFolderModel" name="urlImport" nz-input/>
         <ng-template #folderItem>
           <i nz-icon nzType="folder" nzTheme="outline" nz-tooltip nzTitle="Create a folder"></i>
+          {{ getCurrentDirPath() }}
         </ng-template>
       </nz-input-group>
     </form>
