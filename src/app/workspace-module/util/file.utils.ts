@@ -24,7 +24,7 @@ export class FileUtils {
      * @returns {string} the full path for the specified file.
      */
     public static getFilePath(file: HeliosFileStats): string {
-        return FileUtils.joinPath(file.path, file.name + file.extention);
+        return FileUtils.joinPath(file.path, `${file.name}.${file.extention}`);
     }
 
     /**
