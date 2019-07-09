@@ -27,7 +27,7 @@ export class ProcessService extends AbstractHeliosService {
   constructor(protected injector: Injector) {
     super(injector);
     // TODO: build the URL from the app config.
-    this.CONTROLLER_URL = 'http://localhost:3000/asteria/process/controller';
+    this.CONTROLLER_URL = 'http://localhost:3000/asteria/process/controller/';
   }
 
   /**
@@ -39,9 +39,6 @@ export class ProcessService extends AbstractHeliosService {
    */
   public run(template: HeliosTemplate): Observable<any> {
     this.waitingService.show(`Running process "${template.name}"...`);
-    const httpOptions: any = {
-      responseType:'text'
-    };
     return this.http.post<string>(this.CONTROLLER_URL + template.id, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
                     .pipe(
                       tap((value: any)=> this.waitingService.hide()),
