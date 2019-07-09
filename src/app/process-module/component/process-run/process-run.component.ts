@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { HeliosTemplate } from 'asteria-eos';
 import { ProcessService, TemplateService } from '../../../business-module';
 import { ActivatedRoute } from '@angular/router';
-import { AtlasViewComponent, BreadcrumbItemBuilder } from '../../../gui-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, ClipboardItemBuilder, ClipboardService } from '../../../gui-module';
 
 /**
  * The view responsible for displaying the result of an Asteria session.
@@ -30,6 +30,11 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
   private readonly _templateService: TemplateService = null;
 
   /**
+   * The reference to the Atlas clipboard managment service.
+   */
+  private readonly _clipboard: ClipboardService = null;
+  
+  /**
    * The template displayed in this view.
    */
   protected template: HeliosTemplate = null;
@@ -55,6 +60,7 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
     this._templateService = injector.get(TemplateService);
     this._processService = injector.get(ProcessService); 
     this._route = injector.get(ActivatedRoute);
+    this._clipboard = injector.get(ClipboardService);
   }
 
   /**
@@ -87,5 +93,14 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
       this.processDuration = end - start;
       this.lastUpdated = end;
     });
+  }
+
+  /**
+   * Copy the content of the current file preview into the clipboard.
+   */
+  protected copyResult(): void {
+    this._clipboard.copyToClipboard(
+      ClipboardItemBuilder.build('Process result of ' + this.template.name, this.resultValue)
+    );
   }
 }
