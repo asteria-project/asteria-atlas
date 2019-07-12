@@ -164,6 +164,15 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   }
 
   /**
+   * Open a modal to rename the specified file.
+   * 
+   * @param {HeliosFileStats} file the file to rename.
+   */
+  protected renameFile(file: HeliosFileStats): void {
+    console.log(file);
+  }
+
+  /**
    * Open the specified file into the preview view.
    * 
    * @param {HeliosFileStats} file the file to preview.

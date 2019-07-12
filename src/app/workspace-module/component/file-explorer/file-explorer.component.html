@@ -57,6 +57,9 @@
                     nz-tooltip nzTitle="Copy file path to clipboard">
                   <i nz-icon nzType="snippets" nzTheme="outline"></i>
                 </a>
+                <a (click)="renameFile(stats)" nz-tooltip nzTitle="Rename">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                </a>
                 <a (click)="deleteFile(stats)" nz-tooltip nzTitle="Delete" class="danger-text">
                   <i nz-icon nzType="delete" nzTheme="outline"></i>
                 </a>

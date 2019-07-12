@@ -40,7 +40,7 @@ export class WorkspaceService extends AbstractHeliosService {
   public list(dirPath: string): Observable<HeliosData<Array<HeliosFileStats>>> {
     this.waitingService.show();
     const route: string = `${this.CONTROLLER_URL}/list?path=${dirPath}`;
-    return this.http.get<HeliosData<Array<HeliosFileStats>>>(route)
+    return this.http.post<HeliosData<Array<HeliosFileStats>>>(route, null)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
         catchError(error => {
@@ -64,7 +64,7 @@ export class WorkspaceService extends AbstractHeliosService {
   public remove(path: string): Observable<any> {
     this.waitingService.show();
     const route: string = `${this.CONTROLLER_URL}/remove?path=${path}`;
-    return this.http.get<any>(route, HttpUtils.TEXT_RESPONSE_OPTIONS)
+    return this.http.post<any>(route, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
         catchError(error => {
@@ -140,7 +140,7 @@ export class WorkspaceService extends AbstractHeliosService {
   public csvPreview(filePath: string): Observable<HeliosData<HeliosCsvPreview>> {
     this.waitingService.show();
     const route: string = `${this.CONTROLLER_URL}/preview?path=${filePath}`;
-    return this.http.get<HeliosData<HeliosCsvPreview>>(route)
+    return this.http.post<HeliosData<HeliosCsvPreview>>(route, null)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
         catchError(error => {

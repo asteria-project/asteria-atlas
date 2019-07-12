@@ -27,7 +27,7 @@ export class ProcessService extends AbstractHeliosService {
   constructor(protected injector: Injector) {
     super(injector);
     // TODO: build the URL from the app config.
-    this.CONTROLLER_URL = 'http://localhost:3000/asteria/process/controller/';
+    this.CONTROLLER_URL = 'http://localhost:3000/asteria/process/controller/run/';
   }
 
   /**
