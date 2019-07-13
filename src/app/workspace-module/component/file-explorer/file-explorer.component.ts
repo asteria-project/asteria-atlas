@@ -267,7 +267,6 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
    * @param {string} modalRef the reference to the modal to be processed.
    */
   protected handleModalOk(modalRef: string): void {
-    this.handleModalCancel(modalRef);
     if (modalRef === 'url') {
       // TODO
     } else if (modalRef === 'folder') {
@@ -278,7 +277,6 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
           this._notification.success(
             `Directory Create Success`, `Directory "${newFolderName}" has been successfully creates.`
           );
-          FormUtils.reset(this.createFolderForm);
           this.loadNode(this._currentNode);
         });
       } else {
@@ -286,6 +284,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
         FormUtils.markAllAsTouched(this.createFolderForm);
       }
     }
+    this.handleModalCancel(modalRef);
   }
 
   /**

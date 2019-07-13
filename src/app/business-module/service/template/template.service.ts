@@ -4,6 +4,7 @@ import { Observable, of} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ErrorMessageBuilder } from '../../../gui-module';
 import { AbstractHeliosService } from '../core/abstract-helios.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 /**
  * The <code>TemplateService</code> service provides access to the Helios templates API.
@@ -31,10 +32,10 @@ export class TemplateService extends AbstractHeliosService {
   public getTemplates(): Observable<Array<HeliosTemplate>> {
     return this.http.get<Array<HeliosTemplate>>('http://localhost:3000/asteria/templates')
                     .pipe(
-                      catchError(error=> {
+                      catchError((error: HttpErrorResponse)=> {
                         this.notification.error(
                           'Template List Error', 
-                          ErrorMessageBuilder.build(error.status)
+                          ErrorMessageBuilder.build(error)
                         );
                         return of([]);
                       })
@@ -52,10 +53,10 @@ export class TemplateService extends AbstractHeliosService {
   public getTemplate(id: string): Observable<HeliosTemplate> {
     return this.http.get<HeliosTemplate>('http://localhost:3000/asteria/templates/' + id)
                     .pipe(
-                      catchError(error=> {
+                      catchError((error: HttpErrorResponse)=> {
                         this.notification.error(
                           'Template Access Error', 
-                          ErrorMessageBuilder.build(error.status)
+                          ErrorMessageBuilder.build(error)
                         );
                           return of(null);
                       })
@@ -73,10 +74,10 @@ export class TemplateService extends AbstractHeliosService {
   public createTemplate(partialTemplate: HeliosTemplate): Observable<string> {
     return this.http.post<string>('http://localhost:3000/asteria/templates/', partialTemplate)
                     .pipe(
-                      catchError(error=> {
+                      catchError((error: HttpErrorResponse)=> {
                         this.notification.error(
                           'Template Creation Error', 
-                          ErrorMessageBuilder.build(error.status)
+                          ErrorMessageBuilder.build(error)
                         );
                         return of(null);
                       })

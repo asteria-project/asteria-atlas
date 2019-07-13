@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AbstractHeliosService } from '../core/abstract-helios.service';
 import { HeliosCsvPreview, HeliosData, HeliosFileStats } from 'asteria-eos';
+import { HttpErrorResponse } from '@angular/common/http';
 
 /**
  * The service responsible for working with files stored int the Helios server workspace.
@@ -43,10 +44,10 @@ export class WorkspaceService extends AbstractHeliosService {
     return this.http.post<HeliosData<Array<HeliosFileStats>>>(route, null)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           this.notification.error(
             'Worspace File List Error',
-            ErrorMessageBuilder.build(error.status)
+            ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
           return of([]);
@@ -67,10 +68,10 @@ export class WorkspaceService extends AbstractHeliosService {
     return this.http.post<any>(route, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           this.notification.error(
             'Worspace Remove Error',
-            ErrorMessageBuilder.build(error.status)
+            ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
           return of([]);
@@ -92,10 +93,10 @@ export class WorkspaceService extends AbstractHeliosService {
     return this.http.post<any>(route, null, options)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           this.notification.error(
             'Worspace Download Error',
-            ErrorMessageBuilder.build(error.status)
+            ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
           return of([]);
@@ -116,10 +117,10 @@ export class WorkspaceService extends AbstractHeliosService {
     return this.http.post<any>(route, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           this.notification.error(
             'Worspace Folder Creation Error',
-            ErrorMessageBuilder.build(error.status)
+            ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
           return of([]);
@@ -143,10 +144,10 @@ export class WorkspaceService extends AbstractHeliosService {
     return this.http.post<Observable<HeliosData<HeliosFileStats>>>(route, formData)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           this.notification.error(
             'Worspace File Upload Error',
-            ErrorMessageBuilder.build(error.status)
+            ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
           return of([]);
@@ -167,10 +168,10 @@ export class WorkspaceService extends AbstractHeliosService {
     return this.http.post<HeliosData<HeliosCsvPreview>>(route, null)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           this.notification.error(
             'File Preview Error',
-            ErrorMessageBuilder.build(error.status)
+            ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
           return of([]);

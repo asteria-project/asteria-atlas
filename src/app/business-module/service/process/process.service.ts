@@ -45,7 +45,7 @@ export class ProcessService extends AbstractHeliosService {
                       catchError((error: HttpErrorResponse)=> {
                         this.notification.error(
                           'Process Running Error', 
-                          ErrorMessageBuilder.build(error.status)
+                          ErrorMessageBuilder.build(error)
                         );
                         this.waitingService.hide();
                         return empty();
