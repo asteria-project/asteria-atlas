@@ -79,6 +79,31 @@ export class WorkspaceService extends AbstractHeliosService {
   }
 
   /**
+   * Download the specified file from the workspace.
+   * 
+   * @param {string} path the path to the file to download.
+   * 
+   * @returns {Observable<any>} the result of the operation.
+   */
+  public download(path: string): Observable<any> {
+    this.waitingService.show();
+    const route: string = `${this.CONTROLLER_URL}/download?path=${path}`;
+    const options: any = Object.assign({}, HttpUtils.OBSERVE_HTTP_RESPONSE_OPTIONS, HttpUtils.BLOB_RESPONSE_OPTIONS);
+    return this.http.post<any>(route, null, options)
+      .pipe(
+        tap((value: any) => this.waitingService.hide()),
+        catchError(error => {
+          this.notification.error(
+            'Worspace Download Error',
+            ErrorMessageBuilder.build(error.status)
+          );
+          this.waitingService.hide();
+          return of([]);
+        })
+      );
+  }
+
+  /**
    * Create the directory at the specified path onto the workspace.
    * 
    * @param {string} path the path to the directory to create.
@@ -92,7 +117,6 @@ export class WorkspaceService extends AbstractHeliosService {
       .pipe(
         tap((value: any) => this.waitingService.hide()),
         catchError(error => {
-          console.log(error)
           this.notification.error(
             'Worspace Folder Creation Error',
             ErrorMessageBuilder.build(error.status)

@@ -35,7 +35,7 @@
               <th nzShowSort nzSortKey="name">Name</th>
               <th nzShowSort nzSortKey="size">Size</th>
               <th>Mode</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -52,21 +52,31 @@
               <td>
                 {{ stats.mode }}
               </td>
-              <td class="action-container">
-                <a (click)="copyFilePath(fileUtils.getFileName(stats), getFilePath(stats))"
-                    nz-tooltip nzTitle="Copy file path to clipboard">
-                  <i nz-icon nzType="snippets" nzTheme="outline"></i>
-                </a>
-                <a (click)="renameFile(stats)" nz-tooltip nzTitle="Rename">
-                  <i nz-icon nzType="edit" nzTheme="outline"></i>
-                </a>
-                <a (click)="deleteFile(stats)" nz-tooltip nzTitle="Delete" class="danger-text">
-                  <i nz-icon nzType="delete" nzTheme="outline"></i>
-                </a>
-                <a *ngIf="stats.extention === 'csv'" nz-tooltip nzTitle="Preview"
-                    (click)="previewFile(stats)">
-                  <i nz-icon nzType="eye" nzTheme="outline"></i>
-                </a>
+              <td>
+                <button nz-button nz-popover [nzContent]="contentTemplate">
+                  <i nz-icon nzType="more" nzTheme="outline"></i>
+                </button>
+                <ng-template #contentTemplate>
+                  <div class="action-container">
+                    <a (click)="copyFilePath(fileUtils.getFileName(stats), getFilePath(stats))"
+                        nz-tooltip nzTitle="Copy file path to clipboard">
+                      <i nz-icon nzType="snippets" nzTheme="outline"></i>
+                    </a>
+                    <a (click)="renameFile(stats)" nz-tooltip nzTitle="Rename">
+                      <i nz-icon nzType="edit" nzTheme="outline"></i>
+                    </a>
+                    <a *ngIf="stats.isFile" (click)="downloadFile(stats)" nz-tooltip nzTitle="Download">
+                      <i nz-icon nzType="cloud-download" nzTheme="outline"></i>
+                    </a>
+                    <a (click)="deleteFile(stats)" nz-tooltip nzTitle="Delete" class="danger-text">
+                      <i nz-icon nzType="delete" nzTheme="outline"></i>
+                    </a>
+                    <a *ngIf="stats.extention === 'csv'" nz-tooltip nzTitle="Preview" class="success-text"
+                        (click)="previewFile(stats)">
+                      <i nz-icon nzType="eye" nzTheme="outline"></i>
+                    </a>
+                  </div>
+                </ng-template>
               </td>
             </tr>
           </tbody>

@@ -17,8 +17,18 @@ export class FileSaverService {
    */
   public saveJson(json: any, fileName: string): void {
     const txt: string = JSON.stringify(json);
-    const blob: Blob = new Blob([txt]);
-    this.save(blob, fileName + '.json', 'octet/stream');
+    const blob: Blob = new Blob([txt], { type: 'octet/stream' });
+    this.save(blob, fileName + '.json');
+  }
+
+  /**
+   * Save the specified <code>Blob</code> object.
+   * 
+   * @param {any} blob the <code>Blob</code> object to save.
+   * @param {string} fileName the name of the saved file.
+   */
+  public saveBlob(blob: Blob, fileName: string): void {
+    this.save(blob, fileName);
   }
   
   /**
@@ -26,9 +36,8 @@ export class FileSaverService {
    * 
    * @param {Blob} blob the <code>Blob</code> object to save.
    * @param {string} fileName the name of the saved file.
-   * @param {string} type the MIME type of the <code>Blob</code> object to save.
    */
-  private save(blob: Blob, fileName: string, type: string): void {
-    saveAs(new Blob([blob], { type: type }), decodeURI(fileName));
+  private save(blob: Blob, fileName: string): void {
+    saveAs(blob, decodeURI(fileName));
   }
 }

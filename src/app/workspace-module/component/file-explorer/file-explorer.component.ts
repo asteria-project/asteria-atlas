@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, Injector, ViewChild } from '@angular/core';
-import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder, NotificationService } from '../../../gui-module';
+import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder, NotificationService, FileSaverService } from '../../../gui-module';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats, HeliosData } from 'asteria-eos';
 import { FileUtils } from '../../util/file.utils';
@@ -60,6 +60,11 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   private readonly _notification: NotificationService = null;
   
   /**
+   * The reference to the Atlas file saving service.
+   */
+  private readonly _saveService: FileSaverService = null;
+
+  /**
    * The reference to the path currently displayed in the file explorer.
    */
   protected dirPathModel: string = '';
@@ -106,6 +111,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     this._workspace = injector.get(WorkspaceService);
     this._clipboard = injector.get(ClipboardService);
     this._notification = injector.get(NotificationService);
+    this._saveService = injector.get(FileSaverService);
   }
 
   /**
@@ -181,6 +187,22 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     this.breadcrumbService.takeSnapshot(this.router.url);
     this.router.navigate( [`workspace/preview/${this.fileUtils.getFilePath(file)}`]) ;
   }
+
+  /**
+   * Download the specified file.
+   * 
+   * @param {HeliosFileStats} file the file to download.
+   */
+  protected downloadFile(file: HeliosFileStats): void {
+    const fileName: string = this.fileUtils.getFileName(file);
+    const pathToDownload: string = FileUtils.joinPath(this.dirPathModel, fileName);
+    this._workspace.download(pathToDownload).subscribe((response: any)=> {
+      console.log(response.body)
+      const blob: Blob = new Blob([response.body], { type: response.headers.get('Content-Type') });
+      this._saveService.saveBlob(blob, this.fileUtils.getFileName(file));
+    });
+  }
+  
 
   /**
    * Display the modal specified by its reference.
