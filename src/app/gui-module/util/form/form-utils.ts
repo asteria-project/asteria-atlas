@@ -38,7 +38,7 @@ export class FormUtils {
      */
     public static reset(formGroup: FormGroup): void {
         formGroup.reset();
-        FromUtils.markAllAsUntouched(formGroup);
+        FormUtils.markAllAsUntouched(formGroup);
     }
 
     /**
