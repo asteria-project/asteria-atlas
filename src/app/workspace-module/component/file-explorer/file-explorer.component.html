@@ -25,7 +25,7 @@
     <div nz-row nzGutter="16">
       <div nz-col class="gutter-row" nzSpan="5">
         <nz-tree #navTree [nzData]="nodes" nzShowLine nzAsyncData (nzClick)="treeEventHandler($event)"
-                 (nzExpandChange)="treeEventHandler($event)"></nz-tree>
+          (nzExpandChange)="treeEventHandler($event)"></nz-tree>
       </div>
       <div *ngIf="fileStatsModel" nz-col class="gutter-row" nzSpan="19">
         <nz-table #filesTable [nzData]="fileStatsModel" nzShowPagination="false" nzSize="small">
@@ -58,8 +58,8 @@
                 </button>
                 <ng-template #contentTemplate>
                   <div class="action-container">
-                    <a (click)="copyFilePath(fileUtils.getFileName(stats), getFilePath(stats))"
-                        nz-tooltip nzTitle="Copy file path to clipboard">
+                    <a (click)="copyFilePath(fileUtils.getFileName(stats), getFilePath(stats))" nz-tooltip
+                      nzTitle="Copy file path to clipboard">
                       <i nz-icon nzType="snippets" nzTheme="outline"></i>
                     </a>
                     <a (click)="renameFile(stats)" nz-tooltip nzTitle="Rename">
@@ -72,7 +72,7 @@
                       <i nz-icon nzType="delete" nzTheme="outline"></i>
                     </a>
                     <a *ngIf="stats.extention === 'csv'" nz-tooltip nzTitle="Preview" class="success-text"
-                        (click)="previewFile(stats)">
+                      (click)="previewFile(stats)">
                       <i nz-icon nzType="eye" nzTheme="outline"></i>
                     </a>
                   </div>
@@ -86,35 +86,59 @@
   </nz-card>
 </div>
 
-<nz-modal [(nzVisible)]="importModalVisible" [nzTitle]="importUrlModalTitle"
-          (nzOnCancel)="handleModalCancel('url')" (nzOnOk)="handleModalOk('url')">
-  <form class="file-import-input">
-      <nz-input-group [nzAddOnBefore]="importUrlItem">
-        <input type="text" [(ngModel)]="urlImportModel" name="urlImport" nz-input/>
-        <ng-template #importUrlItem>
-          <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
-        </ng-template>
-      </nz-input-group>
-    </form>
-    <ng-template #importUrlModalTitle>
-      <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
-      Import file from URL
-    </ng-template>
+<nz-modal [(nzVisible)]="importModalVisible" [nzTitle]="importUrlModalTitle" (nzOnCancel)="handleModalCancel('url')"
+  (nzOnOk)="handleModalOk('url')">
+  <form nz-form>
+    <nz-input-group [nzAddOnBefore]="importUrlItem">
+      <input type="text" name="urlImport" nz-input />
+      <ng-template #importUrlItem>
+        <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
+      </ng-template>
+    </nz-input-group>
+  </form>
+  <ng-template #importUrlModalTitle>
+    <i nz-icon nzType="link" nzTheme="outline" nz-tooltip nzTitle="Import URL"></i>
+    Import file from URL
+  </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="folderModalVisible" [nzTitle]="folderModalTitle"
-          (nzOnCancel)="handleModalCancel('folder')" (nzOnOk)="handleModalOk('folder')">
-  <form class="file-import-input">
-      <nz-input-group [nzAddOnBefore]="folderItem">
-        <input type="text" [(ngModel)]="newFolderModel" name="urlImport" nz-input/>
-        <ng-template #folderItem>
-          <i nz-icon nzType="folder" nzTheme="outline" nz-tooltip nzTitle="Create a folder"></i>
-          {{ getCurrentDirPath() }}
-        </ng-template>
-      </nz-input-group>
-    </form>
-    <ng-template #folderModalTitle>
-      <i nz-icon nzType="folder" nzTheme="outline" nz-tooltip nzTitle="Create a folder"></i>
-      Create a folder
-    </ng-template>
+<nz-modal [(nzVisible)]="folderModalVisible" [nzTitle]="folderModalTitle" (nzOnCancel)="handleModalCancel('folder')"
+  (nzOnOk)="handleModalOk('folder')">
+  <form nz-form [formGroup]="createFolderForm">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Please input the new folder name!">
+        <nz-input-group [nzAddOnBefore]="folderItem">
+          <input type="text" formControlName="newFolder" nz-input />
+          <ng-template #folderItem>
+            <i nz-icon nzType="folder" nzTheme="outline" nz-tooltip nzTitle="Create a folder"></i>
+            {{ getCurrentDirPath() }}
+          </ng-template>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <ng-template #folderModalTitle>
+    <i nz-icon nzType="folder" nzTheme="outline" nz-tooltip nzTitle="Create a folder"></i>
+    Create a folder
+  </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="renameModalVisible" [nzTitle]="renameModalTitle" (nzOnCancel)="handleModalCancel('rename')"
+  (nzOnOk)="handleModalOk('rename')">
+  <form [formGroup]="renameItemForm" nz-form>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Please input the new name!">
+        <nz-input-group [nzAddOnBefore]="renameItem">
+          <input type="text" formControlName="newName" nz-input />
+          <ng-template #renameItem>
+            <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Rename"></i>
+          </ng-template>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <ng-template #renameModalTitle>
+    <i nz-icon nzType="edit" nzTheme="outline" nz-tooltip nzTitle="Rename"></i>
+    Rename
+  </ng-template>
 </nz-modal>

@@ -1,10 +1,12 @@
-import { Component, AfterViewInit, Injector, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, Injector, ViewChild, OnInit } from '@angular/core';
 import { AtlasViewComponent, BreadcrumbItemBuilder, BreadcrumbItem, ClipboardService, ClipboardItemBuilder, NotificationService, FileSaverService } from '../../../gui-module';
 import { WorkspaceService } from '../../../business-module';
 import { HeliosFileStats, HeliosData } from 'asteria-eos';
 import { FileUtils } from '../../util/file.utils';
 import { NzTreeNodeOptions, NzFormatEmitEvent, NzTreeComponent, NzTreeNode, NzTableComponent } from 'ng-zorro-antd';
 import { FileExplorerNodeUtils } from '../../util/file-explorer-node.utils';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormUtils } from '../../../gui-module/util/form/form-utils';
 
 /**
  * The view responsible for displaying the files registered in the workspace.
@@ -14,7 +16,7 @@ import { FileExplorerNodeUtils } from '../../util/file-explorer-node.utils';
   templateUrl: './file-explorer.component.html',
   styleUrls: [ './file-explorer.component.scss' ]
 })
-export class FileExplorerComponent extends AtlasViewComponent implements AfterViewInit {
+export class FileExplorerComponent extends AtlasViewComponent implements OnInit, AfterViewInit {
 
   /**
    * The reference to the navigation tree in this view.
@@ -65,6 +67,11 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   private readonly _saveService: FileSaverService = null;
 
   /**
+   * The reference to the Angular for builder.
+   */
+  private readonly _fb: FormBuilder = null;
+
+  /**
    * The reference to the path currently displayed in the file explorer.
    */
   protected dirPathModel: string = '';
@@ -85,19 +92,24 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
   protected folderModalVisible: boolean = false;
 
   /**
-   * The URL to a file to import into the file system.
+   * Indicates whether the file renaming modal is displayed (<code>true</code>), or not (<code>false</code>).
    */
-  protected urlImportModel: string = null;
-
-  /**
-   * The name of the new folder to create.
-   */
-  protected newFolderModel: string = null;
+  protected renameModalVisible: boolean = false;
 
   /**
    * Store the reference to the <code>FileUtils</code> class.
    */
   protected fileUtils: any = FileUtils;
+
+  /**
+   * The reference to the from group that allows to enter folder names.
+   */
+  protected createFolderForm: FormGroup = null;
+
+  /**
+   * The reference to the from group that allows to rename items.
+   */
+  protected renameItemForm: FormGroup = null;
 
   /**
    * Create a new <code>FileExplorerComponent</code> instance.
@@ -112,6 +124,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     this._clipboard = injector.get(ClipboardService);
     this._notification = injector.get(NotificationService);
     this._saveService = injector.get(FileSaverService);
+    this._fb = injector.get(FormBuilder);
   }
 
   /**
@@ -134,6 +147,18 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     }
   }
   
+  /**
+   * @inheritdoc
+   */
+  public ngOnInit(): void {
+    this.createFolderForm = this._fb.group({
+      newFolder: [null, [Validators.required]]
+    });
+    this.renameItemForm = this._fb.group({
+      newName: [null, [Validators.required]]
+    });
+  }
+
   /**
    * @inheritdoc
    */
@@ -175,7 +200,8 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
    * @param {HeliosFileStats} file the file to rename.
    */
   protected renameFile(file: HeliosFileStats): void {
-    console.log(file);
+    FormUtils.setFieldValue(this.renameItemForm, 'newName', this.fileUtils.getFileName(file));
+    this.openModal('rename');
   }
 
   /**
@@ -197,7 +223,6 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     const fileName: string = this.fileUtils.getFileName(file);
     const pathToDownload: string = FileUtils.joinPath(this.dirPathModel, fileName);
     this._workspace.download(pathToDownload).subscribe((response: any)=> {
-      console.log(response.body)
       const blob: Blob = new Blob([response.body], { type: response.headers.get('Content-Type') });
       this._saveService.saveBlob(blob, this.fileUtils.getFileName(file));
     });
@@ -214,6 +239,8 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
       this.importModalVisible = true;
     } else  if (modalRef === 'folder') {
       this.folderModalVisible = true;
+    } else  if (modalRef === 'rename') {
+      this.renameModalVisible = true;
     }
   }
 
@@ -227,6 +254,10 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
       this.importModalVisible = false;
     } else  if (modalRef === 'folder') {
       this.folderModalVisible = false;
+      FormUtils.reset(this.createFolderForm);
+    } else  if (modalRef === 'rename') {
+      this.renameModalVisible = false;
+      FormUtils.reset(this.renameItemForm);
     }
   }
 
@@ -240,14 +271,20 @@ export class FileExplorerComponent extends AtlasViewComponent implements AfterVi
     if (modalRef === 'url') {
       // TODO
     } else if (modalRef === 'folder') {
-      const pathTocreate: string = FileUtils.joinPath(this.dirPathModel, this.newFolderModel);
-      this._workspace.mkdir(pathTocreate).subscribe((result: any)=> {
-        this._notification.success(
-          `Directory Create Success`, `Directory "${this.newFolderModel}" has been successfully creates.`
-        );
-        this.newFolderModel = null;
-        this.loadNode(this._currentNode);
-      });
+      if (this.createFolderForm.valid) {
+        const newFolderName: string = FormUtils.getFieldValue(this.createFolderForm, 'newFolder');
+        const pathTocreate: string = FileUtils.joinPath(this.dirPathModel, newFolderName);
+        this._workspace.mkdir(pathTocreate).subscribe((result: any)=> {
+          this._notification.success(
+            `Directory Create Success`, `Directory "${newFolderName}" has been successfully creates.`
+          );
+          FormUtils.reset(this.createFolderForm);
+          this.loadNode(this._currentNode);
+        });
+      } else {
+        this.folderModalVisible = true;
+        FormUtils.markAllAsTouched(this.createFolderForm);
+      }
     }
   }
 
