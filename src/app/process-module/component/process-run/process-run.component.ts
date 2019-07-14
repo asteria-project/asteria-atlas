@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { HeliosTemplate } from 'asteria-eos';
+import { HeliosTemplate, HeliosData } from 'asteria-eos';
 import { ProcessService, TemplateService } from '../../../business-module';
 import { ActivatedRoute } from '@angular/router';
 import { AtlasViewComponent, BreadcrumbItemBuilder, ClipboardItemBuilder, ClipboardService } from '../../../gui-module';
@@ -68,8 +68,8 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
    */
   public ngOnInit(): void {
     const id: string = this._route.snapshot.paramMap.get('id');
-    this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
-      this.template = template;
+    this._templateService.getTemplate(id).subscribe((result: HeliosData<HeliosTemplate>)=> {
+      this.template = result.data;
       this.setUpdatedDate();
       this.backButtonRoute = '/process/templates/' + id;
       this.breadcrumbService.setItems([

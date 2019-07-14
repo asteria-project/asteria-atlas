@@ -37,7 +37,7 @@ export class TemplateService extends AbstractHeliosService {
                           'Template List Error', 
                           ErrorMessageBuilder.build(error)
                         );
-                        return of([]);
+                        return of(null);
                       })
                     );
   }

@@ -43,7 +43,7 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
    */
   public ngOnInit(): void {
     this._templateService.getTemplates().subscribe((result: HeliosData<Array<HeliosTemplate>>)=> {
-      this.templateList = result.data;
+      this.templateList = result ? result.data : new Array<HeliosTemplate>();
       this.setUpdatedDate();
     });
   }

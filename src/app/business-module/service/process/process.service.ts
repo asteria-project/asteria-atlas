@@ -38,6 +38,7 @@ export class ProcessService extends AbstractHeliosService {
    * @returns {Observable<any>} the list of templates registered in the associated Helios server instance.
    */
   public run(template: HeliosTemplate): Observable<any> {
+    console.log(template)
     this.waitingService.show(`Running process "${template.name}"...`);
     return this.http.post<string>(this.CONTROLLER_URL + template.id, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
                     .pipe(
