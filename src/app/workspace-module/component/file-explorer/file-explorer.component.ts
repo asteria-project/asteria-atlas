@@ -7,6 +7,7 @@ import { NzTreeNodeOptions, NzFormatEmitEvent, NzTreeComponent, NzTreeNode, NzTa
 import { FileExplorerNodeUtils } from '../../util/file-explorer-node.utils';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FormUtils } from '../../../gui-module/util/form/form-utils';
+import { FileExplorerModalType } from '../../enum/file-explorer-modal-type.enum';
 
 /**
  * The view responsible for displaying the files registered in the workspace.
@@ -201,7 +202,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
    */
   protected renameFile(file: HeliosFileStats): void {
     FormUtils.setFieldValue(this.renameItemForm, 'newName', this.fileUtils.getFileName(file));
-    this.openModal('rename');
+    this.openModal(FileExplorerModalType.RENAME);
   }
 
   /**
@@ -232,14 +233,14 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
   /**
    * Display the modal specified by its reference.
    * 
-   * @param {string} modalRef the reference to the modal to display.
+   * @param {FileExplorerModalType} modalRef the reference to the modal to display.
    */
-  protected openModal(modalRef: string): void {
-    if (modalRef === 'url') {
+  protected openModal(modalRef: FileExplorerModalType): void {
+    if (modalRef === FileExplorerModalType.URL) {
       this.importModalVisible = true;
-    } else  if (modalRef === 'folder') {
+    } else  if (modalRef === FileExplorerModalType.FOLDER) {
       this.folderModalVisible = true;
-    } else  if (modalRef === 'rename') {
+    } else  if (modalRef === FileExplorerModalType.RENAME) {
       this.renameModalVisible = true;
     }
   }
@@ -247,15 +248,15 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
   /**
    * Handle the user's cancel action over a modal.
    * 
-   * @param {string} modalRef the reference to the modal to hide.
+   * @param {FileExplorerModalType} modalRef the reference to the modal to hide.
    */
-  protected handleModalCancel(modalRef: string): void {
-    if (modalRef === 'url') {
+  protected handleModalCancel(modalRef: FileExplorerModalType): void {
+    if (modalRef === FileExplorerModalType.URL) {
       this.importModalVisible = false;
-    } else  if (modalRef === 'folder') {
+    } else  if (modalRef === FileExplorerModalType.FOLDER) {
       this.folderModalVisible = false;
       FormUtils.reset(this.createFolderForm);
-    } else  if (modalRef === 'rename') {
+    } else  if (modalRef === FileExplorerModalType.RENAME) {
       this.renameModalVisible = false;
       FormUtils.reset(this.renameItemForm);
     }
@@ -264,12 +265,12 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
   /**
    * Handle the user's validate action over a modal.
    * 
-   * @param {string} modalRef the reference to the modal to be processed.
+   * @param {FileExplorerModalType} modalRef the reference to the modal to be processed.
    */
-  protected handleModalOk(modalRef: string): void {
-    if (modalRef === 'url') {
+  protected handleModalOk(modalRef: FileExplorerModalType): void {
+    if (modalRef === FileExplorerModalType.URL) {
       // TODO
-    } else if (modalRef === 'folder') {
+    } else if (modalRef === FileExplorerModalType.FOLDER) {
       if (this.createFolderForm.valid) {
         const newFolderName: string = FormUtils.getFieldValue(this.createFolderForm, 'newFolder');
         const pathTocreate: string = FileUtils.joinPath(this.dirPathModel, newFolderName);

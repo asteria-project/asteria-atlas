@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { HeliosTemplate } from 'asteria-eos';
+import { HeliosTemplate, HeliosData } from 'asteria-eos';
 import { Observable, of} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ErrorMessageBuilder } from '../../../gui-module';
@@ -26,11 +26,11 @@ export class TemplateService extends AbstractHeliosService {
   /**
    * Return the list of templates registered in the associated Helios server instance.
    * 
-   * @returns {Observable<Array<HeliosTemplate>>} the list of templates registered in the associated Helios server
-   *                                              instance.
+   * @returns {Observable<HeliosData<Array<HeliosTemplate>>>} the list of templates registered in the associated Helios 
+   *                                                          server instance.
    */
-  public getTemplates(): Observable<Array<HeliosTemplate>> {
-    return this.http.get<Array<HeliosTemplate>>('http://localhost:3000/asteria/templates')
+  public getTemplates(): Observable<HeliosData<Array<HeliosTemplate>>> {
+    return this.http.get<HeliosData<Array<HeliosTemplate>>>('http://localhost:3000/asteria/templates')
                     .pipe(
                       catchError((error: HttpErrorResponse)=> {
                         this.notification.error(
@@ -47,11 +47,11 @@ export class TemplateService extends AbstractHeliosService {
    * 
    * @param {string} id the ID of the template to get.
    * 
-   * @returns {Observable<HeliosTemplate>} the template registered in the associated Helios server instance with the
-   *                                       specified ID.
+   * @returns {Observable<HeliosData<HeliosTemplate>>} the template registered in the associated Helios server instance 
+   *                                                   with the specified ID.
    */
-  public getTemplate(id: string): Observable<HeliosTemplate> {
-    return this.http.get<HeliosTemplate>('http://localhost:3000/asteria/templates/' + id)
+  public getTemplate(id: string): Observable<HeliosData<HeliosTemplate>> {
+    return this.http.get<HeliosData<HeliosTemplate>>('http://localhost:3000/asteria/templates/' + id)
                     .pipe(
                       catchError((error: HttpErrorResponse)=> {
                         this.notification.error(
@@ -68,11 +68,11 @@ export class TemplateService extends AbstractHeliosService {
    * 
    * @param {HeliosTemplate} partialTemplate the ID of the template to get.
    * 
-   * @returns {Observable<string>} the template registered in the associated Helios server instance with the
-   *                                       specified ID.
+   * @returns {Observable<HeliosData<string>>} the template registered in the associated Helios server instance with the
+   *                                           specified ID.
    */
-  public createTemplate(partialTemplate: HeliosTemplate): Observable<string> {
-    return this.http.post<string>('http://localhost:3000/asteria/templates/', partialTemplate)
+  public createTemplate(partialTemplate: HeliosTemplate): Observable<HeliosData<string>> {
+    return this.http.post<HeliosData<string>>('http://localhost:3000/asteria/templates/', partialTemplate)
                     .pipe(
                       catchError((error: HttpErrorResponse)=> {
                         this.notification.error(

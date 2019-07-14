@@ -60,12 +60,12 @@ export class WorkspaceService extends AbstractHeliosService {
    * 
    * @param {string} path the path to the directory to remove.
    * 
-   * @returns {Observable<any>} the result of the operation.
+   * @returns {Observable<HeliosData<any>>} the result of the operation.
    */
-  public remove(path: string): Observable<any> {
+  public remove(path: string): Observable<HeliosData<any>> {
     this.waitingService.show();
     const route: string = `${this.CONTROLLER_URL}/remove?path=${path}`;
-    return this.http.post<any>(route, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
+    return this.http.post<HeliosData<any>>(route, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
         catchError((error: HttpErrorResponse) => {
@@ -109,12 +109,12 @@ export class WorkspaceService extends AbstractHeliosService {
    * 
    * @param {string} path the path to the directory to create.
    * 
-   * @returns {Observable<any>} the result of the operation.
+   * @returns {Observable<HeliosData<any>>} the result of the operation.
    */
-  public mkdir(path: string): Observable<any> {
+  public mkdir(path: string): Observable<HeliosData<any>> {
     this.waitingService.show();
     const route: string = `${this.CONTROLLER_URL}/mkdir?path=${path}`;
-    return this.http.post<any>(route, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
+    return this.http.post<HeliosData<any>>(route, null, HttpUtils.TEXT_RESPONSE_OPTIONS)
       .pipe(
         tap((value: any) => this.waitingService.hide()),
         catchError((error: HttpErrorResponse) => {

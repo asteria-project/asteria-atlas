@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { HeliosTemplate } from 'asteria-eos';
+import { HeliosTemplate, HeliosData } from 'asteria-eos';
 import { TemplateService } from '../../../business-module';
 import { AtlasViewComponent, BreadcrumbItemBuilder, } from '../../../gui-module';
 
@@ -42,8 +42,8 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
    * @inheritdoc
    */
   public ngOnInit(): void {
-    this._templateService.getTemplates().subscribe((templates: Array<HeliosTemplate>)=> {
-      this.templateList = templates;
+    this._templateService.getTemplates().subscribe((result: HeliosData<Array<HeliosTemplate>>)=> {
+      this.templateList = result.data;
       this.setUpdatedDate();
     });
   }

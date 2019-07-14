@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { HeliosHttpError } from 'asteria-eos';
 
 /**
  * A static class that builds error message depending on the specified error code.
@@ -13,17 +14,12 @@ export class ErrorMessageBuilder {
      * @returns {string} an error message depending on the specified error object.
      */
     public static build(error: HttpErrorResponse): string {
+        const heliosError: HeliosHttpError = error.error;
         let result: string = '';
-        switch (error.status) {
-            case 409:
-                result = `Resource Conflict: The specified resource does not exist.`;
-                break;
-            case 404:
-                result = `Resource Not Found: The specified resource does not exist.`;
-                break;
-            case 0:
-            default :
-                result = `Cannot Get Resource: The connection to the server failed.`;
+        if (heliosError && heliosError.code && heliosError.message) {
+            result = heliosError.message;
+        } else {
+            result = `Cannot Get Resource: The connection to the server failed.`;
         }
         return result;
     }

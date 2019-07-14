@@ -1,7 +1,7 @@
 import { Component, Type, OnInit, ViewContainerRef, ComponentFactoryResolver, ViewChild, ComponentFactory, Injector, ComponentRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { HeliosTemplate, HeliosProcessDescriptor } from 'asteria-eos';
+import { HeliosTemplate, HeliosProcessDescriptor, HeliosData } from 'asteria-eos';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DndDropEvent } from 'ngx-drag-drop';
 import { AtlasViewComponent, BreadcrumbItem, BreadcrumbItemBuilder, } from '../../../gui-module';
@@ -138,8 +138,8 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     items.push(BreadcrumbItemBuilder.build('Processes', '/process'));
     this.initProcessCategoryList();
     if (id) {
-      this._templateService.getTemplate(id).subscribe((template: HeliosTemplate)=> {
-        this.template = template;
+      this._templateService.getTemplate(id).subscribe((result: HeliosData<HeliosTemplate>)=> {
+        this.template = result.data;
         this.initForm();
         this.setUpdatedDate();
       });
@@ -298,7 +298,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
     if (this.updateForm.valid) {
       this.template.name = ctrl.value;
       this.template.description = this.updateForm.get('templateDescription').value;
-      this._templateService.createTemplate(this.template).subscribe((result: string)=> {
+      this._templateService.createTemplate(this.template).subscribe((result: HeliosData<string>)=> {
         // if (this._mode === InteractionMode.EDIT) {}
         this.router.navigate( ['/templates'] );
       });
