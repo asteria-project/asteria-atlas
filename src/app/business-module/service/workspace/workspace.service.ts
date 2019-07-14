@@ -50,7 +50,7 @@ export class WorkspaceService extends AbstractHeliosService {
             ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
-          return of([]);
+          return of(null);
         })
       );
   }
@@ -74,7 +74,7 @@ export class WorkspaceService extends AbstractHeliosService {
             ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
-          return of([]);
+          return of(null);
         })
       );
   }
@@ -99,7 +99,7 @@ export class WorkspaceService extends AbstractHeliosService {
             ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
-          return of([]);
+          return of(null);
         })
       );
   }
@@ -123,7 +123,7 @@ export class WorkspaceService extends AbstractHeliosService {
             ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
-          return of([]);
+          return of(null);
         })
       );
   }
@@ -150,7 +150,7 @@ export class WorkspaceService extends AbstractHeliosService {
             ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
-          return of([]);
+          return of(null);
         })
       );
   }
@@ -174,7 +174,31 @@ export class WorkspaceService extends AbstractHeliosService {
             ErrorMessageBuilder.build(error)
           );
           this.waitingService.hide();
-          return of([]);
+          return of(null);
+        })
+      );
+  }
+  
+  /**
+   * Remove the specified file, or directory, from the workspace.
+   * 
+   * @param {string} path the path to the directory to remove.
+   * 
+   * @returns {Observable<HeliosData<any>>} the result of the operation.
+   */
+  public rename(oldPath: string, newPath: string): Observable<HeliosData<any>> {
+    this.waitingService.show();
+    const route: string = `${this.CONTROLLER_URL}/rename?oldPath=${oldPath}&newPath=${newPath}`;
+    return this.http.post<HeliosData<any>>(route, null)
+      .pipe(
+        tap((value: any) => this.waitingService.hide()),
+        catchError((error: HttpErrorResponse) => {
+          this.notification.error(
+            'Worspace Rename Error',
+            ErrorMessageBuilder.build(error)
+          );
+          this.waitingService.hide();
+          return of(null);
         })
       );
   }

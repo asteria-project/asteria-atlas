@@ -113,6 +113,11 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
   protected renameItemForm: FormGroup = null;
 
   /**
+   * Store the value of the current file when the user invokes the file rename feature.
+   */
+  private _oldFileName: string = null;
+
+  /**
    * Create a new <code>FileExplorerComponent</code> instance.
    * 
    * @param {Injector} injector the reference to the Angular services injector.
@@ -201,7 +206,8 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
    * @param {HeliosFileStats} file the file to rename.
    */
   protected renameFile(file: HeliosFileStats): void {
-    FormUtils.setFieldValue(this.renameItemForm, 'newName', this.fileUtils.getFileName(file));
+    this._oldFileName = this.fileUtils.getFileName(file)
+    FormUtils.setFieldValue(this.renameItemForm, 'newName', this._oldFileName);
     this.openModal(FileExplorerModalType.RENAME);
   }
 
@@ -259,6 +265,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
     } else  if (modalRef === FileExplorerModalType.RENAME) {
       this.renameModalVisible = false;
       FormUtils.reset(this.renameItemForm);
+      this._oldFileName = null;
     }
   }
 
@@ -268,15 +275,26 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
    * @param {FileExplorerModalType} modalRef the reference to the modal to be processed.
    */
   protected handleModalOk(modalRef: FileExplorerModalType): void {
-    if (modalRef === FileExplorerModalType.URL) {
-      // TODO
+    if (modalRef === FileExplorerModalType.RENAME) {
+      if (this.renameItemForm.valid) {
+        const newPathName: string = FormUtils.getFieldValue(this.renameItemForm, 'newName');
+        const oldPath: string = FileUtils.joinPath(this.dirPathModel, this._oldFileName);
+        const newPath: string = FileUtils.joinPath(this.dirPathModel, newPathName);
+        this._workspace.rename(oldPath, newPath).subscribe((result: any)=> {
+          this._notification.success(
+            `Rename Success`, `Element "${this._oldFileName}" has been successfully renamed.`
+          );
+          this.loadNode(this._currentNode);
+          this._oldFileName = null;
+        });
+      }
     } else if (modalRef === FileExplorerModalType.FOLDER) {
       if (this.createFolderForm.valid) {
         const newFolderName: string = FormUtils.getFieldValue(this.createFolderForm, 'newFolder');
         const pathTocreate: string = FileUtils.joinPath(this.dirPathModel, newFolderName);
         this._workspace.mkdir(pathTocreate).subscribe((result: any)=> {
           this._notification.success(
-            `Directory Create Success`, `Directory "${newFolderName}" has been successfully creates.`
+            `Directory Create Success`, `Directory "${newFolderName}" has been successfully created.`
           );
           this.loadNode(this._currentNode);
         });
@@ -284,6 +302,8 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
         this.folderModalVisible = true;
         FormUtils.markAllAsTouched(this.createFolderForm);
       }
+    } else if (modalRef === FileExplorerModalType.URL) {
+      // TODO
     }
     this.handleModalCancel(modalRef);
   }
@@ -322,7 +342,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
     }
     this.dirPathModel = FileExplorerNodeUtils.getNodeDirPath(node);
     this._workspace.list(this.dirPathModel).subscribe((files: any)=> {
-      const model: Array<HeliosFileStats> = files.data;
+      const model: Array<HeliosFileStats> = files ? files.data : null;
       if (model) {
         model.sort((a: HeliosFileStats, b: HeliosFileStats)=> {
           let result: number = 0;
