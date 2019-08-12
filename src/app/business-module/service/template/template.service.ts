@@ -83,4 +83,22 @@ export class TemplateService extends AbstractHeliosService {
                       })
                     );
   }
+  
+  /**
+   * Delete the template with the specified ID.
+   * 
+   * @param {HeliosTemplate} partialTemplate the ID of the template to delete.
+   */
+  public deleteTemplate(id: string): Observable<HeliosData<any>> {
+    return this.http.delete<HeliosData<any>>(`http://localhost:3000/asteria/templates/${id}`)
+                    .pipe(
+                      catchError((error: HttpErrorResponse)=> {
+                        this.notification.error(
+                          'Template Deletion Error', 
+                          ErrorMessageBuilder.build(error)
+                        );
+                        return of(null);
+                      })
+                    );
+  }
 }

@@ -96,6 +96,8 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
    * Delete the current template.
    */
   protected deleteTemplate(): void {
-
+    this._templateService.deleteTemplate(this.template.id).subscribe((result: HeliosData<any>)=> {
+      this.router.navigate(['/process/templates']);
+    });
   }
 }
