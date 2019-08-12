@@ -300,7 +300,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
       this.template.description = this.updateForm.get('templateDescription').value;
       this._templateService.createTemplate(this.template).subscribe((result: HeliosData<string>)=> {
         // if (this._mode === InteractionMode.EDIT) {}
-        this.router.navigate( ['/templates'] );
+        this.router.navigate( ['/process/templates'] );
       });
     }
   }
