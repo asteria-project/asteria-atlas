@@ -20,7 +20,7 @@ export class TemplateListComponent extends AtlasViewComponent implements OnInit 
   /**
    * The list of templates displayed in this view.
    */
-  protected templateList: Array<HeliosTemplate> = [];
+  public templateList: Array<HeliosTemplate> = [];
 
   /**
    * Create a new <code>TemplateListComponent</code> instance.

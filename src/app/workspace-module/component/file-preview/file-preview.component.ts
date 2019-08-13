@@ -27,7 +27,7 @@ export class FilePreviewComponent extends AtlasViewComponent implements AfterVie
   /**
    * The reference to the path currently displayed in the view.
    */
-  protected dirPathModel: string = '';
+  public dirPathModel: string = '';
 
   /**
    * The seperator character used to determine CSV columns.
@@ -42,7 +42,7 @@ export class FilePreviewComponent extends AtlasViewComponent implements AfterVie
   /**
    * The reference to the value object that contains file preview information.
    */
-  protected heliosCsvPreview: HeliosCsvPreview = null;
+  public heliosCsvPreview: HeliosCsvPreview = null;
 
   /**
    * The list of items that contain preview for a single CSV row.

@@ -32,7 +32,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
   /**
    * The template displayed in this view.
    */
-  protected template: HeliosTemplate = null;
+  public template: HeliosTemplate = null;
 
   /**
    * Create a new <code>TemplateDetailsComponent</code> instance.
@@ -67,21 +67,21 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
   /**
    * Launch a new process based on the current template.
    */
-  protected runProcess(): void {
+  public runProcess(): void {
     this.router.navigate([`/process/templates/${this.template.id}/run-process`]);
   }
 
   /**
    * Edit the current template.
    */
-  protected editTemplate(): void {
+  public editTemplate(): void {
     this.router.navigate( [`/edit/template/${this.template.id}`] );
   }
 
   /**
    * Export the current template.
    */
-  protected exportTemplate(): void {
+  public exportTemplate(): void {
     const name: string = this.template.name;
     const tpl: HeliosTemplate = {
       name: name,
@@ -95,7 +95,7 @@ export class TemplateDetailsComponent extends AtlasViewComponent implements OnIn
   /**
    * Delete the current template.
    */
-  protected deleteTemplate(): void {
+  public deleteTemplate(): void {
     this._templateService.deleteTemplate(this.template.id).subscribe((result: HeliosData<any>)=> {
       this.router.navigate(['/process/templates']);
     });

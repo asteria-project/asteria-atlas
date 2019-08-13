@@ -15,7 +15,7 @@ export class JobListComponent extends AtlasViewComponent implements OnInit {
   /**
    * The list of jobs displayed in this view.
    */
-  protected jobList: Array<JobReference> = null;
+  public jobList: Array<JobReference> = null;
 
   /**
    * Create a new <code>JobListComponent</code> instance.

@@ -24,7 +24,7 @@ export abstract class AtlasViewComponent {
   /**
    * The title of the view.
    */
-  protected title: string = '';
+  public title: string = '';
   
   /**
    * The route associated with the title back button.
@@ -34,7 +34,7 @@ export abstract class AtlasViewComponent {
   /**
    * Indicates the last update timestamp for data displayed in this view.
    */
-  protected lastUpdated: number = null;
+  public lastUpdated: number = null;
 
   /**
    * Create a new <code>AtlasViewComponent</code> instance.
@@ -49,7 +49,7 @@ export abstract class AtlasViewComponent {
   /**
    * Title back button event listener.
    */
-  protected titleBack(): void {
+  public titleBack(): void {
     this.router.navigate( [this.backButtonRoute] );
   }
 

@@ -17,22 +17,22 @@ export class AtlasContainerComponent implements OnInit {
   /**
    * Indicates that the menu is collapsed (<code>true</code>), or not (<code>false</code>).
    */
-  protected isCollapsed: boolean = false;
+  public isCollapsed: boolean = false;
 
   /**
    * Indicates that state of the blocking modal component.
    */
-  protected spinnerState: SpinnerState = null;
+  public spinnerState: SpinnerState = null;
 
   /**
    * The reference to the clipboard service.
    */
-  protected readonly clipboardService: ClipboardService = null;
+  public readonly clipboardService: ClipboardService = null;
 
   /**
    * The reference to the breadcrumb service.
    */
-  protected readonly breadcrumbService: BreadcrumbService = null;
+  public readonly breadcrumbService: BreadcrumbService = null;
 
   /**
    * The reference to the waiting service.

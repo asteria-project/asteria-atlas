@@ -13,7 +13,7 @@ export class WorkspaceHomeComponent extends AtlasViewComponent {
   /**
    * The list of links for this view.
    */
-  protected linkList:HomeLink [] = [
+  public linkList:HomeLink [] = [
     {
       title: 'Files Explorer',
       icon: 'folder',

@@ -26,7 +26,7 @@ export class FileReadConfigComponent extends AtlasViewComponent implements Proce
   /**
    * The reference to the file name value.
    */
-  protected fileNameModel: string = null;
+  public fileNameModel: string = null;
 
   /**
    * The reference to the process descriptor associated with this component.

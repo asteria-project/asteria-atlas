@@ -7,10 +7,12 @@ import { JobRoutingModule } from './job-routing.module';
 // Module components
 import { JobListComponent } from './component/job-list/job-list.component';
 import { JobHomeComponent } from './component/job-home/job-home.component';
+import { EventListComponent } from './component/event-list/event-list.component';
 
 const COMPONENTS: any[] = [
   JobHomeComponent,
-  JobListComponent
+  JobListComponent,
+  EventListComponent
 ];
 
 const ENTRY_COMPONENTS: any[] = [];

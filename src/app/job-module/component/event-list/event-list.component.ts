@@ -13,7 +13,7 @@ export class EventListComponent {
   /**
    * The list of Atlas events to be displayed in this view.
    */
-  protected eventList: Array<{ id: string; name: string; template: string; status: string; created: string; }> = [
+  public eventList: Array<{ id: string; name: string; template: string; status: string; created: string; }> = [
     {
       id: '72675ac2-1720-4742-87b2-30fa86bbd9a8',
       name: 'Largest US Cities',

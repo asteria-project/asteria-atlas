@@ -31,17 +31,17 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   /**
    * Indicates whether the process manel is displayed (<code>true</code>), or not (<code>false</code>).
    */
-  protected showProcessPanel: boolean = true;
+  public showProcessPanel: boolean = true;
 
   /**
    * The form used to set the name and the descrition of the template.
    */
-  protected updateForm: FormGroup = null;
+  public updateForm: FormGroup = null;
 
   /**
    * The template edited in this view.
    */
-  protected template: HeliosTemplate = null;
+  public template: HeliosTemplate = null;
 
   /**
    * The reference to the HTML element where config component as are loaded.
@@ -52,7 +52,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   /**
    * The reference to the process object currently edited.
    */
-  protected currentProcess: HeliosProcessDescriptor = null;
+  public currentProcess: HeliosProcessDescriptor = null;
 
   /**
    * A map that stores all Asteria process definitions.
@@ -77,7 +77,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   /**
    * The label displayed over the submit button face.
    */
-  protected submitBtnLabel: string = 'Save';
+  public submitBtnLabel: string = 'Save';
   
   /**
    * The reference to the <code>FormBuilder</code> service injected by Angular.
@@ -208,7 +208,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * 
    * @param {DndDropEvent} event the event associated with this user action.
    */
-  protected processListWrapperOnDrop(event: DndDropEvent): void {
+  public processListWrapperOnDrop(event: DndDropEvent): void {
     const processes: Array<HeliosProcessDescriptor> = this.template.processes;
     if (event.dropEffect === 'copy') {
       processes.push(
@@ -273,7 +273,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
    * 
    * @returns {boolean} <code>false</code> whether the update form is valid; <code>true</code> otherwise.
    */
-  protected isFormInValid(): boolean {
+  public isFormInValid(): boolean {
     const crtl: any = this.updateForm.get('templateName');
     return !crtl.disabled && (crtl.invalid && (crtl.dirty || crtl.touched));
   }
@@ -291,7 +291,7 @@ export class TemplateEditorComponent extends AtlasViewComponent implements OnIni
   /**
    * TODO: save data
    */
-  protected submitForm(): void {
+  public submitForm(): void {
     const ctrl: AbstractControl = this.updateForm.get('templateName');
     ctrl.markAsDirty();
     ctrl.updateValueAndValidity();

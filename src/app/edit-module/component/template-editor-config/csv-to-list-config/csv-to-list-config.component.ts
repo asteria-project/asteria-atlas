@@ -21,12 +21,12 @@ export class CsvToListConfigComponent extends AtlasViewComponent implements Proc
   /**
    * The reference to the file name value.
    */
-  protected separatorModel: string = null;
+  public separatorModel: string = null;
   
   /**
    * The list of <code>CsvColumnMapper</code> objects displayed in this component.
    */
-  protected colsMapModel: Array<any> = null;
+  public colsMapModel: Array<any> = null;
 
   /**
    * The reference to the process descriptor associated with this component.
@@ -64,7 +64,7 @@ export class CsvToListConfigComponent extends AtlasViewComponent implements Proc
   /**
    * Create a new column mapper item.
    */
-  protected createColsMapItem(event: MouseEvent): void {
+  public createColsMapItem(event: MouseEvent): void {
     this.colsMapModel.unshift({ id: -1, prop: this.UNDEFINED_STRING_REF });
     this.endEdit(null);
   }
@@ -131,7 +131,7 @@ export class CsvToListConfigComponent extends AtlasViewComponent implements Proc
   /**
    * Invoked each time the separator input field takes focus.
    */
-  protected onSeparatorFocus(): void {
+  public onSeparatorFocus(): void {
     if (this.editItem !== null) {
       this.endEdit(null);
     }

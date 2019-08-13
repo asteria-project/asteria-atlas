@@ -34,7 +34,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
   /**
    * The model used to render items in the tree component.
    */
-  protected nodes: Array<NzTreeNodeOptions> = [
+  public nodes: Array<NzTreeNodeOptions> = [
     {
       title: 'workspace',
       expanded: false,
@@ -75,27 +75,27 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
   /**
    * The reference to the path currently displayed in the file explorer.
    */
-  protected dirPathModel: string = '';
+  public dirPathModel: string = '';
 
   /**
    * The list of files currently displayed in the file explorer.
    */
-  protected fileStatsModel: Array<HeliosFileStats> = null;
+  public fileStatsModel: Array<HeliosFileStats> = null;
 
   /**
    * Indicates whether the URL import modal is displayed (<code>true</code>), or not (<code>false</code>).
    */
-  protected importModalVisible: boolean = false;
+  public importModalVisible: boolean = false;
 
   /**
    * Indicates whether the folder creation modal is displayed (<code>true</code>), or not (<code>false</code>).
    */
-  protected folderModalVisible: boolean = false;
+  public folderModalVisible: boolean = false;
 
   /**
    * Indicates whether the file renaming modal is displayed (<code>true</code>), or not (<code>false</code>).
    */
-  protected renameModalVisible: boolean = false;
+  public renameModalVisible: boolean = false;
 
   /**
    * Store the reference to the <code>FileUtils</code> class.
@@ -105,12 +105,12 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
   /**
    * The reference to the from group that allows to enter folder names.
    */
-  protected createFolderForm: FormGroup = null;
+  public createFolderForm: FormGroup = null;
 
   /**
    * The reference to the from group that allows to rename items.
    */
-  protected renameItemForm: FormGroup = null;
+  public renameItemForm: FormGroup = null;
 
   /**
    * Store the value of the current file when the user invokes the file rename feature.
@@ -256,7 +256,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
    * 
    * @param {FileExplorerModalType} modalRef the reference to the modal to hide.
    */
-  protected handleModalCancel(modalRef: FileExplorerModalType): void {
+  public handleModalCancel(modalRef: FileExplorerModalType | string): void {
     if (modalRef === FileExplorerModalType.URL) {
       this.importModalVisible = false;
     } else  if (modalRef === FileExplorerModalType.FOLDER) {
@@ -274,7 +274,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
    * 
    * @param {FileExplorerModalType} modalRef the reference to the modal to be processed.
    */
-  protected handleModalOk(modalRef: FileExplorerModalType): void {
+  public handleModalOk(modalRef: FileExplorerModalType | string): void {
     if (modalRef === FileExplorerModalType.RENAME) {
       if (this.renameItemForm.valid) {
         const newPathName: string = FormUtils.getFieldValue(this.renameItemForm, 'newName');
@@ -313,7 +313,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
    * 
    * @param {Required<NzFormatEmitEvent>} event the event associated with the user's action.
    */
-  protected treeEventHandler(event: Required<NzFormatEmitEvent>): void {
+  public treeEventHandler(event: Required<NzFormatEmitEvent>): void {
     const node: NzTreeNode = event.node;
     const eventName: string = event.eventName;
     if (node) {
@@ -401,7 +401,7 @@ export class FileExplorerComponent extends AtlasViewComponent implements OnInit,
    * 
    * @param {HTMLInputElement} input the reference to the file upload input.
    */
-  protected handleFileInput(input: HTMLInputElement): void {
+  public handleFileInput(input: HTMLInputElement): void {
     const file: File = input.files.item(0);
     if (file) {
       this._workspace.upload(this.dirPathModel, file).subscribe((result: HeliosData<HeliosFileStats>)=> {

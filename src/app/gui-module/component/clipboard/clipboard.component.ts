@@ -15,12 +15,12 @@ export class ClipboardComponent {
   /**
    * The reference to the clipboard service.
    */
-  protected readonly clipboardService: ClipboardService = null;
+  public readonly clipboardService: ClipboardService = null;
 
   /**
    * Specified the co,tent of the current item selected by the user.
    */
-  protected itemContent: string = null;
+  public itemContent: string = null;
 
   /**
    * Create a new <code>ClipboardComponent</code> instance.

@@ -13,7 +13,7 @@ export class JobHomeComponent extends AtlasViewComponent {
   /**
    * The list of links for this view.
    */
-  protected linkList: HomeLink[] = [
+  public linkList: HomeLink[] = [
     {
       title: 'Job Events',
       icon: 'bars',

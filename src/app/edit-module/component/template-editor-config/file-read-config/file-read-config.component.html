@@ -12,7 +12,7 @@
 <form class="process-properties">
     <nz-input-group nzAddOnBefore="workspace/" [nzAddOnAfter]="addOnAfterTemplate">
         <input type="text" [(ngModel)]="fileNameModel" name="fileName"
-               (ngModelChange)="valuechange($event)" nz-input placeholder="directory / file name"/>
+               nz-input placeholder="directory / file name"/>
         <ng-template #addOnAfterTemplate>
             <a (click)="navigateTo('explorer')" nz-tooltip nzTitle="Search files">
                 <i nz-icon nzType="search" nzTheme="outline"></i>

@@ -1,6 +1,6 @@
 <div class="workspace-home-wrapper">
   <div class="home-view-title">
-    <nz-avatar [nzSize]="large" nzIcon="apartment" class="asteria-bg-blue"></nz-avatar>
+    <nz-avatar nzSize="large" nzIcon="apartment" class="asteria-bg-blue"></nz-avatar>
     <span>{{title}}</span>
   </div>
 
@@ -15,7 +15,7 @@
   </div>
 
   <nz-card class="home-view-list">
-    <nz-list [nzDataSource]="linkList" [nzRenderItem]="item" [nzItemLayout]="'horizontal'" [nzLoading]="loading">
+    <nz-list [nzDataSource]="linkList" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
       <ng-template #item let-item>
         <nz-list-item>
             <nz-list-item-meta [nzTitle]="listDataTitle" [nzDescription]="item.description">

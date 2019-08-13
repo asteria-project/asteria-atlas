@@ -37,17 +37,17 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
   /**
    * The template displayed in this view.
    */
-  protected template: HeliosTemplate = null;
+  public template: HeliosTemplate = null;
 
   /**
    * A string that contains the result of the process.
    */
-  protected resultValue: string = null;
+  public resultValue: string = null;
 
   /**
    * Indicates the duration of the current process.
    */
-  protected processDuration: number = null;
+  public processDuration: number = null;
 
   /**
    * Create a new <code>ProcessRunComponent</code> instance.
@@ -98,7 +98,7 @@ export class ProcessRunComponent extends AtlasViewComponent implements OnInit {
   /**
    * Copy the content of the current file preview into the clipboard.
    */
-  protected copyResult(): void {
+  public copyResult(): void {
     this._clipboard.copyToClipboard(
       ClipboardItemBuilder.build('Process result of ' + this.template.name, this.resultValue)
     );

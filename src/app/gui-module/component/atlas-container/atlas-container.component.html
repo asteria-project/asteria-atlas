@@ -1,7 +1,6 @@
 <nz-spin [nzSpinning]="spinnerState?.isFreezed" [nzTip]="spinnerState?.message" nzSize="large">
     <nz-layout>
-        <nz-sider [nzTheme]="'light'" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate"
-                [nzWidth]="250">
+        <nz-sider [nzTheme]="'light'" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzWidth]="250">
             <div class="brand">
                 <img src="./assets/asteria-logo-32.png" nz-tooltip nzTitle="ATLAS">
                 <div *ngIf="!isCollapsed">ATLAS</div>
